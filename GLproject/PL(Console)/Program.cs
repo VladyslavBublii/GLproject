@@ -1,4 +1,4 @@
-﻿using System;
+﻿using BL;
 
 namespace PL_Console_
 {
@@ -6,7 +6,7 @@ namespace PL_Console_
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            StartUp s = new StartUp();
         }
     }
 }
