@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using DAL;
+using System;
 
 namespace BL
 {
@@ -7,20 +8,23 @@ namespace BL
     {
         public StartUp()
         {
-            using (var context = new UserContext())
+            var user = new User
             {
-
-                //context.Database.EnsureCreated();
-                var user = new User
-                {
-                    Role = 1,
-                    Email = "trunovalexander8@gmail.com",
-                    Password = "123456"
-                };
-                context.Users.Add(user);
-                context.SaveChanges();
+                Role = 1,
+                Email = "trunovalexander8@gmail.com",
+                Password = "123456"
+            };
+            
+            UnitOfWork unitOfWork = new UnitOfWork();
+            
+            unitOfWork.Users.Create(user);
+            unitOfWork.Save();
+            
+            var users = unitOfWork.Users.GetAll();
+            foreach(var item in users)
+            {
+                Console.WriteLine(item.Id + " " + item.Email);
             }
-
         }       
     }
 }
