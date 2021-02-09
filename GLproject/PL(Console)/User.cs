@@ -6,16 +6,16 @@ namespace PL_Console_
 {
     class User
     {
-        public User RegistUser()
-        {
-            string name;
-            string surname;
+        //public User RegistUser()
+        //{
+        //    string name;
+        //    string surname;
 
 
-            Console.WriteLine("Введите свое имя:");
-            name = Console.ReadLine();
+        //    Console.WriteLine("Введите свое имя:");
+        //    name = Console.ReadLine();
 
-            throw new Exception();
-        }
+        //    throw new Exception();
+        //}
     }
 }

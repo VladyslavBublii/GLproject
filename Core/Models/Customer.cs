@@ -1,6 +1,6 @@
 ﻿namespace Core.Models
 {
-    class Customer
+    public class Customer
     {
         public int Id { get; set; }
 
@@ -11,5 +11,6 @@
         public string City { get; set; }
 
         public string PostIndex { get; set; }
+
     }
 }

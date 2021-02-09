@@ -6,6 +6,7 @@ namespace DAL
     {
         private UserContext db = new UserContext();
         private UserRepository userRepository;
+        private CustomerRepository customerRepository;
 
         public UserRepository Users
         {
@@ -16,6 +17,17 @@ namespace DAL
                     userRepository = new UserRepository(db);
                 }
                 return userRepository;
+            }
+        }
+        public CustomerRepository Customers
+        {
+            get
+            {
+                if (customerRepository == null)
+                {
+                    customerRepository = new CustomerRepository(db);
+                }
+                return customerRepository;
             }
         }
 
