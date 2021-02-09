@@ -19,12 +19,29 @@ namespace BL
             
             unitOfWork.Users.Create(user);
             unitOfWork.Save();
-            
+
             var users = unitOfWork.Users.GetAll();
-            foreach(var item in users)
+            foreach (var item in users)
             {
-                Console.WriteLine(item.Id + " " + item.Email);
+                Console.WriteLine(item.Id + " " + item.Role + " " + item.Email + " " + item.Password);
             }
-        }       
+
+            var customer = new Customer
+            {
+                Name = "Alexander",
+                SurName = "Trunov",
+                City = "Kharkov",
+                PostIndex = "Post123456789"
+            };
+
+            unitOfWork.Customers.Create(customer);
+            unitOfWork.Save();
+
+            var customers = unitOfWork.Customers.GetAll();
+            foreach (var item in customers)
+            {
+                Console.WriteLine(item.Id + " " + item.Name + " " + item.SurName + " " + item.City + " " + item.PostIndex);
+            }
+        }
     }
 }
