@@ -6,7 +6,7 @@
 
         public int Role { set; get; }
 
-        public string Email { set; get; }
+        public string Email { set; get; } 
 
         public string Password { set; get; }
     }

@@ -1,12 +1,22 @@
-﻿using BL;
+﻿using System;
 
 namespace PL_Console_
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            StartUp s = new StartUp();
+            UserOperationPL userOperationPL = new UserOperationPL();
+
+            for (; ; )
+            {
+                Console.WriteLine("если хотите вийти нажмите q");
+                if (Console.ReadLine() == "q") break;
+
+                userOperationPL.RegistCustomer();
+                userOperationPL.RegistUser();
+            }
         }
     }
 }
