@@ -1,10 +1,15 @@
-﻿using PL_Console_.Models;
+﻿using BL;
+using PL_Console_.Models;
 using System;
 
 namespace PL_Console_
 {
     public class UserOperationPL
     {
+        public UserOperationPL()
+        {
+            UserBL userBL = new UserBL();
+        }
         
         public CustomerPL RegistCustomer()
         {
