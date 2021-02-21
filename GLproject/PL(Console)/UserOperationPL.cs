@@ -1,12 +1,22 @@
-﻿using PL_Console_.Models;
+﻿using BL;
+using BL.DTO;
+using PL_Console_.Models;
 using System;
 
 namespace PL_Console_
 {
     public class UserOperationPL
     {
+        UserBL _userBL;
+        UserDTO _userDTO;
+        CustomerDTO _customerDTO;
+
+        public UserOperationPL()
+        {
+            _userBL = new UserBL();
+        }
         
-        public CustomerPL RegistCustomer()
+        public void RegistCustomer()
         {
             string name;
             string surname;
@@ -26,7 +36,7 @@ namespace PL_Console_
             postIndex = Console.ReadLine();
 
 
-            CustomerPL customerPL = new CustomerPL
+            CustomerDTO customerDTO = new CustomerDTO
             {
                 Name = name,
                 SurName = surname,
@@ -34,29 +44,31 @@ namespace PL_Console_
                 PostIndex = postIndex
             };
 
-            return customerPL;
-        }
-
-        public UserPL RegistUser()
-        {
-            string email;
-            string password;
-
-            Console.WriteLine("Введите свой емейл:");
-            email = Console.ReadLine();
-
-            Console.WriteLine("Введите свой пароль:");
-            password = Console.ReadLine();
-
-
-            UserPL userPL = new UserPL
+            UserDTO RegistUser()
             {
-                Email = email,
-                Password = password
-            };
+                string email;
+                string password;
 
-            return userPL;
+                Console.WriteLine("Введите свой емейл:");
+                email = Console.ReadLine();
+
+                Console.WriteLine("Введите свой пароль:");
+                password = Console.ReadLine();
+
+
+                UserDTO userDTO = new UserDTO
+                {
+                    Email = email,
+                    Password = password
+                };
+
+                return userDTO;
+            }
+
+            _userBL.SaveUser(RegistUser(), customerDTO);
+
         }
+
     }
 }
 //testtttt
