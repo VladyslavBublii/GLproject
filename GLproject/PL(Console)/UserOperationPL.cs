@@ -1,5 +1,6 @@
 ﻿using BL;
 using BL.DTO;
+using BL.Services;
 using PL_Console_.Models;
 using System;
 
@@ -7,13 +8,13 @@ namespace PL_Console_
 {
     public class UserOperationPL
     {
-        UserBL _userBL;
+        UserService _userService;
         UserDTO _userDTO;
         CustomerDTO _customerDTO;
 
         public UserOperationPL()
         {
-            _userBL = new UserBL();
+            _userService = new UserService();
         }
         
         public void RegistCustomer()
@@ -65,7 +66,7 @@ namespace PL_Console_
                 return userDTO;
             }
 
-            _userBL.SaveUser(RegistUser(), customerDTO);
+            _userService.SaveUser(RegistUser(), customerDTO);
 
         }
 

@@ -1,14 +1,16 @@
 ﻿using Core.Models;
+using DAL.Data;
+using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace DAL
+namespace DAL.Repositories
 {
     public class CustomerRepository : IRepository<Customer>
     {
-        private UserContext db;
+        private DBContext db;
 
-        public CustomerRepository(UserContext context)
+        public CustomerRepository(DBContext context)
         {
             this.db = context;
         }

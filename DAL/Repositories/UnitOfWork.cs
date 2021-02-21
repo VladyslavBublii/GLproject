@@ -1,31 +1,40 @@
-﻿using System;
+﻿using Core.Models;
+using DAL.Data;
+using DAL.Interfaces;
+using System;
 
-namespace DAL
+namespace DAL.Repositories
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
-        private UserContext db = new UserContext();
+        private DBContext _db;
         private UserRepository userRepository;
         private CustomerRepository customerRepository;
 
-        public UserRepository Users
+        public UnitOfWork()
+        {
+            _db = new DBContext();
+        }
+
+        public IRepository<User> Users
         {
             get
             {
                 if (userRepository == null)
                 {
-                    userRepository = new UserRepository(db);
+                    userRepository = new UserRepository(_db);
                 }
                 return userRepository;
             }
         }
-        public CustomerRepository Customers
+
+        public IRepository<Customer> Customers
         {
             get
             {
                 if (customerRepository == null)
                 {
-                    customerRepository = new CustomerRepository(db);
+                    customerRepository = new CustomerRepository(_db);
                 }
                 return customerRepository;
             }
@@ -33,7 +42,7 @@ namespace DAL
 
         public void Save()
         {
-            db.SaveChanges();
+            _db.SaveChanges();
         }
 
         private bool disposed = false;
@@ -44,7 +53,7 @@ namespace DAL
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    _db.Dispose();
                 }
                 this.disposed = true;
             }
