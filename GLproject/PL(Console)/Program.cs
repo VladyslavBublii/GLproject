@@ -17,7 +17,6 @@ namespace PL_Console_
                 if (Console.ReadLine() == "q") break;
 
                 userOperationPL.RegistCustomer();
-                userOperationPL.RegistUser();
             }
         }
     }
