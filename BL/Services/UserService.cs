@@ -1,15 +1,17 @@
 ﻿using BL.DTO;
+using BL.Services.Interfaces;
 using Core.Models;
-using DAL;
-using System;
+using DAL.Interfaces;
+using DAL.Repositories;
 
-namespace BL
+
+namespace BL.Services
 {
-    public class UserBL
+    public class UserService : IUserService
     {
-        public  UnitOfWork _unitOfWork;
+        public  IUnitOfWork _unitOfWork;
 
-        public UserBL()
+        public UserService()
         {   
             _unitOfWork = new UnitOfWork();
         }

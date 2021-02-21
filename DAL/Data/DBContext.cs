@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace DAL
+namespace DAL.Data
 {
-    public class UserContext : DbContext
+    public class DBContext : DbContext
     {
         private readonly string _conStr;
 
         public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
-        public UserContext()
+        public DBContext()
         {
             var builder = new ConfigurationBuilder();
             string fileName = @"pathdatabase\DatabaseConnection.json";
