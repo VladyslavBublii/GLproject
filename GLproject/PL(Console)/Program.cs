@@ -9,7 +9,7 @@ namespace PL_Console_
         {
             UserOperationPL userOperationPL = new UserOperationPL();
 
-            for (; ; )
+            for (; ;)
             {
                 Console.WriteLine("если хотите вийти нажмите q");
                 if (Console.ReadLine() == "q") break;

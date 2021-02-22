@@ -4,7 +4,6 @@ using Core.Models;
 using DAL.Interfaces;
 using DAL.Repositories;
 
-
 namespace BL.Services
 {
     public class UserService : IUserService
@@ -20,8 +19,8 @@ namespace BL.Services
         {
             User user = new User
             {
-                Role = 0,
-                Email = userDTO.Email,
+                Role     = 0,
+                Email    = userDTO.Email,
                 Password = userDTO.Password,
             };
 
@@ -29,9 +28,9 @@ namespace BL.Services
 
             Customer customer = new Customer
             {
-                Name = customerDTO.Name,
-                SurName = customerDTO.SurName,
-                City = customerDTO.City,
+                Name      = customerDTO.Name,
+                SurName   = customerDTO.SurName,
+                City      = customerDTO.City,
                 PostIndex = customerDTO.PostIndex
             };
 
