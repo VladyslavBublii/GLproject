@@ -4,7 +4,6 @@ using Core.Models;
 using DAL.Interfaces;
 using DAL.Repositories;
 
-
 namespace BL.Services
 {
     public class UserService : IUserService
