@@ -10,6 +10,8 @@ namespace DAL.Repositories
         private DBContext _db;
         private UserRepository userRepository;
         private CustomerRepository customerRepository;
+        private ProductRepository productRepository;
+        private OrderRepository orderRepository;
 
         public UnitOfWork()
         {
@@ -37,6 +39,30 @@ namespace DAL.Repositories
                     customerRepository = new CustomerRepository(_db);
                 }
                 return customerRepository;
+            }
+        }
+
+        public IRepository<Product> Products
+        {
+            get
+            {
+                if (productRepository == null)
+                {
+                    productRepository = new ProductRepository(_db);
+                }
+                return productRepository;
+            }
+        }
+
+        public IRepository<Order> Orders
+        {
+            get
+            {
+                if (orderRepository == null)
+                {
+                    orderRepository = new OrderRepository(_db);
+                }
+                return orderRepository;
             }
         }
 
