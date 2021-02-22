@@ -19,18 +19,13 @@ namespace BL.Services
 
         public CustomerDTO GetCustomer(int? id)
         {
-            //if (id == null)
-              //  throw new ValidationException("Не установлено id товара", "");
             var customer = _unitOfWork.Customers.Get(id.Value);
-            //if (customer == null)
-              //  throw new ValidationException("Товар не найден", "");
 
             return new CustomerDTO { Name = customer.Name, SurName = customer.SurName, City = customer.SurName, PostIndex = customer.PostIndex };
         }
 
         public IEnumerable<CustomerDTO> GetCustomers()
         {
-            // применяем автомаппер для проекции одной коллекции на другую
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<Customer>, List<CustomerDTO>>(_unitOfWork.Customers.GetAll());
         }
