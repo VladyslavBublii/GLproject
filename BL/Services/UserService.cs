@@ -1,8 +1,10 @@
-﻿using BL.DTO;
+﻿using AutoMapper;
+using BL.DTO;
 using BL.Services.Interfaces;
 using Core.Models;
 using DAL.Interfaces;
 using DAL.Repositories;
+using System.Collections.Generic;
 
 namespace BL.Services
 {
@@ -14,7 +16,20 @@ namespace BL.Services
         {   
             _unitOfWork = new UnitOfWork();
         }
-         
+
+        public CustomerDTO GetCustomer(int? id)
+        {
+            var customer = _unitOfWork.Customers.Get(id.Value);
+
+            return new CustomerDTO { Name = customer.Name, SurName = customer.SurName, City = customer.SurName, PostIndex = customer.PostIndex };
+        }
+
+        public IEnumerable<CustomerDTO> GetCustomers()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<Customer>, List<CustomerDTO>>(_unitOfWork.Customers.GetAll());
+        }
+
         public void SaveUser(UserDTO userDTO, CustomerDTO customerDTO)
         {
             User user = new User

@@ -1,7 +1,5 @@
-﻿using BL;
-using BL.DTO;
+﻿using BL.DTO;
 using BL.Services;
-using PL_Console_.Models;
 using System;
 
 namespace PL_Console_
@@ -72,4 +70,3 @@ namespace PL_Console_
 
     }
 }
-//testtttt
