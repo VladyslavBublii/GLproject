@@ -5,6 +5,7 @@ namespace BL.Services.Interfaces
     interface IPassword
     {
         public Strength PasswordStrength(string password);
-        string GetHashString(string password);
+
+        public string GetHashString(string password);
     }
 }
