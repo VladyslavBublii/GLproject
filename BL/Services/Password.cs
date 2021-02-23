@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
+using BL.Services.Interfaces;
+using System.Text;
 
 namespace BL.Services
 {
-    class Password
+    class Password : IPassword
     {
         public Strength PasswordStrength(string password)
         {
@@ -29,7 +31,7 @@ namespace BL.Services
             return result;
         }
 
-        string GetHashString(string password)
+        public string GetHashString(string password)
         {
             //переводим строку в байт-массим  
             byte[] bytes = Encoding.Unicode.GetBytes(password);
