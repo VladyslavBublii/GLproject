@@ -30,6 +30,10 @@ namespace DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-        }
+            modelBuilder.Entity<User>()
+                .HasOne(a => a.Customer)
+                .WithOne(b => b.User)
+                .HasForeignKey<Customer>(b => b.UserId);
+                }
     }
 }

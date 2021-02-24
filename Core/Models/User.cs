@@ -9,5 +9,7 @@
         public string Email { set; get; } 
 
         public string Password { set; get; }
+
+        public Customer Customer { set; get; }
     }
 }
