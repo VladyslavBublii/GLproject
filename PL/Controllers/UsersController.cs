@@ -41,7 +41,7 @@ namespace PL.Controllers
             }
             catch (Exception ex)
             {
-                //return Content(ex.Message);
+                return Content(ex.Message);
             }
 
             return View(user);
