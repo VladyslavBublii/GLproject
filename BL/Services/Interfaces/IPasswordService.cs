@@ -2,7 +2,7 @@
 
 namespace BL.Services.Interfaces
 {
-    interface IPassword
+    public interface IPasswordService
     {
         public Strength PasswordStrength(string password);
 

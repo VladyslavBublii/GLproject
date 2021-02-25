@@ -1,8 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using BL.Services.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace BL.Services
 {
-    public class Email
+    public class EmailService : IEmailService
     {
         public bool ValideEmail(string email)
         {

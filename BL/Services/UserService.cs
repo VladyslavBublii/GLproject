@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using BL.DTO;
 using BL.Services.Interfaces;
+using Core.Enums;
 using Core.Models;
 using DAL.Interfaces;
 using DAL.Repositories;
+using System;
 using System.Collections.Generic;
 
 namespace BL.Services
@@ -12,9 +14,15 @@ namespace BL.Services
     {
         public  IUnitOfWork _unitOfWork;
 
+        public IPasswordService _password;
+
+        public IEmailService _email;
+
         public UserService()
         {   
             _unitOfWork = new UnitOfWork();
+            _password = new PasswordService();
+            _email = new EmailService();
         }
 
         public CustomerDTO GetCustomer(int? id)
@@ -32,11 +40,20 @@ namespace BL.Services
 
         public void SaveUser(UserDTO userDTO, CustomerDTO customerDTO)
         {
+            if (!_email.ValideEmail(userDTO.Email))
+            {
+                throw new Exception("Invalide Email");
+            }
+            if (_password.PasswordStrength(userDTO.Email) > Strength.Medium)
+            {
+                throw new Exception("Pass not strong enough");
+            }
+
             User user = new User
             {
                 Role     = 0,
                 Email    = userDTO.Email,
-                Password = userDTO.Password,
+                Password = _password.GetHashString(userDTO.Password),
             };
 
             _unitOfWork.Users.Create(user);

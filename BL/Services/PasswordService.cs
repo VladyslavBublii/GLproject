@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BL.Services
 {
-    class Password : IPassword
+    class PasswordService : IPasswordService
     {
         public Strength PasswordStrength(string password)
         {
