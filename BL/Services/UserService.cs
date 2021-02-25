@@ -25,9 +25,9 @@ namespace BL.Services
             _email = new EmailService();
         }
 
-        public UserDTO GetUser(int? id)
+        public UserDTO GetUser(Guid id)
         {
-            var user = _unitOfWork.Users.Get(id.Value);
+            var user = _unitOfWork.Users.Get(id);
 
             return new UserDTO { Email = user.Email, Password = user.Password };
         }
@@ -38,9 +38,9 @@ namespace BL.Services
             return mapper.Map<IEnumerable<User>, List<UserDTO>>(_unitOfWork.Users.GetAll());
         }
 
-        public CustomerDTO GetCustomer(int? id)
+        public CustomerDTO GetCustomer(Guid id)
         {
-            var customer = _unitOfWork.Customers.Get(id.Value);
+            var customer = _unitOfWork.Customers.Get(id);
 
             return new CustomerDTO { Name = customer.Name, SurName = customer.SurName, City = customer.SurName, PostIndex = customer.PostIndex };
         }
@@ -58,7 +58,7 @@ namespace BL.Services
             {
                 throw new Exception("Invalide Email");
             }
-            if (_password.PasswordStrength(userDTO.Email) > Strength.Medium)
+            if (_password.PasswordStrength(userDTO.Password) < Strength.Medium)
             {
                 throw new Exception("Pass not strong enough");
             }

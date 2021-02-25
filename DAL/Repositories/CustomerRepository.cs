@@ -2,6 +2,7 @@
 using DAL.Data;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace DAL.Repositories
@@ -29,7 +30,7 @@ namespace DAL.Repositories
             }
         }
 
-        public Customer Get(int id)
+        public Customer Get(Guid id)
         {
             return db.Customers.Find(id);
         }

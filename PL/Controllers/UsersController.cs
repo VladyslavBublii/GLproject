@@ -19,13 +19,20 @@ namespace PL.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<CustomerDTO> customerDtos = _userService.GetCustomers();
+            try
+            {
+               IEnumerable<CustomerDTO> customerDtos = _userService.GetCustomers();
 
-            var mapperCustomer = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, CustomerViewModel>()).CreateMapper();
+                var mapperCustomer = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, CustomerViewModel>()).CreateMapper();
 
-            var customer = mapperCustomer.Map<IEnumerable<CustomerDTO>, List<CustomerViewModel>>(customerDtos);
+                var customer = mapperCustomer.Map<IEnumerable<CustomerDTO>, List<CustomerViewModel>>(customerDtos);
 
-            return View(customer);      
+                return View(customer);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         public ActionResult Create()

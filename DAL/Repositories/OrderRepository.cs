@@ -2,6 +2,7 @@
 using DAL.Data;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace DAL.Repositories
@@ -20,7 +21,7 @@ namespace DAL.Repositories
 			return db.Orders.Include(o => o.Product);
 		}
 
-		public Order Get(int id)
+		public Order Get(Guid id)
 		{
 			return db.Orders.Find(id);
 		}
