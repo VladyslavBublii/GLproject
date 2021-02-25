@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using BL.Services.Interfaces;
 using PL.Models;
+using System.Collections.Generic;
+using AutoMapper;
 
 namespace PL.Controllers
 {
@@ -15,36 +17,36 @@ namespace PL.Controllers
             _userService = serv;
         }
 
-        // GET: Get Users
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<CustomerDTO> customerDtos = _userService.GetCustomers();
+
+            var mapperCustomer = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, CustomerViewModel>()).CreateMapper();
+
+            var customer = mapperCustomer.Map<IEnumerable<CustomerDTO>, List<CustomerViewModel>>(customerDtos);
+
+            return View(customer);      
         }
 
-        // GET: UsersController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: UsersController/Create
         [HttpPost]
-        public ActionResult Create(UserViewModel user, CustomerViewModel customer)
+        public ActionResult Create(UserDetailsViewModel userdetails)
         {
             try
             {
-                var userDto = new UserDTO { Email = user.Email, Password = user.Password };
-                //var customerDto = new CustomerDTO { Name = customer.Name, SurName = customer.SurName, City = customer.City, PostIndex = customer.PostIndex };
-                var customerDto = new CustomerDTO { Name = "Alexander", SurName = "Trunov", City = "Kharkov", PostIndex = "PI123456" };
+                var userDto = new UserDTO { Email = userdetails.Email, Password = userdetails.Password };
+                var customerDto = new CustomerDTO { Name = userdetails.Name, SurName = userdetails.SurName, City = userdetails.City, PostIndex = userdetails.PostIndex };
                 _userService.SaveUser(userDto, customerDto);
-                return Content("Юзер и Кастомер успешно добвалены.");
+                return View(userdetails);
             }
             catch (Exception ex)
             {
                 return Content(ex.Message);
             }
-
-            return View(user);
         }
     }
 }

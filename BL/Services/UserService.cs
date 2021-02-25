@@ -25,6 +25,19 @@ namespace BL.Services
             _email = new EmailService();
         }
 
+        public UserDTO GetUser(int? id)
+        {
+            var user = _unitOfWork.Users.Get(id.Value);
+
+            return new UserDTO { Email = user.Email, Password = user.Password };
+        }
+
+        public IEnumerable<UserDTO> GetUsers()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<User>, List<UserDTO>>(_unitOfWork.Users.GetAll());
+        }
+
         public CustomerDTO GetCustomer(int? id)
         {
             var customer = _unitOfWork.Customers.Get(id.Value);
@@ -57,16 +70,18 @@ namespace BL.Services
                 Password = _password.GetHashString(userDTO.Password),
             };
 
-            _unitOfWork.Users.Create(user);
-
             Customer customer = new Customer
             {
                 Name      = customerDTO.Name,
                 SurName   = customerDTO.SurName,
                 City      = customerDTO.City,
-                PostIndex = customerDTO.PostIndex
+                PostIndex = customerDTO.PostIndex,
+                User      = user             
             };
 
+            user.Customer = customer;
+
+            _unitOfWork.Users.Create(user);
             _unitOfWork.Customers.Create(customer);
 
             _unitOfWork.Save();

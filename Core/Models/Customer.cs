@@ -12,5 +12,8 @@
 
         public string PostIndex { get; set; }
 
+        public int UserId { set; get; }
+
+        public User User { set; get; }
     }
 }
