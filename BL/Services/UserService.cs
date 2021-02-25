@@ -40,6 +40,7 @@ namespace BL.Services
 
         public void SaveUser(UserDTO userDTO, CustomerDTO customerDTO)
         {
+            // Валидация,если не нужна - закоментируйте 
             if (!_email.ValideEmail(userDTO.Email))
             {
                 throw new Exception("Invalide Email");
