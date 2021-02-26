@@ -4,11 +4,11 @@ using BL.DTO;
 
 namespace BL.Services.Interfaces
 {
-	interface IOrderService
+	public interface IOrderService
 	{
 		void MakeOrder(OrderDTO orderDto);
 		ProductDTO GetProduct(Guid id);
 		IEnumerable<ProductDTO> GetProducts();
-		void Dispose();
+		//void Dispose();
 	}
 }

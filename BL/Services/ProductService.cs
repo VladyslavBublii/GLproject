@@ -9,12 +9,12 @@ using DAL.Repositories;
 
 namespace BL.Services
 {
-    public class OrderService : IOrderService
+    public class ProductService : IProductService
 
     {
         public IUnitOfWork _unitOfWork;
 
-        public OrderService()
+        public ProductService()
         {
             _unitOfWork = new UnitOfWork();
         }
@@ -25,10 +25,8 @@ namespace BL.Services
         //{
         //    Database = uow;
         //}
-        public void MakeOrder(OrderDTO orderDto)
+        public void Create(ProductDTO productDTO)
         {
-            Product product = _unitOfWork.Products.Get(orderDto.ProductId);
-
             // валидация
             //if (product == null)
             //    throw new ValidationException("Товар не найден", "");
@@ -36,16 +34,15 @@ namespace BL.Services
             // применяем скидку
             //decimal sum = new Discount(0.1m).GetDiscountedPrice(product.Price);
 
-            Order order = new Order
+            Product product = new Product
             {
-                Date = DateTime.Now,
-                City = orderDto.City, // Изменено с Address
-                PostIndex = orderDto.PostIndex, // Добавлено
-                ProductId = product.Id,
-                Sum = product.Price, // Изменено с sum
-                PhoneNumber = orderDto.PhoneNumber
+                Name = productDTO.Name,
+                Category = productDTO.Category, 
+                Description = productDTO.Description,
+                Price = productDTO.Price, 
             };
-            _unitOfWork.Orders.Create(order);
+
+            _unitOfWork.Products.Create(product);
             _unitOfWork.Save();
         }
 
@@ -60,11 +57,11 @@ namespace BL.Services
 
         }
 
-        public ProductDTO GetProduct(Guid id)
+        public ProductDTO GetProduct(int? id)
         {
             //if (id == null)
             //    throw new ValidationException("Не установлено id товара", "");
-            var product = _unitOfWork.Products.Get(id);
+            var product = _unitOfWork.Products.Get(id.Value);
             //if (product == null)
             //    throw new ValidationException("Товар не найден", "");
 
