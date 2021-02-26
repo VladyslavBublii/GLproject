@@ -39,7 +39,7 @@ namespace PL.Controllers
 
         }
 
-        public ActionResult MakeOrder(int? id)
+        public ActionResult MakeOrder(Guid id)
         {
             try
             {

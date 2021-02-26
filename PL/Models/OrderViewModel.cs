@@ -7,7 +7,7 @@ namespace PL.Models
 {
 	public class OrderViewModel
 	{
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public decimal Sum { get; set; }
         public string Name { get; set; } // Пока вместо отдельной таблицы UsersDetails
         public string Surname { get; set; } // Пока вместо отдельной таблицы UsersDetails
@@ -15,6 +15,6 @@ namespace PL.Models
         public string City { get; set; } // Пока вместо отдельной таблицы UsersDetails
         public string PostIndex { get; set; } // Пока вместо отдельной таблицы UsersDetails
 
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
     }
 }

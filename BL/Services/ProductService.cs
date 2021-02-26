@@ -57,11 +57,11 @@ namespace BL.Services
 
         }
 
-        public ProductDTO GetProduct(int? id)
+        public ProductDTO GetProduct(Guid id)
         {
             //if (id == null)
             //    throw new ValidationException("Не установлено id товара", "");
-            var product = _unitOfWork.Products.Get(id.Value);
+            var product = _unitOfWork.Products.Get(id);
             //if (product == null)
             //    throw new ValidationException("Товар не найден", "");
 

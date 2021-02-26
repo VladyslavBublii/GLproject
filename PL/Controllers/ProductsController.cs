@@ -8,13 +8,10 @@ using BL.DTO;
 using AutoMapper;
 using PL.Models;
 
-
-
 namespace PL.Controllers
 {
     public class ProductsController : Controller
     {
-
         IProductService _productService;
 
         public ProductsController(IProductService serv)
