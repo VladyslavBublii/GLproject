@@ -30,6 +30,9 @@ namespace PL
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IPasswordService, PasswordService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
