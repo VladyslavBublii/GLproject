@@ -19,7 +19,7 @@ namespace BL.Services
         public IEmailService _email;
 
         public UserService()
-        {   
+        {    
             _unitOfWork = new UnitOfWork();
             _password = new PasswordService();
             _email = new EmailService();
@@ -42,7 +42,8 @@ namespace BL.Services
         {
             var customer = _unitOfWork.Customers.Get(id);
 
-            return new CustomerDTO { Name = customer.Name, SurName = customer.SurName, City = customer.SurName, PostIndex = customer.PostIndex };
+            return new CustomerDTO { Name = customer.Name, SurName = customer.SurName, 
+                City = customer.SurName, PostIndex = customer.PostIndex };
         }
 
         public IEnumerable<CustomerDTO> GetCustomers()
@@ -57,7 +58,7 @@ namespace BL.Services
             {
                 throw new Exception("Invalide Email");
             }
-            if (_password.PasswordStrength(userDTO.Password) < Strength.Medium)
+            if (_password.PasswordStrength(userDTO.Password) < PassStrength.Medium)
             {
                 throw new Exception("Pass not strong enough");
             }
