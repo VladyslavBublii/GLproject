@@ -15,10 +15,9 @@ namespace PL.Controllers
             _logger = logger;
         }
 
-        //[Authorize]
+        [Authorize]
         public IActionResult Index()
         {
-            //return Content(User.Identity.Name);
             return View();
         }
 

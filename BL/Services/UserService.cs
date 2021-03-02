@@ -7,6 +7,8 @@ using DAL.Interfaces;
 using DAL.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BL.Services
 {
@@ -86,5 +88,10 @@ namespace BL.Services
 
             _unitOfWork.Save();
         }
+
+        //public Task<ClaimsIdentity> Authenticate(UserDTO userDto)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

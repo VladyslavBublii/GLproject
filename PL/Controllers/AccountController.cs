@@ -9,17 +9,24 @@ using PL.Models;
 using BL.Services.Interfaces;
 using BL.DTO;
 using AutoMapper;
+using BL.Services;
 
 namespace PL.Controllers
 {
     public class AccountController : Controller
     {
-        //private UserContext db;
         IUserService _userService;
+
+        //!!!!!!
+        public IPasswordService _password;
+        //!!!!!
 
         public AccountController(IUserService serv)
         {
             _userService = serv;
+            //!!!!!!
+            _password = new PasswordService();
+            //!!!!!
         }
         [HttpGet]
         public IActionResult Login()
@@ -32,25 +39,17 @@ namespace PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                //User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-
                 IEnumerable<UserDTO> userDtos = _userService.GetUsers();
 
                 foreach(UserDTO userDto in userDtos)
                 {
-                    if (userDto.Email == model.Email && userDto.Password == model.Password)
+                    if (userDto.Email == model.Email && userDto.Password == _password.GetHashString(model.Password))
                     {
-                        if (userDto != null)
-                        {
-                            await Authenticate(model.Email); // аутентификация
-
-                            return RedirectToAction("Index", "Home");
-                        }
-                        ModelState.AddModelError("", "Incrorrect login and(or) password");
-                        break;
+                        await Authenticate(model.Email); // аутентификация
+                        return RedirectToAction("Index", "Home");
                     }
                 }
-
+                ModelState.AddModelError("", "Incrorrect login and(or) password");
                 //var mapperUser = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>()).CreateMapper();
 
                 //var users = mapperUser.Map<IEnumerable<UserDTO>, List<UserViewModel>>(userDtos);
@@ -98,6 +97,8 @@ namespace PL.Controllers
                     var userDto = new UserDTO { Email = model.Email, Password = model.Password };
                     var customerDto = new CustomerDTO { Name = model.Name, SurName = model.SurName, City = model.City, PostIndex = model.PostIndex };
                     _userService.SaveUser(userDto, customerDto);
+
+                    await Authenticate(model.Email);
 
                     return RedirectToAction("Index", "Home");
                 }
