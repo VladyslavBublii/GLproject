@@ -1,0 +1,14 @@
+﻿<h2>Вы уверены, что хотите выйти?</h2>
+
+<a asp-action="Logout" asp-controller="Account">Loging out</a>
+
+<form asp-action="Logout" asp-controller="Account" asp-anti-forgery="true">
+    <div>
+        <div class="form-group">
+            <input type="submit" value="Log out" class="btn btn-outline-dark" />
+        </div>
+    </div>
+</form>
+<div>
+    @Html.ActionLink("Back to Home", "Home/Index")
+</div>
