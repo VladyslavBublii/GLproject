@@ -6,6 +6,7 @@ using PL.Models;
 using System.Collections.Generic;
 using AutoMapper;
 using Core.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
 {
