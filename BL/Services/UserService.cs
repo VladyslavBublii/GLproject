@@ -67,7 +67,7 @@ namespace BL.Services
 
             User user = new User
             {
-                Role     = 0,
+                RoleName     = userDTO.RoleName,
                 Email    = userDTO.Email,
                 Password = _password.GetHashString(userDTO.Password),
             };

@@ -45,7 +45,7 @@ namespace PL.Controllers
                 {
                     if (userDto.Email == model.Email && userDto.Password == _password.GetHashString(model.Password))
                     {
-                        await Authenticate(model.Email); // аутентификация
+                        await Authenticate(userDto); // аутентификация
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -94,11 +94,11 @@ namespace PL.Controllers
                     //await db.SaveChangesAsync();
 
                     //await Authenticate(model.Email); // аутентификация
-                    var userDto = new UserDTO { Email = model.Email, Password = model.Password };
+                    var userDto = new UserDTO { Email = model.Email, Password = model.Password, RoleName = "user" };
                     var customerDto = new CustomerDTO { Name = model.Name, SurName = model.SurName, City = model.City, PostIndex = model.PostIndex };
                     _userService.SaveUser(userDto, customerDto);
 
-                    await Authenticate(model.Email);
+                    await Authenticate(userDto);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -110,12 +110,13 @@ namespace PL.Controllers
             return View(model);
         }
 
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(UserDTO user)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.RoleName)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

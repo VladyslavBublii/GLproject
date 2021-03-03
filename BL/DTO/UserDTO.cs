@@ -6,6 +6,8 @@ namespace BL.DTO
 {
     public class UserDTO
     {
+        public string RoleName { set; get; }
+
         public string Email { set; get; }
 
         public string Password { set; get; }

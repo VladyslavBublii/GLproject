@@ -9,7 +9,7 @@ namespace Core.Models
         //public Guid Id { set; get; }
         public Guid Id { set; get; }
 
-        public int Role { set; get; }
+        public string RoleName { set; get; }
 
         public string Email { set; get; } 
 

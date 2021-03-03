@@ -23,27 +23,35 @@ namespace PL.Controllers
             _passwordService = passwordService;
         }
 
+        [Authorize(Roles = "admin, user")]
         public ActionResult Index()
         {
-            try
+            IEnumerable<CustomerDTO> customerDtos = _userService.GetCustomers();
+
+            var mapperCustomer = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, CustomerViewModel>()).CreateMapper();
+
+            var customer = mapperCustomer.Map<IEnumerable<CustomerDTO>, List<CustomerViewModel>>(customerDtos);
+
+            if (customer != null)
             {
-               IEnumerable<CustomerDTO> customerDtos = _userService.GetCustomers();
-
-                var mapperCustomer = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, CustomerViewModel>()).CreateMapper();
-
-                var customer = mapperCustomer.Map<IEnumerable<CustomerDTO>, List<CustomerViewModel>>(customerDtos);
-
                 return View(customer);
             }
-            catch (Exception ex)
+            else
             {
-                return View();
+                return NotFound();
             }
         }
 
         public ActionResult Create()
         {
-            return View();
+            if (User.IsInRole("admin"))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
