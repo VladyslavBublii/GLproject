@@ -7,5 +7,7 @@ namespace BL.Services.Interfaces
         public PassStrength PasswordStrength(string password);
 
         public string GetHashString(string password);
+
+        bool IsPasswordStrong(string password);
     }
 }
