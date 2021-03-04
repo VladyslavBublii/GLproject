@@ -51,5 +51,14 @@ namespace BL.Services
 
             return hash;
         }
+
+        public bool IsPasswordStrong(string password)
+        {
+            if (PasswordStrength(password) < PassStrength.Medium)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
