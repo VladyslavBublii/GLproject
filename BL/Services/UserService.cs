@@ -7,8 +7,6 @@ using DAL.Interfaces;
 using DAL.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace BL.Services
 {
@@ -32,6 +30,45 @@ namespace BL.Services
             var user = _unitOfWork.Users.Get(id);
 
             return new UserDTO { Email = user.Email, Password = user.Password };
+        }
+
+        public bool IsPasswordSame(string password)
+        {
+            IEnumerable<UserDTO> userDtos = GetUsers();
+            foreach (UserDTO userDto in userDtos)
+            {
+                if (userDto.Password == password)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsEmailFree(string email)
+        {
+            IEnumerable<UserDTO> userDtos = GetUsers();
+            foreach (UserDTO userDto in userDtos)
+            {
+                if (userDto.Email == email)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }       
+
+        public UserDTO GetUserLog(string email, string password)
+        {
+            IEnumerable<UserDTO> userDtos = GetUsers();
+            foreach (UserDTO userDto in userDtos)
+            {
+                if (userDto.Email == email && userDto.Password == _password.GetHashString(password))
+                {
+                    return userDto;
+                }
+            }
+            return null;
         }
 
         public IEnumerable<UserDTO> GetUsers()
@@ -88,10 +125,5 @@ namespace BL.Services
 
             _unitOfWork.Save();
         }
-
-        //public Task<ClaimsIdentity> Authenticate(UserDTO userDto)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 
 namespace Core.Models
 {
-    //public class User : IdentityUser
     public class User
     {
-        //public Guid Id { set; get; }
         public Guid Id { set; get; }
 
         public string RoleName { set; get; }

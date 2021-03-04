@@ -27,8 +27,14 @@ namespace PL.Controllers
         public ActionResult Index()
         {
             IEnumerable<CustomerDTO> customerDtos = _userService.GetCustomers();
+            //IEnumerable<UserDTO> userDtos = _userService.GetUsers();
 
             var mapperCustomer = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, CustomerViewModel>()).CreateMapper();
+            //var mapperUserDetails = new MapperConfiguration(cfg => {
+            //    cfg.CreateMap<CustomerDTO, UserDetailsViewModel>()
+            //    .ForMember(destination => destination.ContactDetails,
+            //   opts => opts.MapFrom(source => source.Contact));
+            //});
 
             var customer = mapperCustomer.Map<IEnumerable<CustomerDTO>, List<CustomerViewModel>>(customerDtos);
 
@@ -68,7 +74,7 @@ namespace PL.Controllers
                     throw new Exception("Pass not strong enough");
                 }
 
-                var userDto = new UserDTO { Email = userdetails.Email, Password = userdetails.Password };
+                var userDto = new UserDTO { Email = userdetails.Email, Password = userdetails.Password, RoleName = "user" };
                 var customerDto = new CustomerDTO { Name = userdetails.Name, SurName = userdetails.SurName, City = userdetails.City, PostIndex = userdetails.PostIndex };
                 _userService.SaveUser(userDto, customerDto);
                 return View(userdetails);
