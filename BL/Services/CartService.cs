@@ -70,6 +70,7 @@ namespace BL.Services
                     Products = this.Products,
                     Date     = DateTime.Now,
                 };
+
                 _unitOfWork.Orders.Create(order);
                 _unitOfWork.Save();
             }

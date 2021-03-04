@@ -9,7 +9,6 @@ namespace Core.Models
         public Customer Customer { get; set; }
         public decimal Sum { get; set; }
         //public string Name { get; set; } // Пока без привязки к Customer(UsersDetails) - *********
-        public string Surname { get; set; } // Пока без привязки к Customer(UsersDetails)
         public string PhoneNumber { get; set; } // Свойство отсутствующее в свойствах Customer(UsersDetails) --- значит надо было его добавить !
         public string City { get; set; } // Пока без привязки к Customer(UsersDetails)
         public string PostIndex { get; set; } // Пока без привязки к Customer(UsersDetails)

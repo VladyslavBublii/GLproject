@@ -10,8 +10,7 @@ namespace Core.Models
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public decimal Price { get; set; }
-		//public ICollection<Order> Orders { get; set; } // Вместо OrdersContents
 
-		// Пока без таблицы с изображениями
-	}
+        // Пока без таблицы с изображениями
+    }
 }

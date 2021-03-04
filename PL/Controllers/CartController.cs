@@ -14,25 +14,24 @@ namespace PL.Controllers
             _cartService = cartService;
         }
 
-        public IActionResult AddToCart(Product product, int quantity)
-        {
+        //public IActionResult AddToCart(Product product, int quantity)
+        //{
+        //    _cartService.AddItem(product, quantity);
+        //    return IActionResult("Index");
+        //}
 
-            _cartService.AddItem(product, quantity);
-            return IActionResult("Index");
-        }
+        //public IActionResult RemoveFromCart(Product product)
+        //{
+        //    _cartService.RemoveItem(product);
+        //}
 
-        public RedirectToRouteResult RemoveFromCart(Product product)
-        {
-            _cartService.RemoveItem(product);
-        }
-
-        public IActionResult ComputeTotalValue()
-        {
-            _cartService.ComputeTotalValue();
-        }
-        public IActionResult MakeOrder(Guid userId)
-        {
-            _cartService.MakeOrder(userId);
-        }
+        //public IActionResult ComputeTotalValue()
+        //{
+        //    _cartService.ComputeTotalValue();
+        //}
+        //public IActionResult MakeOrder(Guid userId)
+        //{
+        //    _cartService.MakeOrder(userId);
+        //}
     }
 }
