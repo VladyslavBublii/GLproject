@@ -34,6 +34,6 @@ namespace DAL.Data
                 .HasOne(a => a.Customer)
                 .WithOne(b => b.User)
                 .HasForeignKey<Customer>(b => b.UserId);
-                }
+        }
     }
 }

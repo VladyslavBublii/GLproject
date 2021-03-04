@@ -62,9 +62,9 @@ namespace PL.Controllers
             {
                 var orderDto = new OrderDTO { ProductId = order.ProductId, PostIndex = order.PostIndex, PhoneNumber = order.PhoneNumber };
                 _orderService.MakeOrder(orderDto);
-                return Content("<h2>Ваш заказ успешно оформлен</h2>");
+                return Content("Ваш заказ успешно оформлен");
             }
-            catch (/*Validation*/Exception ex)
+            catch (Exception ex)
             {
                 //ModelState.AddModelError(ex.Property, ex.Message);
             }

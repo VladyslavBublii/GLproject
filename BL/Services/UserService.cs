@@ -12,11 +12,11 @@ namespace BL.Services
 {
     public class UserService : IUserService
     {
-        public  IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public IPasswordService _password;
+        private readonly IPasswordService _password;
 
-        public IEmailService _email;
+        private readonly IEmailService _email;
 
         public UserService()
         {    

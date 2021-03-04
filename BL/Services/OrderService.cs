@@ -41,7 +41,7 @@ namespace BL.Services
                 Date = DateTime.Now,
                 City = orderDto.City, // Изменено с Address
                 PostIndex = orderDto.PostIndex, // Добавлено
-                ProductId = product.Id,
+                ProductId = product.Id, // нахуя ?
                 Sum = product.Price, // Изменено с sum
                 PhoneNumber = orderDto.PhoneNumber
             };

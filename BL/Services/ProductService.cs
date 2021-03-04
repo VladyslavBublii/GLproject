@@ -10,7 +10,6 @@ using DAL.Repositories;
 namespace BL.Services
 {
     public class ProductService : IProductService
-
     {
         public IUnitOfWork _unitOfWork;
 
@@ -36,10 +35,10 @@ namespace BL.Services
 
             Product product = new Product
             {
-                Name = productDTO.Name,
-                Category = productDTO.Category, 
+                Name        = productDTO.Name,
+                Category    = productDTO.Category, 
                 Description = productDTO.Description,
-                Price = productDTO.Price, 
+                Price       = productDTO.Price, 
             };
 
             _unitOfWork.Products.Create(product);

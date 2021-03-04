@@ -59,10 +59,10 @@ namespace PL.Controllers
             {
                 var productDto = new ProductDTO
                 {
-                    Name = product.Name,
-                    Category = product.Category,
+                    Name        = product.Name,
+                    Category    = product.Category,
                     Description = product.Description,
-                    Price = product.Price,
+                    Price       = product.Price,
                 };
                 _productService.Create(productDto);
                 return Content("Product has been added");
