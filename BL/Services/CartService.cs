@@ -16,6 +16,15 @@ namespace BL.Services
 
         public CartService()
         {
+            Products.Add(new Product
+            {
+                Id          = new Guid(),
+                Description = "Hi",
+                Name        = "Hi",
+                Category    = "Hi",
+                Price       = 1488,
+            });
+
             _unitOfWork = new UnitOfWork();
         }
 
@@ -23,15 +32,25 @@ namespace BL.Services
         {
             try
             {
-                if (_unitOfWork.Products.Get(product.Id) == null) throw new Exception ("Product not found");
+                if (_unitOfWork.Products.Get(product.Id) == null) throw new Exception("Product not found");
             }
             catch { };
 
 
-            for(int i=0; i<quantity; i++)
+            for (int i = 0; i < quantity; i++)
             {
                 Products.Add(product);
             }
+        }
+        public bool CheckItem(Guid idItem)
+        {
+            try
+            {
+                var product = _unitOfWork.Products.Get(idItem);
+                if (product != null) return true;
+            }
+            catch { };
+            return false;
         }
 
         public void RemoveItem(Product product)
@@ -43,7 +62,7 @@ namespace BL.Services
         {
             decimal sum = 0;
 
-            foreach(var product in Products)
+            foreach (var product in Products)
             {
                 sum += product.Price;
             }
@@ -54,6 +73,11 @@ namespace BL.Services
         public void Clear()
         {
             Products.Clear();
+        }
+
+        public List<Product> ShowCart()
+        {
+            return Products;
         }
 
         public void MakeOrder(Guid userId)
