@@ -1,0 +1,92 @@
+﻿@model PL.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Admin: Edit product";
+    //Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <input asp-for="Category" class="form-control" />
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+@*<div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>*@
+<div class="panel-footer">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                @Html.ActionLink("Cancel changes and back to list", "Index", null, new
+           {
+               @class = "btn btn-primary"
+           })
+            </div>
+        </form>
+    </div>
+</div>
+@*<div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+
+
+<div class="panel">
+
+    <div class="panel-heading">
+        <h3>Edit product «@Model.Name»</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Id)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "Id")
+                {
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @if (property.PropertyName == "Description")
+                        {
+                            @Html.TextArea(property.PropertyName, null,
+                                new { @class = "form-control", rows = 5 })
+                        }
+                        else
+                        {
+                            @Html.TextBox(property.PropertyName, null,
+                                new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessage(property.PropertyName)
+
+                    </div>
+                }
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Cancel changes and back to list", "Index", null, new
+            {
+                @class = "btn btn-default"
+            })
+        </div>
+    }
+</div>*@

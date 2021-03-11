@@ -1,0 +1,115 @@
+﻿@model PL.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Admin panel: Add product";
+    //Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Admin Panel</h1>
+
+<div class="panel">
+
+    <div class="panel-heading">
+        <h3>Add Product</h3>
+    </div>
+
+    @using (Html.BeginForm("Create", "Admin",
+   FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Id)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+
+
+                switch (property.PropertyName)
+                {
+                    case "Id":
+                    case "Image":
+                    case "ImageIn":
+
+                        // Ничего не делать
+                        break;
+                    default:
+                        <div class="form-group">
+                            <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            @if (property.PropertyName == "Description")
+                            {
+                                @Html.TextArea(property.PropertyName, null,
+                                 new { @class = "form-control", rows = 5 })
+                            }
+                            else
+                            {
+                                @Html.TextBox(property.PropertyName, null,
+                                 new { @class = "form-control" })
+                            }
+                            @Html.ValidationMessage(property.PropertyName)
+                        </div>
+                        break;
+                }
+
+                @*if (property.PropertyName != "Id")
+                    {
+                        <div class="form-group">
+                            <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            @if (property.PropertyName == "Description")
+                            {
+                                @Html.TextArea(property.PropertyName, null,
+                                    new { @class = "form-control", rows = 5 })
+                            }
+                            else
+                            {
+                                @Html.TextBox(property.PropertyName, null,
+                                    new { @class = "form-control" })
+                            }
+                            @Html.ValidationMessage(property.PropertyName)
+
+                        </div>
+                    }*@
+            }
+
+            <form asp-action="Create" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                <p>
+                    <label>Add Image</label>
+                    <input name="ImageIn" type="file" class="form-control" />
+                </p>
+            </form>
+
+            <!--<div class="form-group">
+                <div style="position:relative;">
+                    <label>Image</label>
+                    <a class='btn btn-secondary' href='javascript:;'>
+                        Select file...-->
+            @*<input name="ImageIn" type="file" class="form-control" />*@
+
+
+            <!--<input type="file" name="ImageIn" size="40"
+            style="position:absolute;z-index:2;top:0;
+                 left:0;filter: alpha(opacity=0); opacity:0;
+                 background-color:transparent;color:transparent;"
+            onchange='$("#upload-file-info").html($(this).val());'>
+                        </a>
+                        <span class='label label-info' id="upload-file-info"></span>
+                    </div>-->
+            @*@if (Model.ImageIn == null)
+                {
+                    <div class="form-control-static">Нет картинки</div>
+                }
+                else
+                {
+                    <img style='width:80px; height:60px;' src="data:image/jpeg;base64, Model.ImageIn)" />
+
+                }*@
+            @*</div>*@
+
+            <div class="panel-footer">
+                <input type="submit" value="Add product" class="btn btn-primary" />
+                @Html.ActionLink("Cancel and back to list", "Index", null, new
+           {
+               @class = "btn btn-secondary"
+           })
+            </div>
+        </div>
+
+    }
+</div>
