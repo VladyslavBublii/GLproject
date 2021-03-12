@@ -38,18 +38,6 @@ namespace PL.Controllers
         public ActionResult Create()
         {
             return View();
-
-            //try
-            //{
-            //    var product = new ProductViewModel();
-
-            //    return View(product);
-            //}
-            //catch (/*Validation*/Exception ex)
-            //{
-            //    //return Content(ex.Message);
-            //}
-            //return View(); // Добавлено
         }
 
         [HttpPost]
@@ -73,5 +61,5 @@ namespace PL.Controllers
             }
             return View(product);
         }
-    }
+	}
 }

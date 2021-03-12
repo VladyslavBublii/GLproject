@@ -4,6 +4,7 @@ using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DAL.Repositories
 {
@@ -21,14 +22,14 @@ namespace DAL.Repositories
             db.Users.Add(user);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             User user = db.Users.Find(id);
             if (user != null)
             {
                 db.Users.Remove(user);
             }
-        }     
+        }
 
         public User Get(Guid id)
         {
@@ -43,6 +44,12 @@ namespace DAL.Repositories
         public void Update(User user)
         {
             db.Entry(user).State = EntityState.Modified;
+        }
+
+        public User Find(Guid id)
+        {
+            var resultData = db.Users.Where(p => p.Id == id).FirstOrDefault();
+            return resultData;
         }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
 {
+    [Authorize(Roles = "admin, user")]
     public class UsersController : Controller
     {
         IUserService _userService;
@@ -23,7 +24,7 @@ namespace PL.Controllers
             _passwordService = passwordService;
         }
 
-        [Authorize(Roles = "admin, user")]
+        
         public ActionResult Index()
         {
             IEnumerable<CustomerDTO> customerDtos = _userService.GetCustomers();

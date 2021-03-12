@@ -4,6 +4,7 @@ using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DAL.Repositories
 {
@@ -38,14 +39,22 @@ namespace DAL.Repositories
 
 		//public IEnumerable<Product> Find(Func<Product, Boolean> predicate)
 		//{
-		//	return db.Products.Where(predicate).ToList();
+			//return db.Products.Where(predicate).ToList();
 		//}
 
-		public void Delete(int id)
+		public Product Find(Guid id)
+		{
+			var resultData = db.Products.Where(p => p.Id == id).FirstOrDefault();
+			return resultData;
+		}
+
+		public void Delete(Guid id)
 		{
 			Product product = db.Products.Find(id);
 			if (product != null)
+			{
 				db.Products.Remove(product);
+			}
 		}
 	}
 }

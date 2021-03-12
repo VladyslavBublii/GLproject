@@ -6,9 +6,11 @@ namespace BL.Services.Interfaces
 {
 	public interface IProductService
 	{
-		void Create(ProductDTO productDTO);
-		ProductDTO GetProduct(Guid id);
 		IEnumerable<ProductDTO> GetProducts();
-		//void Dispose();
+		ProductDTO GetProduct(Guid id);
+		void Create(ProductDTO productDTO);
+		void Update(ProductDTO productDTO);
+		ProductDTO Find(Guid id);
+		ProductDTO Delete(Guid id);
 	}
 }

@@ -18,55 +18,75 @@ namespace BL.Services
             _unitOfWork = new UnitOfWork();
         }
 
-        //IUnitOfWork Database { get; set; }
-
-        //public OrderService(IUnitOfWork uow)
-        //{
-        //    Database = uow;
-        //}
         public void Create(ProductDTO productDTO)
         {
-            // валидация
-            //if (product == null)
-            //    throw new ValidationException("Товар не найден", "");
-
-            // применяем скидку
-            //decimal sum = new Discount(0.1m).GetDiscountedPrice(product.Price);
-
             Product product = new Product
             {
                 Name        = productDTO.Name,
-                Category    = productDTO.Category, 
+                Category    = productDTO.Category,
                 Description = productDTO.Description,
-                Price       = productDTO.Price, 
+                Price       = productDTO.Price,
+                Image       = productDTO.Image,
             };
 
             _unitOfWork.Products.Create(product);
             _unitOfWork.Save();
         }
 
-        //TODO: Проверить реализацию интерфейса
         public IEnumerable<ProductDTO> GetProducts()
         {
-			//IEnumerable<ProductDTO> products = _unitOfWork.Products.GetAll() as IEnumerable<ProductDTO>;
-			// применяем автомаппер для проекции одной коллекции на другую
-			var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDTO>()).CreateMapper();
-			return mapper.Map<IEnumerable<Product>, List<ProductDTO>>(_unitOfWork.Products.GetAll());
-			//return products;
-
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<Product>, List<ProductDTO>>(_unitOfWork.Products.GetAll());
         }
 
         public ProductDTO GetProduct(Guid id)
         {
+            //TODO: Exception
             //if (id == null)
             //    throw new ValidationException("Не установлено id товара", "");
-            var product = _unitOfWork.Products.Get(id);
             //if (product == null)
             //    throw new ValidationException("Товар не найден", "");
-
-            return new ProductDTO { Description = product.Description, Id = product.Id, Name = product.Name, Price = product.Price };
+            var product = _unitOfWork.Products.Get(id);
+            return new ProductDTO { Id = product.Id, Image = product.Image, Name = product.Name, Category = product.Category, Description = product.Description, Price = product.Price, };
         }
 
+        public void Update(ProductDTO productDTO)
+        {
+
+            Product dbEntry = _unitOfWork.Products.Find(productDTO.Id);
+            if (dbEntry != null)
+            {
+                dbEntry.Name        = productDTO.Name;
+                dbEntry.Category    = productDTO.Category;
+                dbEntry.Description = productDTO.Description;
+                dbEntry.Price       = productDTO.Price;
+                dbEntry.Image       = productDTO.Image;
+
+            }
+            _unitOfWork.Products.Update(dbEntry);
+            _unitOfWork.Save();
+        }
+
+        public ProductDTO Find(Guid id)
+        {
+            var product = _unitOfWork.Products.Find(id);
+            return new ProductDTO { Id = product.Id, Image = product.Image, Name = product.Name, Category = product.Category, Description = product.Description, Price = product.Price, };
+
+        }
+
+        public ProductDTO Delete(Guid id)
+        {
+            var product = _unitOfWork.Products.Find(id);
+            if (product != null)
+            {
+                _unitOfWork.Products.Delete(product.Id);
+                _unitOfWork.Save();
+            }
+            return new ProductDTO { Id = product.Id, Image = product.Image, Name = product.Name, Category = product.Category, Description = product.Description, Price = product.Price, };
+
+        }
+
+        //TODO:
         //public void Dispose()
         //{
         //    _unitOfWork.Dispose();
