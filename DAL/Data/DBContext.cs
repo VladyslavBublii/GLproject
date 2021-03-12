@@ -14,6 +14,7 @@ namespace DAL.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Cart { get; set; }
+        //public DbSet<Cart> Cart { get; set; }
 
         public DBContext()
         {
