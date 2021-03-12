@@ -1,0 +1,54 @@
+﻿@model IEnumerable<PL.Models.ProductViewModel>
+
+@{
+    ViewBag.Title = "Admin Panel";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>List of Products</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th>Name</th>
+                <th class="text-left">Image</th>
+                <th class="text-right">Price</th>
+                <th class="text-center">Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+             {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "Edit", new { item.Id })</td>
+
+                    @if (item.Image.Length == 0)
+                    {
+                        <td class="text-left">No image</td>
+                    }
+                    else
+                    {
+                        <td><img style='width:80px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Image))" /></td>
+                    }
+
+                    <td class="text-right">@item.Price.ToString("# $")</td>
+
+                    <td class="text-center">
+                        @using (Html.BeginForm("Delete", "Admin"))
+                        {
+                            @Html.Hidden("Id", item.Id)
+                            <input type="submit"
+                                   class="btn btn-secondary btn-xs"
+                                   value="Delete" />
+                        }
+                    </td>
+                </tr>
+             }
+        </table>
+    </div>
+
+    <div class="panel-footer">
+        @Html.ActionLink("Add Product", "Create", null,
+            new { @class = "btn btn-primary" })
+    </div>
+</div>

@@ -7,8 +7,10 @@ namespace DAL.Interfaces
     {
         IEnumerable<T> GetAll();
         T Get(Guid id);
+        T Find(Guid id);
         void Create(T item);
         void Update(T item);
-        void Delete(int id);
+        void Delete(Guid id);
+        //IEnumerable<T> Find(Func<T, Boolean> predicate);
     }
 }

@@ -27,6 +27,7 @@ namespace PL
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPasswordService, PasswordService>();
+            services.AddScoped<ICartService, CartService>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => //CookieAuthenticationOptions

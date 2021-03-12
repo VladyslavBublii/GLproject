@@ -4,6 +4,7 @@ using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DAL.Repositories
 {
@@ -21,7 +22,7 @@ namespace DAL.Repositories
             db.Customers.Add(customer);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             Customer customer = db.Customers.Find(id);
             if (customer != null)
@@ -43,6 +44,12 @@ namespace DAL.Repositories
         public void Update(Customer customer)
         {
             db.Entry(customer).State = EntityState.Modified;
+        }
+
+        public Customer Find(Guid id)
+        {
+            var resultData = db.Customers.Where(p => p.Id == id).FirstOrDefault();
+            return resultData;
         }
     }
 }
