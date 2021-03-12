@@ -43,5 +43,15 @@ namespace DAL.Repositories
 			if (product != null)
 				_db.Cart.Remove(product);
 		}
+
+        public Product Find(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

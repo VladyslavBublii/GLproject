@@ -47,13 +47,13 @@ namespace DAL.Repositories
 			Order order = _db.Orders.Find(id);
 			if (order != null)
 			{
-				db.Orders.Remove(order);
+				_db.Orders.Remove(order);
 			}
 		}
 
 		public Order Find(Guid id)
 		{
-			var resultData = db.Orders.Where(p => p.Id == id).FirstOrDefault();
+			var resultData = _db.Orders.Where(p => p.Id == id).FirstOrDefault();
 			return resultData;
 		}
 	}
