@@ -6,9 +6,11 @@ using BL.DTO;
 using AutoMapper;
 using PL.Models;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         IProductService _productService;
