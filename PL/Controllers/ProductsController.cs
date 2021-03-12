@@ -38,18 +38,6 @@ namespace PL.Controllers
         public ActionResult Create()
         {
             return View();
-
-            //try
-            //{
-            //    var product = new ProductViewModel();
-
-            //    return View(product);
-            //}
-            //catch (/*Validation*/Exception ex)
-            //{
-            //    //return Content(ex.Message);
-            //}
-            //return View(); // Добавлено
         }
 
         [HttpPost]
@@ -59,10 +47,10 @@ namespace PL.Controllers
             {
                 var productDto = new ProductDTO
                 {
-                    Name = product.Name,
-                    Category = product.Category,
+                    Name        = product.Name,
+                    Category    = product.Category,
                     Description = product.Description,
-                    Price = product.Price,
+                    Price       = product.Price,
                 };
                 _productService.Create(productDto);
                 return Content("<h2>Товар успешно добавлен</h2>");
@@ -73,20 +61,5 @@ namespace PL.Controllers
             }
             return View(product);
         }
-
-		//public FileContentResult GetImage(int gameId)
-		//{
-		//    Game game = repository.Games
-		//        .FirstOrDefault(g => g.GameId == gameId);
-
-		//    if (game != null)
-		//    {
-		//        return File(game.ImageData, game.ImageMimeType);
-		//    }
-		//    else
-		//    {
-		//        return null;
-		//    }
-
 	}
 }

@@ -12,8 +12,5 @@ namespace BL.Services.Interfaces
 		void Update(ProductDTO productDTO);
 		ProductDTO Find(Guid id);
 		ProductDTO Delete(Guid id);
-
-		//void SaveProduct(ProductDTO productDTO);
-		//void Dispose();
 	}
 }

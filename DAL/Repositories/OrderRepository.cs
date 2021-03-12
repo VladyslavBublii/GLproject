@@ -36,15 +36,19 @@ namespace DAL.Repositories
 		{
 			db.Entry(order).State = EntityState.Modified;
 		}
+
 		//public IEnumerable<Order> Find(Func<Order, Boolean> predicate)
 		//{
 		//	return db.Orders.Include(o => o.Product).Where(predicate).ToList();
 		//}
+
 		public void Delete(Guid id)
 		{
 			Order order = db.Orders.Find(id);
 			if (order != null)
+			{
 				db.Orders.Remove(order);
+			}
 		}
 
 		public Order Find(Guid id)

@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace DAL.Repositories
 {
@@ -53,7 +52,9 @@ namespace DAL.Repositories
 		{
 			Product product = db.Products.Find(id);
 			if (product != null)
+			{
 				db.Products.Remove(product);
+			}
 		}
 	}
 }
