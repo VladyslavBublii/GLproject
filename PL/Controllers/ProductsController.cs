@@ -53,7 +53,7 @@ namespace PL.Controllers
                     Price       = product.Price,
                 };
                 _productService.Create(productDto);
-                return Content("<h2>Товар успешно добавлен</h2>");
+                return Content("Product has been added");
             }
             catch (/*Validation*/Exception ex)
             {

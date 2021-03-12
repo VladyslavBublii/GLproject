@@ -7,9 +7,9 @@ using System.Text;
 
 namespace BL.Services
 {
-    class PasswordService : IPasswordService
+    public class PasswordService : IPasswordService
     {
-        public Strength PasswordStrength(string password)
+        public PassStrength PasswordStrength(string password)
         {
             int score = 0;
             Dictionary<string, int> patterns = new Dictionary<string, int> { { @"\d", 5 }, //включает цифры
@@ -19,14 +19,14 @@ namespace BL.Services
                 foreach (var pattern in patterns)
                     score += Regex.Matches(password, pattern.Key).Count * pattern.Value;
 
-            Strength result;
+            PassStrength result;
             switch (score / 50)
             {
-                case 0: result = Strength.Low; break;
-                case 1: result = Strength.Medium; break;
-                case 2: result = Strength.High; break;
-                case 3: result = Strength.VeryHigh; break;
-                default: result = Strength.Paranoid; break;
+                case 0: result = PassStrength.Low; break;
+                case 1: result = PassStrength.Medium; break;
+                case 2: result = PassStrength.High; break;
+                case 3: result = PassStrength.VeryHigh; break;
+                default: result = PassStrength.Paranoid; break;
             }
             return result;
         }
@@ -50,6 +50,15 @@ namespace BL.Services
                 hash += string.Format("{0:x2}", b);
 
             return hash;
+        }
+
+        public bool IsPasswordStrong(string password)
+        {
+            if (PasswordStrength(password) < PassStrength.Medium)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

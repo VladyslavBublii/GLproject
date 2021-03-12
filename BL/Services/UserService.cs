@@ -19,7 +19,7 @@ namespace BL.Services
         public IEmailService _email;
 
         public UserService()
-        {   
+        {    
             _unitOfWork = new UnitOfWork();
             _password = new PasswordService();
             _email = new EmailService();
@@ -32,6 +32,45 @@ namespace BL.Services
             return new UserDTO { Email = user.Email, Password = user.Password };
         }
 
+        public bool IsPasswordSame(string password)
+        {
+            IEnumerable<UserDTO> userDtos = GetUsers();
+            foreach (UserDTO userDto in userDtos)
+            {
+                if (userDto.Password == password)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsEmailFree(string email)
+        {
+            IEnumerable<UserDTO> userDtos = GetUsers();
+            foreach (UserDTO userDto in userDtos)
+            {
+                if (userDto.Email == email)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }       
+
+        public UserDTO GetUserLog(string email, string password)
+        {
+            IEnumerable<UserDTO> userDtos = GetUsers();
+            foreach (UserDTO userDto in userDtos)
+            {
+                if (userDto.Email == email && userDto.Password == _password.GetHashString(password))
+                {
+                    return userDto;
+                }
+            }
+            return null;
+        }
+
         public IEnumerable<UserDTO> GetUsers()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
@@ -42,7 +81,8 @@ namespace BL.Services
         {
             var customer = _unitOfWork.Customers.Get(id);
 
-            return new CustomerDTO { Name = customer.Name, SurName = customer.SurName, City = customer.SurName, PostIndex = customer.PostIndex };
+            return new CustomerDTO { Name = customer.Name, SurName = customer.SurName, 
+                City = customer.SurName, PostIndex = customer.PostIndex };
         }
 
         public IEnumerable<CustomerDTO> GetCustomers()
@@ -57,14 +97,14 @@ namespace BL.Services
             {
                 throw new Exception("Invalide Email");
             }
-            if (_password.PasswordStrength(userDTO.Password) < Strength.Medium)
+            if (_password.PasswordStrength(userDTO.Password) < PassStrength.Medium)
             {
                 throw new Exception("Pass not strong enough");
             }
 
             User user = new User
             {
-                Role     = 0,
+                RoleName     = userDTO.RoleName,
                 Email    = userDTO.Email,
                 Password = _password.GetHashString(userDTO.Password),
             };

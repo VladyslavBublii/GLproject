@@ -1,7 +1,7 @@
 ﻿
 namespace Core.Enums
 {
-    public enum Strength 
+    public enum PassStrength
     { 
         Low      = 1, 
         Medium   = 2, 
