@@ -10,31 +10,31 @@ namespace DAL.Repositories
 {
 	public class OrderRepository : IRepository<Order>
 	{
-		private DBContext db;
+		private DBContext _db;
 
 		public OrderRepository(DBContext context)
 		{
-			this.db = context;
+			_db = context;
 		}
 
 		public IEnumerable<Order> GetAll()
 		{
-			return db.Orders.Include(o => o.Product);
+			return _db.Orders.Include(o => o.Products);
 		}
 
 		public Order Get(Guid id)
 		{
-			return db.Orders.Find(id);
+			return _db.Orders.Find(id);
 		}
 
 		public void Create(Order order)
 		{
-			db.Orders.Add(order);
+			_db.Orders.Add(order);
 		}
 
 		public void Update(Order order)
 		{
-			db.Entry(order).State = EntityState.Modified;
+			_db.Entry(order).State = EntityState.Modified;
 		}
 
 		//public IEnumerable<Order> Find(Func<Order, Boolean> predicate)
@@ -44,7 +44,7 @@ namespace DAL.Repositories
 
 		public void Delete(Guid id)
 		{
-			Order order = db.Orders.Find(id);
+			Order order = _db.Orders.Find(id);
 			if (order != null)
 			{
 				db.Orders.Remove(order);

@@ -4,9 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-
-<h2>Order</h2>
-
+<h2>Cart: </h2>
 <table class="table">
     <tr>
         <th>
@@ -24,10 +22,8 @@
         <th></th>
     </tr>
 
-    @if (Model != null)
-     {
         @foreach (var item in Model)
-         {
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -41,31 +37,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>
-                    <div new { placeholder="E-mail" }>
-                        <button title="Update template" onclick="BlankTemplate('@item.Id');"}>Add to Cart</button>
-                    </div>
-                </td>
             </tr>
-         }
-     }
+        }
 </table>
-
-<script>
-    var BlankTemplate = function (id) {
-        $.ajax({
-            url: "/Cart/AddToCart?id=" + id,
-            data: {
-            }, 
-            type: "POST",
-            success: function () {
-                console.log("product added successfully");
-            },
-            error: function () {
-                
-            }
-        });
-    }
-</script>
-
-

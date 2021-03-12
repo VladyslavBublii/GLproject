@@ -10,7 +10,6 @@ using DAL.Repositories;
 namespace BL.Services
 {
     public class ProductService : IProductService
-
     {
         public IUnitOfWork _unitOfWork;
 

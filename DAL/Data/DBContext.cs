@@ -13,6 +13,7 @@ namespace DAL.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Product> Cart { get; set; }
 
         public DBContext()
         {
@@ -34,6 +35,6 @@ namespace DAL.Data
                 .HasOne(a => a.Customer)
                 .WithOne(b => b.User)
                 .HasForeignKey<Customer>(b => b.UserId);
-                }
+        }
     }
 }
