@@ -12,8 +12,6 @@ namespace PL.Controllers
     {
         private ICartService _cartService;
 
-        private readonly List<Guid> cartList = new List<Guid>();
-
         public CartController(ICartService cartService)
         {
             _cartService = cartService;
@@ -49,7 +47,7 @@ namespace PL.Controllers
             {
                 return NotFound();
             }
-            cartList.Add(Guid.Parse(id));
+            _cartService.AddItem(Guid.Parse(id));
 
             return Ok();
         }

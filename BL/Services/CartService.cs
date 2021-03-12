@@ -16,31 +16,19 @@ namespace BL.Services
 
         public CartService()
         {
-            Products.Add(new Product
-            {
-                Id          = new Guid(),
-                Description = "Hi",
-                Name        = "Hi",
-                Category    = "Hi",
-                Price       = 1488,
-            });
-
             _unitOfWork = new UnitOfWork();
         }
 
-        public void AddItem(Product product, int quantity)
+        public void AddItem(Guid idItem)
         {
             try
             {
-                if (_unitOfWork.Products.Get(product.Id) == null) throw new Exception("Product not found");
+                if (_unitOfWork.Products.Get(idItem) == null) throw new Exception("Product not found");
             }
             catch { };
 
-
-            for (int i = 0; i < quantity; i++)
-            {
-                Products.Add(product);
-            }
+            var products = _unitOfWork.Products.Get(idItem);
+            _unitOfWork.Cart.Create(products);
         }
         public bool CheckItem(Guid idItem)
         {
@@ -75,9 +63,9 @@ namespace BL.Services
             Products.Clear();
         }
 
-        public List<Product> ShowCart()
+        public IEnumerable<Product> ShowCart()
         {
-            return Products;
+            return _unitOfWork.Cart.GetAll();
         }
 
         public void MakeOrder(Guid userId)

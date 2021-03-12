@@ -6,12 +6,12 @@ namespace BL.Services.Interfaces
 {
     public interface ICartService
     {
-        public void AddItem(Product product, int quantity);
+        public void AddItem(Guid idItem);
         public void RemoveItem(Product product);
         public bool CheckItem(Guid idItem);
         public decimal ComputeTotalValue();
         public void Clear();
-        public List<Product> ShowCart();
+        public IEnumerable<Product> ShowCart();
         public void MakeOrder(Guid userId);
     }
 }

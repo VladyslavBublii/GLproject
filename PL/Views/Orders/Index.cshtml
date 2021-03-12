@@ -56,13 +56,13 @@
         $.ajax({
             url: "/Cart/AddToCart?id=" + id,
             data: {
-            },
+            }, 
             type: "POST",
             success: function () {
-                console.log("opa !");
+                console.log("product added successfully");
             },
             error: function () {
-
+                
             }
         });
     }
