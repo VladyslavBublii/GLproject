@@ -27,8 +27,15 @@ namespace BL.Services
             }
             catch { };
 
-            var products = _unitOfWork.Products.Get(idItem);
-            _unitOfWork.Cart.Create(products);
+            var product = _unitOfWork.Products.Get(idItem);
+
+            Cart ithem = new Cart();
+            ithem.ProductsId = idItem;
+            ithem.Sum    = product.Price;
+            ithem.UserId = new Guid();
+
+            _unitOfWork.Cart.Create(ithem);
+            _unitOfWork.Save();
         }
         public bool CheckItem(Guid idItem)
         {
@@ -41,9 +48,9 @@ namespace BL.Services
             return false;
         }
 
-        public void RemoveItem(Product product)
+        public void RemoveItem(Cart product)
         {
-            Products.RemoveAll(l => l == product);
+            //Products.RemoveAll(l => l == product);
         }
 
         public decimal ComputeTotalValue()
@@ -63,7 +70,7 @@ namespace BL.Services
             Products.Clear();
         }
 
-        public IEnumerable<Product> ShowCart()
+        public IEnumerable<Cart> ShowCart()
         {
             return _unitOfWork.Cart.GetAll();
         }

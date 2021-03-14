@@ -6,8 +6,9 @@ namespace Core.Models
 {
     public class Cart
     {
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public IEnumerable<Guid> ProductsId { get; set; }
+        public Guid ProductsId { get; set; }
         //public int Amount { get; set; }
         public decimal Sum { get; set; }
     }

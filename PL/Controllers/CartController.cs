@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PL.Models;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace PL.Controllers
 {
@@ -29,11 +30,7 @@ namespace PL.Controllers
             {
                 ProductViewModel productViewModel = new ProductViewModel
                 {
-                    Id          = product.Id,
-                    Category    = product.Category,
-                    Description = product.Description,
-                    Name        = product.Name,
-                    Price       = product.Price,
+                    Id          = product.Id
                 };
                 productViewModels.Add(productViewModel);
             }
@@ -43,6 +40,8 @@ namespace PL.Controllers
 
         public IActionResult AddToCart(string id)
         {
+            string userId = User.Identity.Name;
+
             if (!_cartService.CheckItem(Guid.Parse(id)))
             {
                 return NotFound();

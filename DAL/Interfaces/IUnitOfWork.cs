@@ -9,7 +9,7 @@ namespace DAL.Interfaces
         IRepository<Customer> Customers { get; }
         IRepository<Product> Products { get; }
         IRepository<Order> Orders { get; }
-        IRepository<Product> Cart { get; }
+        IRepository<Cart> Cart { get; }
         void Save();
     }
 }
