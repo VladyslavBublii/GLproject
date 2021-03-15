@@ -4,6 +4,8 @@ using DAL.Interfaces;
 using DAL.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BL.Services
@@ -19,7 +21,7 @@ namespace BL.Services
             _unitOfWork = new UnitOfWork();
         }
 
-        public void AddItem(Guid idItem)
+        public void AddItem(Guid idItem, Guid userId)
         {
             try
             {
@@ -29,10 +31,11 @@ namespace BL.Services
 
             var product = _unitOfWork.Products.Get(idItem);
 
-            Cart ithem = new Cart();
-            ithem.ProductsId = idItem;
-            ithem.Sum    = product.Price;
-            ithem.UserId = new Guid();
+            Cart ithem = new Cart
+            {
+                ProductsId = idItem,
+                UserId     = userId,
+            };
 
             _unitOfWork.Cart.Create(ithem);
             _unitOfWork.Save();
@@ -70,9 +73,14 @@ namespace BL.Services
             Products.Clear();
         }
 
-        public IEnumerable<Cart> ShowCart()
+        public IEnumerable<Product> ShowCart(Guid userId)
         {
-            return _unitOfWork.Cart.GetAll();
+            var cartsId = _unitOfWork.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId).First();
+
+            //List<Product> products = new List<Product>();
+
+            var products = _unitOfWork.Products.Get(cartsId);
+            yield return products;
         }
 
         public void MakeOrder(Guid userId)

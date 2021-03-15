@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Core.Models
+namespace BL.DTO
 {
-    public class Cart
+    class CartDTO
     {
         public Guid Id { get; set; }
+
         public Guid UserId { get; set; }
+
         public Guid ProductsId { get; set; }
+
+        public double Sum { get; set; }
     }
 }

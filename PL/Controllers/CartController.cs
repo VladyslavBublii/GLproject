@@ -16,13 +16,14 @@ namespace PL.Controllers
         public CartController(ICartService cartService)
         {
             _cartService = cartService;
-            //ProductViewModel
         }
 
         //[Authorize(Roles = "admin, user")]
         public ActionResult Index()
         {
-            var products = _cartService.ShowCart();
+            string userId = User.Identity.Name;
+
+            var products = _cartService.ShowCart(Guid.Parse(userId));
             if (products == null) return NotFound();
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
 
@@ -30,7 +31,11 @@ namespace PL.Controllers
             {
                 ProductViewModel productViewModel = new ProductViewModel
                 {
-                    Id          = product.Id
+                    Id          = product.Id,
+                    Name        = product.Name,
+                    Description = product.Description,
+                    Category    = product.Category,
+                    Price       = product.Price,
                 };
                 productViewModels.Add(productViewModel);
             }
@@ -46,7 +51,7 @@ namespace PL.Controllers
             {
                 return NotFound();
             }
-            _cartService.AddItem(Guid.Parse(id));
+            _cartService.AddItem(Guid.Parse(id), Guid.Parse(userId));
 
             return Ok();
         }
