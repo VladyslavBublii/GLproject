@@ -27,6 +27,7 @@ namespace PL
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<ICartService, CartService>();
 

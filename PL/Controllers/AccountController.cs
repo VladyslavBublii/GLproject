@@ -76,11 +76,11 @@ namespace PL.Controllers
                     ModelState.AddModelError("", "Password is too weak");
                     existErrors = true;
                 }
-                if (model.Password != model.ConfirmPassword)
-                {
-                    ModelState.AddModelError("", "Password is not repeat correctly");
-                    existErrors = true;
-                }
+                //if (model.Password != model.ConfirmPassword)
+                //{
+                //    ModelState.AddModelError("", "Password is not repeat correctly");
+                //    existErrors = true;
+                //}
 
                 if (existErrors)
                 {

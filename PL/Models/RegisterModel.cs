@@ -16,8 +16,10 @@ namespace PL.Models
         [Compare("Password", ErrorMessage = "Password was not repeat correctly")]
         public string ConfirmPassword { get; set; }
 
+        [Required(ErrorMessage = "Name is not specified")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Surname is not specified")]
         public string SurName { get; set; }
 
         public string City { get; set; }
