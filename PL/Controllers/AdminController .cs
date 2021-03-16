@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
 {
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         IProductService _productService;
@@ -84,7 +84,10 @@ namespace PL.Controllers
 
         public ViewResult Create()
         {
-            return View();
+            ProductDTO productDto = new ProductDTO();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductDTO, ProductViewModel>()).CreateMapper();
+            var product = mapper.Map<ProductDTO, ProductViewModel>(productDto);
+            return View(product);
         }
 
         [HttpPost]
@@ -112,22 +115,23 @@ namespace PL.Controllers
                 productViewModel.Image = imageData;
                 productDto.Image = productViewModel.Image;
 
-                //TODO: установка ID не помогает пройти ModelState.IsValid
-                //productDto.Id = Guid.NewGuid();
+				//TODO: установка ID не помогает пройти ModelState.IsValid
+				productDto.Id = Guid.NewGuid();
 
-                //if (ModelState.IsValid)
-                //{
-                _productService.Create(productDto);
+				if (ModelState.IsValid)
+				{
+					_productService.Create(productDto);
                 TempData["message"] = string.Format("The  \"{0}\" has been added", productDto.Name);
                 return RedirectToAction("Index");
-			    //}
+			}
 
-			    //	else
-			    //{
-			    //	// Что-то не так со значениями данных
-			    //	return View(productViewModel);
-			    //}
-		    }
+
+					else
+			{
+				// Что-то не так со значениями данных
+				return View(productViewModel);
+			}
+		}
 
             //TODO: Exeption
             catch (/*Validation*/Exception ex)

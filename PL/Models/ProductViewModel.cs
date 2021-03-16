@@ -11,17 +11,20 @@ namespace PL.Models
 		public Guid Id { get; set; }
 
 		[Required(ErrorMessage = "Please enter the name of the product")]
-		[StringLength(255, MinimumLength = 3, ErrorMessage = "The name must be from 3 to 255 characters long")]
+		[StringLength(50, MinimumLength = 3, ErrorMessage = "The name must be from 3 to 255 characters long")]
 		public string Name { get; set; }
 
+		[StringLength(50, MinimumLength = 3, ErrorMessage = "The category must be from 3 to 255 characters long")]
 		public string Category { get; set; }
 
 		[DataType(DataType.MultilineText)]
-		[StringLength(1000, MinimumLength = 3, ErrorMessage = "The description must be from 3 to 1000 characters long")]
+		[StringLength(500, MinimumLength = 3, ErrorMessage = "The description must be from 3 to 1000 characters long")]
 		public string Description { get; set; }
 
 		[Display(Name = "Price, $")]
-		[Range(0.01, double.MaxValue, ErrorMessage = "Please enter a positive value of the price")]
+		[Required(ErrorMessage = "Please enter the price of the product")]
+		[Range(0.01, 999_999.99, ErrorMessage = "Please enter a positive value of the price")]
+		[DisplayFormat(DataFormatString = "{0:n0}", ApplyFormatInEditMode = true)]
 		public decimal Price { get; set; }
 
 		public IFormFile ImageIn { get; set; }
