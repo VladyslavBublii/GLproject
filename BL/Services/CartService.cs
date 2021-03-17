@@ -80,20 +80,30 @@ namespace BL.Services
             var cartsId = unit.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
 
             CartDTO cartDTO = new CartDTO();
-            List<Product> productsInCart = new List<Product>();
+            List<ProductDTO> productsInCart = new List<ProductDTO>();
 
-            var products = unit.Products.GetAll().Where(x => cartsId.Contains(x.Id)).Select(x => new ProductDTO {
-                Id          = x.Id,
-                Price       = x.Price,
-                Category    = x.Category,
-                Name        = x.Name,
-                Description = x.Description,
-                Image       = x.Image,
-            });
-            var price = products.Sum(x => x.Price);
+            var products = unit.Products.GetAll();
+            foreach(var cartId in cartsId)
+            {
+                foreach(var product in products)
+                {
+                    if(product.Id == cartId)
+                    {
+                        productsInCart.Add(new ProductDTO
+                        {
+                            Id = product.Id,
+                            Price = product.Price,
+                            Category = product.Category,
+                            Name = product.Name,
+                            Description = product.Description,
+                            Image = product.Image,
+                        });
+                        cartDTO.Sum += product.Price;
+                    }
+                }
+            }
 
-            cartDTO.Products = products;
-            cartDTO.Sum = price;
+            cartDTO.Products = productsInCart;
             cartDTO.Id = Guid.NewGuid();
             cartDTO.UserId = userId;
 
