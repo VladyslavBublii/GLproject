@@ -24,7 +24,7 @@ namespace PL.Controllers
             try
             {
                 IEnumerable<ProductDTO> productDtos = _productService.GetProducts();
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductDTO, ProductViewModel>()).CreateMapper();
+                var mapper   = new MapperConfiguration(cfg => cfg.CreateMap<ProductDTO, ProductViewModel>()).CreateMapper();
                 var products = mapper.Map<IEnumerable<ProductDTO>, List<ProductViewModel>>(productDtos);
                 return View(products);
             }
