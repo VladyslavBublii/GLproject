@@ -53,11 +53,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
+                @if (User.IsInRole("admin") || User.IsInRole("user")) {
                 <td>
                     <div new { placeholder="E-mail" }>
                         <button title="Update template" onclick="BlankTemplate('@item.Id');"}>Add to Cart</button>
                     </div>
                 </td>
+                }
             </tr>
          }
      }

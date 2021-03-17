@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace PL.Controllers
 {
+    [Authorize(Roles = "admin, user")]
     public class CartController : Controller
     {
         private ICartService _cartService;

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
 {
-    [Authorize(Roles = "admin, user")]
+    [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
         IUserService _userService;

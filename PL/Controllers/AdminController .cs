@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
 {
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         IProductService _productService;
