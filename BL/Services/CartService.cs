@@ -91,12 +91,12 @@ namespace BL.Services
                     {
                         productsInCart.Add(new ProductDTO
                         {
-                            Id = product.Id,
-                            Price = product.Price,
-                            Category = product.Category,
-                            Name = product.Name,
+                            Id          = product.Id,
+                            Price       = product.Price,
+                            Category    = product.Category,
+                            Name        = product.Name,
                             Description = product.Description,
-                            Image = product.Image,
+                            Image       = product.Image,
                         });
                         cartDTO.Sum += product.Price;
                     }

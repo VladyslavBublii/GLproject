@@ -104,8 +104,15 @@ namespace PL.Controllers
                     return View(model);
                 }
 
-                var userDto = new UserDTO { Email = model.Email, Password = model.Password, RoleName = model.RoleName };
-                var customerDto = new CustomerDTO { Name = model.Name, SurName = model.SurName, City = model.City, PostIndex = model.PostIndex };
+                var userDto = new UserDTO { 
+                    Email    = model.Email, 
+                    Password = model.Password, 
+                    RoleName = model.RoleName };
+                var customerDto = new CustomerDTO { 
+                    Name      = model.Name, 
+                    SurName   = model.SurName, 
+                    City      = model.City, 
+                    PostIndex = model.PostIndex };
                 _userService.SaveUser(userDto, customerDto);
 
                 TempData["message"] = string.Format("New user \"{0}\" \"{1}\" with email \"{2}\" has been saved", model.Name, model.SurName, model.Email);

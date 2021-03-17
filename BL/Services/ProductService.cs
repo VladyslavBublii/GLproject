@@ -61,7 +61,6 @@ namespace BL.Services
                 dbEntry.Description = productDTO.Description;
                 dbEntry.Price       = productDTO.Price;
                 dbEntry.Image       = productDTO.Image;
-
             }
             _unitOfWork.Products.Update(dbEntry);
             _unitOfWork.Save();
