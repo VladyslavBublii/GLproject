@@ -4,6 +4,7 @@ using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DAL.Repositories
 {
@@ -18,7 +19,7 @@ namespace DAL.Repositories
 
 		public IEnumerable<Cart> GetAll()
 		{
-			return _db.Cart;
+			return _db.Cart.ToList();
 		}
 
 		public Cart Get(Guid id)

@@ -27,7 +27,7 @@ namespace PL.Controllers
             if (products == null) return NotFound();
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
 
-            foreach (var product in products)
+            foreach (var product in products.Products)
             {
                 ProductViewModel productViewModel = new ProductViewModel
                 {

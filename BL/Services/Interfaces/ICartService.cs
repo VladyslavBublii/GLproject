@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using BL.DTO;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace BL.Services.Interfaces
         public bool CheckItem(Guid idItem);
         public decimal ComputeTotalValue();
         public void Clear();
-        public IEnumerable<Product> ShowCart(Guid userId);
+        public CartDTO ShowCart(Guid userId);
         public void MakeOrder(Guid userId);
     }
 }

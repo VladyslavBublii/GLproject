@@ -19,7 +19,7 @@ namespace DAL.Repositories
 
 		public IEnumerable<Product> GetAll()
 		{
-			return db.Products;
+			return db.Products.ToList();
 		}
 
 		public Product Get(Guid id)

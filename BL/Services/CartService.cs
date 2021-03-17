@@ -1,4 +1,5 @@
-﻿using BL.Services.Interfaces;
+﻿using BL.DTO;
+using BL.Services.Interfaces;
 using Core.Models;
 using DAL.Interfaces;
 using DAL.Repositories;
@@ -73,14 +74,30 @@ namespace BL.Services
             Products.Clear();
         }
 
-        public IEnumerable<Product> ShowCart(Guid userId)
+        public CartDTO ShowCart(Guid userId)
         {
-            var cartsId = _unitOfWork.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId).First();
+            using var unit = new UnitOfWork();
+            var cartsId = unit.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
 
-            //List<Product> products = new List<Product>();
+            CartDTO cartDTO = new CartDTO();
+            List<Product> productsInCart = new List<Product>();
 
-            var products = _unitOfWork.Products.Get(cartsId);
-            yield return products;
+            var products = unit.Products.GetAll().Where(x => cartsId.Contains(x.Id)).Select(x => new ProductDTO {
+                Id          = x.Id,
+                Price       = x.Price,
+                Category    = x.Category,
+                Name        = x.Name,
+                Description = x.Description,
+                Image       = x.Image,
+            });
+            var price = products.Sum(x => x.Price);
+
+            cartDTO.Products = products;
+            cartDTO.Sum = price;
+            cartDTO.Id = Guid.NewGuid();
+            cartDTO.UserId = userId;
+
+            return cartDTO;
         }
 
         public void MakeOrder(Guid userId)

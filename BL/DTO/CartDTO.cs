@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BL.DTO
 {
-    class CartDTO
+    public class CartDTO
     {
         public Guid Id { get; set; }
 
         public Guid UserId { get; set; }
 
-        public Guid ProductsId { get; set; }
+        public IEnumerable<ProductDTO> Products { get; set; }
 
-        public double Sum { get; set; }
+        public decimal Sum { get; set; }
     }
 }
