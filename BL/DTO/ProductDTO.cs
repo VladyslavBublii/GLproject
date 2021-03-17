@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace BL.DTO
 {
@@ -8,6 +10,8 @@ namespace BL.DTO
 		public string Category { get; set; } 
 		public string Name { get; set; }
 		public string Description { get; set; }
+
+		[DisplayFormat(DataFormatString = "{0:n0}", ApplyFormatInEditMode = true)]
 		public decimal Price { get; set; }
 		public byte[] Image { get; set; }
 	}
