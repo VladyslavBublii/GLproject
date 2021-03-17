@@ -1,38 +1,45 @@
-﻿@model IEnumerable<PL.Models.ProductViewModel>
+﻿@using PL.Models
+@using PL.TagHelpers
+
+@model IndexViewModel
+
+
+@addTagHelper *, PL
 
 @{
-    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ProductsLayout.cshtml";
+    ViewBag.Title = "Products";
 }
 
-<h2>Product</h2>
-<p>
-    <a asp-action="Create">Add Product</a>
-</p>
+
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Price</th>
         <th></th>
     </tr>
 
+
     @if (Model != null)
     {
-        @foreach (var item in Model)
+        foreach (ProductViewModel item in @Model.ProductViewModels)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
                 </td>
+
+                @if (item.Image.Length == 0)
+                {
+                    <td class="text-left">Image is coming soon</td>
+                }
+                else
+                {
+                    <td><img style='width:240px; height:180px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Image))" /></td>
+                }
                 <td>
                     @Html.DisplayFor(modelItem => item.Category)
                 </td>
@@ -42,7 +49,75 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
+                <td>
+                    <div new { placeholder="E-mail" }>
+                        <button title="Update template" onclick="BlankTemplate('@item.Id');" }>Add to Cart</button>
+                    </div>
+                </td>
             </tr>
         }
     }
 </table>
+
+<script>
+    var BlankTemplate = function (id) {
+        $.ajax({
+            url: "/Cart/AddToCart?id=" + id,
+            data: {
+            },
+            type: "POST",
+            success: function () {
+                console.log("product added successfully");
+            },
+            error: function () {
+
+            }
+        });
+    }
+</script>
+
+@*<h2>Product</h2>
+    @foreach (ProductViewModel m in @Model.ProductViewModels)
+    {
+        <div class="well">
+            <h3>
+                <strong>@m.Name</strong>
+                <span class="pull-right label label-primary">@m.Price.ToString("# $")</span>
+            </h3>
+            <span class="lead">@m.Description</span>
+        </div>
+    }*@
+
+<page-link page-model="Model.PageViewModel" page-action="Index"></page-link>
+
+@*@section CategoryMenu {
+        @{await Html.RenderPartialAsync("CategoryMenu"); }
+    }*@
+
+
+@*<div class="btn-group pull-right">
+        @PagingHelpers.PageLinks(Model.PageViewModel, x => Url.Action("Index", new { page = x, category = Model.CurrentCategory }))
+    </div>*@
+
+@*@if (Model.PageViewModel.HasPreviousPage)
+    {
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageViewModel.CurrentPage - 1)"
+           class="btn btn-outline-dark">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Back
+        </a>
+    }
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageViewModel.CurrentPage + 1)"
+           class="btn btn-outline-dark">
+            Forward
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    }*@
+
+@*<div class="btn-group pull-right">
+        @Html.PageLinks(Model.PageViewModel, x => Url.Action("List", new { page = x }))
+    </div>*@

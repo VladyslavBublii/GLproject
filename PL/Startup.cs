@@ -60,6 +60,26 @@ namespace PL
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: null,
+                    pattern: "",
+                    defaults: new { controller = "Products", action = "Index", category = (string)null, page = 1 });
+
+                endpoints.MapControllerRoute(
+                    name: null,
+                    pattern: "Page{page}",
+                    defaults: new { controller = "Products", action = "Index", category = (string)null, page = @"\d+" });
+
+                endpoints.MapControllerRoute(
+                    name: null,
+                    pattern: "{category}",
+                    defaults: new { controller = "Products", action = "Index", page = 1 });
+
+                endpoints.MapControllerRoute(
+                    name: null,
+                    pattern: "{category}/Page{page}",
+                    defaults: new { controller = "Products", action = "Index", page = @"\d+" });
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
