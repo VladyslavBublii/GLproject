@@ -51,11 +51,11 @@ namespace PL.Controllers
 
             ProductDTO productDto = _productService.Find(productViewModel.Id);
             {
-                productDto.Id = productViewModel.Id;
-                productDto.Name = productViewModel.Name;
-                productDto.Category = productViewModel.Category;
+                productDto.Id          = productViewModel.Id;
+                productDto.Name        = productViewModel.Name;
+                productDto.Category    = productViewModel.Category;
                 productDto.Description = productViewModel.Description;
-                productDto.Price = productViewModel.Price;
+                productDto.Price       = productViewModel.Price;
             }
 
             if (productViewModel.ImageIn != null)

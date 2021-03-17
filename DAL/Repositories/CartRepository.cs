@@ -4,10 +4,11 @@ using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DAL.Repositories
 {
-    public class CartRepository : IRepository<Product>
+    public class CartRepository : IRepository<Cart>
     {
         private DBContext _db;
 
@@ -16,22 +17,22 @@ namespace DAL.Repositories
             _db = context;
         }
 
-		public IEnumerable<Product> GetAll()
+		public IEnumerable<Cart> GetAll()
 		{
-			return _db.Cart;
+			return _db.Cart.ToList();
 		}
 
-		public Product Get(Guid id)
+		public Cart Get(Guid id)
 		{
 			return _db.Cart.Find(id);
 		}
 
-		public void Create(Product product)
+		public void Create(Cart product)
 		{
 			_db.Cart.Add(product);
 		}
 
-		public void Update(Product item)
+		public void Update(Cart item)
 		{
 			//_db.Cart(product).State = EntityState.Modified;
 			throw new Exception();
@@ -44,7 +45,7 @@ namespace DAL.Repositories
 				_db.Cart.Remove(product);
 		}
 
-        public Product Find(Guid id)
+        public Cart Find(Guid id)
         {
             throw new NotImplementedException();
         }

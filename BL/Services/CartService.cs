@@ -1,9 +1,12 @@
-﻿using BL.Services.Interfaces;
+﻿using BL.DTO;
+using BL.Services.Interfaces;
 using Core.Models;
 using DAL.Interfaces;
 using DAL.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BL.Services
@@ -19,7 +22,7 @@ namespace BL.Services
             _unitOfWork = new UnitOfWork();
         }
 
-        public void AddItem(Guid idItem)
+        public void AddItem(Guid idItem, Guid userId)
         {
             try
             {
@@ -27,8 +30,16 @@ namespace BL.Services
             }
             catch { };
 
-            var products = _unitOfWork.Products.Get(idItem);
-            _unitOfWork.Cart.Create(products);
+            var product = _unitOfWork.Products.Get(idItem);
+
+            Cart ithem = new Cart
+            {
+                ProductsId = idItem,
+                UserId     = userId,
+            };
+
+            _unitOfWork.Cart.Create(ithem);
+            _unitOfWork.Save();
         }
         public bool CheckItem(Guid idItem)
         {
@@ -41,9 +52,9 @@ namespace BL.Services
             return false;
         }
 
-        public void RemoveItem(Product product)
+        public void RemoveItem(Cart product)
         {
-            Products.RemoveAll(l => l == product);
+            //Products.RemoveAll(l => l == product);
         }
 
         public decimal ComputeTotalValue()
@@ -63,9 +74,30 @@ namespace BL.Services
             Products.Clear();
         }
 
-        public IEnumerable<Product> ShowCart()
+        public CartDTO ShowCart(Guid userId)
         {
-            return _unitOfWork.Cart.GetAll();
+            using var unit = new UnitOfWork();
+            var cartsId = unit.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
+
+            CartDTO cartDTO = new CartDTO();
+            List<Product> productsInCart = new List<Product>();
+
+            var products = unit.Products.GetAll().Where(x => cartsId.Contains(x.Id)).Select(x => new ProductDTO {
+                Id          = x.Id,
+                Price       = x.Price,
+                Category    = x.Category,
+                Name        = x.Name,
+                Description = x.Description,
+                Image       = x.Image,
+            });
+            var price = products.Sum(x => x.Price);
+
+            cartDTO.Products = products;
+            cartDTO.Sum = price;
+            cartDTO.Id = Guid.NewGuid();
+            cartDTO.UserId = userId;
+
+            return cartDTO;
         }
 
         public void MakeOrder(Guid userId)
