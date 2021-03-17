@@ -28,6 +28,7 @@ namespace PL.Controllers
             if (products == null) return NotFound();
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
 
+            //var sum = products.Sum;
             foreach (var product in products.Products)
             {
                 ProductViewModel productViewModel = new ProductViewModel
