@@ -60,19 +60,30 @@ namespace PL.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool existErrors = false;
                 if (!_userService.IsEmailFree(model.Email))
                 {
                     ModelState.AddModelError("", "This email is already busy");
-                    return View(model);
+                    existErrors = true;
                 }
                 if (!_email.ValideEmail(model.Email))
                 {
                     ModelState.AddModelError("", "This email is not valid");
-                    return View(model);
+                    existErrors = true;
                 }
                 if (!_password.IsPasswordStrong(model.Password))
                 {
                     ModelState.AddModelError("", "Password is too weak");
+                    existErrors = true;
+                }
+                //if (model.Password != model.ConfirmPassword)
+                //{
+                //    ModelState.AddModelError("", "Password is not repeat correctly");
+                //    existErrors = true;
+                //}
+
+                if (existErrors)
+                {
                     return View(model);
                 }
 

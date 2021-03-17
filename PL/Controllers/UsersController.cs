@@ -1,11 +1,9 @@
 ﻿using BL.DTO;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using BL.Services.Interfaces;
 using PL.Models;
 using System.Collections.Generic;
 using AutoMapper;
-using Core.Enums;
 using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
@@ -14,14 +12,16 @@ namespace PL.Controllers
     public class UsersController : Controller
     {
         IUserService _userService;
-        IEmailService _emailService;
-        IPasswordService _passwordService;
+        IPasswordService _password;
+        IEmailService _email;
+        IRoleService _role;
 
-        public UsersController(IUserService serv, IEmailService emailService, IPasswordService passwordService)
+        public UsersController(IUserService serv, IPasswordService passwordService, IEmailService emailService, IRoleService roleService)
         {
             _userService = serv;
-            _emailService = emailService;
-            _passwordService = passwordService;
+            _password = passwordService;
+            _email = emailService;
+            _role = roleService;
         }
 
         
@@ -62,28 +62,58 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(UserDetailsViewModel userdetails)
+        public ActionResult Create(UserDetailsViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (!_emailService.ValideEmail(userdetails.Email))
+                bool existErrors = false;
+                //if (model.Email == null || model.Password == null || model.RoleName == null || model.Name == null || model.SurName == null)
+                //{
+                //    ModelState.AddModelError("", "All fields are suppose to be filled");
+                //    return View(model);
+                //}
+                if (!_userService.IsEmailFree(model.Email))
                 {
-                    throw new Exception("Invalide Email");
+                    ModelState.AddModelError("", "This email is already busy");
+                    existErrors = true;
                 }
-                if(_passwordService.PasswordStrength(userdetails.Password) < PassStrength.Medium)
+                if (!_email.ValideEmail(model.Email))
                 {
-                    throw new Exception("Pass not strong enough");
+                    ModelState.AddModelError("", "This email is not valid");
+                    existErrors = true;
+                }
+                //if (model.RoleName != "user" && model.RoleName != "admin")
+                if(!_role.IsAdmin(model.RoleName) && !_role.IsUser(model.RoleName))
+                {
+                    ModelState.AddModelError("", "There are only this roles: 'user' and 'admin'");
+                    existErrors = true;
+                }
+                if (!_password.IsPasswordStrong(model.Password))
+                {
+                    ModelState.AddModelError("", "Password is too weak");
+                    existErrors = true;
+                }
+                //if (model.Password != model.ConfirmPassword)
+                //{
+                //    ModelState.AddModelError("", "Password is not repeat correctly");
+                //    existErrors = true;
+                //}
+
+                if (existErrors)
+                {
+                    return View(model);
                 }
 
-                var userDto = new UserDTO { Email = userdetails.Email, Password = userdetails.Password, RoleName = "user" };
-                var customerDto = new CustomerDTO { Name = userdetails.Name, SurName = userdetails.SurName, City = userdetails.City, PostIndex = userdetails.PostIndex };
+                var userDto = new UserDTO { Email = model.Email, Password = model.Password, RoleName = model.RoleName };
+                var customerDto = new CustomerDTO { Name = model.Name, SurName = model.SurName, City = model.City, PostIndex = model.PostIndex };
                 _userService.SaveUser(userDto, customerDto);
-                return View(userdetails);
+
+                TempData["message"] = string.Format("New user \"{0}\" \"{1}\" with email \"{2}\" has been saved", model.Name, model.SurName, model.Email);
+
+                return View(model);
             }
-            catch (Exception ex)
-            {
-                return Content(ex.Message);
-            }
+            return View(model);
+            
         }
     }
 }

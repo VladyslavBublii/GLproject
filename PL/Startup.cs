@@ -20,12 +20,14 @@ namespace PL
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //services.AddControllersWithViews();
+            services.AddControllersWithViews(options => options.MaxModelValidationErrors = 50);
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<ICartService, CartService>();
 
