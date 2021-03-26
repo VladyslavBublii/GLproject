@@ -19,7 +19,7 @@ namespace DAL.Repositories
 
 		public IEnumerable<Order> GetAll()
 		{
-			return _db.Orders.Include(o => o.Products);
+			return _db.Orders.ToList();
 		}
 
 		public Order Get(Guid id)

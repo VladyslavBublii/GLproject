@@ -38,7 +38,7 @@ namespace DAL.Repositories
 
         public IEnumerable<Customer> GetAll()
         {
-            return db.Customers;
+            return db.Customers.ToList();
         }
 
         public void Update(Customer customer)

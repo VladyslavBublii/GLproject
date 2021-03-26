@@ -10,7 +10,6 @@ using DAL.Repositories;
 namespace BL.Services
 {
     public class OrderService : IOrderService
-
     {
         public IUnitOfWork _unitOfWork;
 
@@ -38,11 +37,11 @@ namespace BL.Services
 
             Order order = new Order
             {
-                Date = DateTime.Now,
-                City = orderDto.City, // Изменено с Address
-                PostIndex = orderDto.PostIndex, // Добавлено
-                ProductId = product.Id, // нахуя ?
-                Sum = product.Price, // Изменено с sum
+                Date        = DateTime.Now,
+                City        = orderDto.City, // Изменено с Address
+                PostIndex   = orderDto.PostIndex, // Добавлено
+                ProductId   = product.Id, // нахуя ?
+                Sum         = product.Price, // Изменено с sum
                 PhoneNumber = orderDto.PhoneNumber
             };
             _unitOfWork.Orders.Create(order);

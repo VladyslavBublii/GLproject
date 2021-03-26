@@ -73,10 +73,16 @@
             }, 
             type: "POST",
             success: function () {
-                console.log("product added successfully");
+                getElementsByTagName("body")[0].appendChild(
+<div id="my_modal" class="modal">
+    <div class="modal_content">
+      <span class="close_modal_window">×</span>
+      <p>Модальное окно!</p>
+    </div>
+  </div>);
             },
             error: function () {
-                
+                console.log("error");
             }
         });
     }

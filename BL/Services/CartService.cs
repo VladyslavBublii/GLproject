@@ -104,8 +104,8 @@ namespace BL.Services
             }
 
             cartDTO.Products = productsInCart;
-            cartDTO.Id = Guid.NewGuid();
-            cartDTO.UserId = userId;
+            cartDTO.Id       = Guid.NewGuid();
+            cartDTO.UserId   = userId;
 
             return cartDTO;
         }
