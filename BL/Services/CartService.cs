@@ -52,9 +52,9 @@ namespace BL.Services
             return false;
         }
 
-        public void RemoveItem(Guid productId)
+        public void RemoveItem(Guid userId, Guid productId)
         {
-            var ithemCart = _unitOfWork.Cart.GetAll().Where(x => x.ProductsId == productId).Select(x => x.Id).First();
+            var ithemCart = _unitOfWork.Cart.GetAll().Where(x => x.ProductsId == productId && x.UserId == userId ).Select(x => x.Id).First();
             _unitOfWork.Cart.Delete(ithemCart);
             _unitOfWork.Save();
         }

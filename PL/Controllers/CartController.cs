@@ -38,17 +38,15 @@ namespace PL.Controllers
                 {
                     CartModel cartModel = new CartModel
                     {
-                        Id = product.Id,
-                        ProductId = product.Id,
-                        Name = product.Name,
+                        Id          = product.Id,
+                        Name        = product.Name,
                         Description = product.Description,
-                        Category = product.Category,
-                        Price = product.Price,
-                        Count = 1
+                        Category    = product.Category,
+                        Price       = product.Price,
+                        Count       = 1
                     };
                     cartModels.Add(cartModel);
                 }
-
             }
 
             return View(cartModels);
@@ -67,9 +65,12 @@ namespace PL.Controllers
             return Ok();
         }
 
-        public void RemoveFromCart(Guid productId)
+        public IActionResult RemoveFromCart(Guid productId)
         {
-            _cartService.RemoveItem(productId);
+            string userId = User.Identity.Name;
+            _cartService.RemoveItem(Guid.Parse(userId), productId);
+
+            return Ok();
         }
 
         //public IActionResult ComputeTotalValue()

@@ -20,9 +20,6 @@
             @Html.DisplayNameFor(model => model.Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProductId)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Count)
         </th>
         <th>
@@ -44,14 +41,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
             <td align="center">
                 @Html.DisplayFor(modelItem => item.Count)
             </td>
             <td>
-                <button title="Update template" onclick="RemoveTemplate('@item.ProductId');">Delete from Cart</button>
+                <button title="Update template" onclick="RemoveTemplate('@item.Id');">Delete from Cart</button>
             </td>
         </tr>
     }
@@ -59,14 +53,14 @@
         <td><b>Total</b></td>
         <td></td>
         <td></td>
-        <td><b>@Model.Sum(i => i.Price)</b></td>
+        <td><b>@Model.Sum(i => i.Price * i.Count)</b></td>
     </tr>
 </table>
 
 <script>
-    var RemoveTemplate = function (id) {
+    var RemoveTemplate = function (ProductId) {
         $.ajax({
-            url: "/Cart/RemoveFromCart?productId=" + id,
+            url: "/Cart/RemoveFromCart?productId=" + ProductId,
             data: {
             }, 
             type: "POST",

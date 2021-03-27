@@ -73,16 +73,10 @@
             }, 
             type: "POST",
             success: function () {
-                getElementsByTagName("body")[0].appendChild(
-<div id="my_modal" class="modal">
-    <div class="modal_content">
-      <span class="close_modal_window">×</span>
-      <p>Модальное окно!</p>
-    </div>
-  </div>);
-            },
+                console.log(id);
+             },
             error: function () {
-                console.log("error");
+                console.log(id);
             }
         });
     }
