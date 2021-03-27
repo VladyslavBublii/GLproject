@@ -52,9 +52,11 @@ namespace BL.Services
             return false;
         }
 
-        public void RemoveItem(Cart product)
+        public void RemoveItem(Guid productId)
         {
-            //Products.RemoveAll(l => l == product);
+            var ithemCart = _unitOfWork.Cart.GetAll().Where(x => x.ProductsId == productId).Select(x => x.Id).First();
+            _unitOfWork.Cart.Delete(ithemCart);
+            _unitOfWork.Save();
         }
 
         public decimal ComputeTotalValue()
@@ -67,7 +69,6 @@ namespace BL.Services
             }
 
             return sum;
-
         }
         public void Clear()
         {

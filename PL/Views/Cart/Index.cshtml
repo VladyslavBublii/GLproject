@@ -19,8 +19,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
-        <th align="center">
+        <th>
+            @Html.DisplayNameFor(model => model.ProductId)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Count)
+        </th>
+        <th>
         </th>
         <th></th>
     </tr>
@@ -39,8 +44,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
             <td align="center">
                 @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                <button title="Update template" onclick="RemoveTemplate('@item.ProductId');">Delete from Cart</button>
             </td>
         </tr>
     }
@@ -51,3 +62,20 @@
         <td><b>@Model.Sum(i => i.Price)</b></td>
     </tr>
 </table>
+
+<script>
+    var RemoveTemplate = function (id) {
+        $.ajax({
+            url: "/Cart/RemoveFromCart?productId=" + id,
+            data: {
+            }, 
+            type: "POST",
+            success: function () {
+                console.log("yep !")
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
+    }
+</script>

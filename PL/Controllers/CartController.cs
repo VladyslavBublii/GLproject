@@ -39,6 +39,7 @@ namespace PL.Controllers
                     CartModel cartModel = new CartModel
                     {
                         Id = product.Id,
+                        ProductId = product.Id,
                         Name = product.Name,
                         Description = product.Description,
                         Category = product.Category,
@@ -66,10 +67,10 @@ namespace PL.Controllers
             return Ok();
         }
 
-        //public IActionResult RemoveFromCart(Product product)
-        //{
-        //    _cartService.RemoveItem(product);
-        //}
+        public void RemoveFromCart(Guid productId)
+        {
+            _cartService.RemoveItem(productId);
+        }
 
         //public IActionResult ComputeTotalValue()
         //{
