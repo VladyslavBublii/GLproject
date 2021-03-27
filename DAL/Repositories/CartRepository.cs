@@ -38,21 +38,18 @@ namespace DAL.Repositories
 			throw new Exception();
 		}
 
-		public void Delete(int id)
-		{
-			var product = _db.Cart.Find(id);
-			if (product != null)
-				_db.Cart.Remove(product);
-		}
-
         public Cart Find(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Guid id)
+        public void Delete(Guid productId)
         {
-            throw new NotImplementedException();
-        }
+			Cart ithem = _db.Cart.Find(productId);
+			if (ithem != null)
+			{
+				_db.Cart.Remove(ithem);
+			}
+		}
     }
 }

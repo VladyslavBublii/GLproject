@@ -26,23 +26,30 @@ namespace PL.Controllers
 
             var products = _cartService.ShowCart(Guid.Parse(userId));
             if (products == null) return NotFound();
-            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+            List<CartModel> cartModels = new List<CartModel>();
 
             //var sum = products.Sum;
             foreach (var product in products.Products)
             {
-                ProductViewModel productViewModel = new ProductViewModel
+                var x = cartModels.Find(x => x.Id == product.Id);
+
+                if(x != null) { x.Count++; }
+                else
                 {
-                    Id          = product.Id,
-                    Name        = product.Name,
-                    Description = product.Description,
-                    Category    = product.Category,
-                    Price       = product.Price,
-                };
-                productViewModels.Add(productViewModel);
+                    CartModel cartModel = new CartModel
+                    {
+                        Id          = product.Id,
+                        Name        = product.Name,
+                        Description = product.Description,
+                        Category    = product.Category,
+                        Price       = product.Price,
+                        Count       = 1
+                    };
+                    cartModels.Add(cartModel);
+                }
             }
 
-            return View(productViewModels);
+            return View(cartModels);
         }
 
         public IActionResult AddToCart(string id)
@@ -58,10 +65,13 @@ namespace PL.Controllers
             return Ok();
         }
 
-        //public IActionResult RemoveFromCart(Product product)
-        //{
-        //    _cartService.RemoveItem(product);
-        //}
+        public IActionResult RemoveFromCart(Guid productId)
+        {
+            string userId = User.Identity.Name;
+            _cartService.RemoveItem(Guid.Parse(userId), productId);
+
+            return Ok();
+        }
 
         //public IActionResult ComputeTotalValue()
         //{
