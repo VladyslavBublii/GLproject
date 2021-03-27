@@ -1,2 +1,2 @@
 # GLproject
-Pet-project for GlobalLogic base-camp
+Pet-project of three low-grade programmers
