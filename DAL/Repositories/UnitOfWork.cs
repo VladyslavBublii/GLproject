@@ -13,6 +13,7 @@ namespace DAL.Repositories
         private ProductRepository productRepository;
         private OrderRepository orderRepository;
         private CartRepository cartRepository;
+        private NewOrderRepository newOrderRepository;
 
         public UnitOfWork()
         {
@@ -76,6 +77,18 @@ namespace DAL.Repositories
                     cartRepository = new CartRepository(_db);
                 }
                 return cartRepository;
+            }
+        }
+
+        public IRepository<RightOrder> NewOrderRepository
+        {
+            get
+            {
+                if (newOrderRepository == null)
+                {
+                    newOrderRepository = new NewOrderRepository(_db);
+                }
+                return newOrderRepository;
             }
         }
 

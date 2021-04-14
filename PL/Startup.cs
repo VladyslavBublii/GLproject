@@ -18,7 +18,7 @@ namespace PL
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services) 
         {
             //services.AddControllersWithViews();
             services.AddControllersWithViews(options => options.MaxModelValidationErrors = 50);
