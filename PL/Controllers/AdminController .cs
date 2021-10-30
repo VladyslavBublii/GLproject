@@ -30,7 +30,7 @@ namespace PL.Controllers
             }
 
             //TODO: Exeption
-            catch (/*Validation*/Exception ex)
+            catch (Exception)
             {
                 //return Content(ex.Message);
                 return View();
@@ -95,46 +95,45 @@ namespace PL.Controllers
         {
             try
             {
-				ProductDTO productDto = new ProductDTO
+                ProductDTO productDto = new ProductDTO
                 {
-                    Name        = productViewModel.Name,
-                    Category    = productViewModel.Category,
+                    Name = productViewModel.Name,
+                    Category = productViewModel.Category,
                     Description = productViewModel.Description,
-                    Price       = productViewModel.Price,
+                    Price = productViewModel.Price,
                 };
 
                 byte[] imageData = null;
 
                 if (productViewModel.ImageIn != null)
-				{
-					using (var binaryReader = new BinaryReader(productViewModel.ImageIn.OpenReadStream()))
-					{
-						imageData = binaryReader.ReadBytes((int)productViewModel.ImageIn.Length);
-					}
+                {
+                    using (var binaryReader = new BinaryReader(productViewModel.ImageIn.OpenReadStream()))
+                    {
+                        imageData = binaryReader.ReadBytes((int)productViewModel.ImageIn.Length);
+                    }
                 }
                 productViewModel.Image = imageData;
                 productDto.Image = productViewModel.Image;
 
-				//TODO: установка ID не помогает пройти ModelState.IsValid
-				productDto.Id = Guid.NewGuid();
+                //TODO: установка ID не помогает пройти ModelState.IsValid
+                productDto.Id = Guid.NewGuid();
 
-				if (ModelState.IsValid)
-				{
-					_productService.Create(productDto);
-                TempData["message"] = string.Format("The  \"{0}\" has been added", productDto.Name);
-                return RedirectToAction("Index");
-			}
+                if (ModelState.IsValid)
+                {
+                    _productService.Create(productDto);
+                    TempData["message"] = string.Format("The  \"{0}\" has been added", productDto.Name);
+                    return RedirectToAction("Index");
+                }
 
+                else
+                {
+                    // Что-то не так со значениями данных
+                    return View(productViewModel);
+                }
 
-					else
-			{
-				// Что-то не так со значениями данных
-				return View(productViewModel);
-			}
-		}
-
+            }
             //TODO: Exeption
-            catch (/*Validation*/Exception ex)
+            catch (Exception)
             {
                 //ModelState.AddModelError(ex.Property, ex.Message);
             }
