@@ -31,7 +31,7 @@ namespace PL.Controllers
                 var products = mapper.Map<IEnumerable<ProductDTO>, List<ProductViewModel>>(productDtos);
                 return View(products);
             }
-            catch (/*Validation*/Exception ex)
+            catch (Exception)
             {
                 //return Content(ex.Message);
                 return View(); // Добавлено
@@ -48,7 +48,7 @@ namespace PL.Controllers
 
                 return View(order);
             }
-            catch (/*Validation*/Exception ex)
+            catch (Exception)
             {
 				//return Content(ex.Message);
 			}
@@ -64,7 +64,7 @@ namespace PL.Controllers
                 _orderService.MakeOrder(orderDto);
                 return Content("Ваш заказ успешно оформлен");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //ModelState.AddModelError(ex.Property, ex.Message);
             }

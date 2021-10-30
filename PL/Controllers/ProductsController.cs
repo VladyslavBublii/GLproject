@@ -28,7 +28,7 @@ namespace PL.Controllers
                 var products = mapper.Map<IEnumerable<ProductDTO>, List<ProductViewModel>>(productDtos);
                 return View(products);
             }
-            catch (/*Validation*/Exception ex)
+            catch (/*Validation*/Exception)
             {
                 //return Content(ex.Message);
                 return View(); // Добавлено
@@ -55,7 +55,7 @@ namespace PL.Controllers
                 _productService.Create(productDto);
                 return Content("Product has been added");
             }
-            catch (/*Validation*/Exception ex)
+            catch (/*Validation*/Exception)
             {
                 //ModelState.AddModelError(ex.Property, ex.Message);
             }
