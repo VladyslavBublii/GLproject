@@ -15,8 +15,6 @@ namespace BL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly List<Product> Products = new List<Product>();
-
         public CartService()
         {
             _unitOfWork = new UnitOfWork();
@@ -29,8 +27,6 @@ namespace BL.Services
                 if (_unitOfWork.Products.Get(idItem) == null) throw new Exception("Product not found");
             }
             catch { };
-
-            var product = _unitOfWork.Products.Get(idItem);
 
             Cart ithem = new Cart
             {
@@ -59,20 +55,27 @@ namespace BL.Services
             _unitOfWork.Save();
         }
 
-        public decimal ComputeTotalValue()
+        public decimal ComputeTotalValue(IEnumerable<Guid> ithemIds)
         {
             decimal sum = 0;
 
-            foreach (var product in Products)
+            foreach(var ithemId in ithemIds)
             {
-                sum += product.Price;
+                sum += _unitOfWork.Products.GetAll().Where(x => x.Id == ithemId).Select(x => x.Price).First();
             }
 
             return sum;
         }
-        public void Clear()
+        public void Clear(Guid userId)
         {
-            Products.Clear();
+            var products = _unitOfWork.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
+
+            foreach(var product in products)
+            {
+                _unitOfWork.Cart.Delete(product);
+            }
+
+            _unitOfWork.Save();
         }
 
         public CartDTO ShowCart(Guid userId)
@@ -115,22 +118,25 @@ namespace BL.Services
         {
             try
             {
-                var user = _unitOfWork.Users.Get(userId);
+                var listOfProducts = TakeIthemFromCart(userId);
 
-                Order order = new Order
+                RightOrder rightOrder = new RightOrder
                 {
-                    Id       = new Guid(),
-                    Customer = user.Customer,
-                    Sum      = ComputeTotalValue(),
-                    Products = this.Products,
-                    Date     = DateTime.Now,
+                    UserId     = userId,
+                    Products   = listOfProducts,
+                    TotalPrice = ComputeTotalValue(listOfProducts),
+                    OrderTime  = DateTime.UtcNow,
                 };
 
-                _unitOfWork.Orders.Create(order);
+                _unitOfWork.NewOrderRepository.Create(rightOrder);
                 _unitOfWork.Save();
             }
             catch { }
 
+        }
+        private IEnumerable<Guid> TakeIthemFromCart(Guid userId)
+        {
+            return  _unitOfWork.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
         }
     }
 }
