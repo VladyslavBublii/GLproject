@@ -123,7 +123,6 @@ namespace BL.Services
                 RightOrder rightOrder = new RightOrder
                 {
                     UserId     = userId,
-                    Products   = listOfProducts,
                     TotalPrice = ComputeTotalValue(listOfProducts),
                     OrderTime  = DateTime.UtcNow,
                 };

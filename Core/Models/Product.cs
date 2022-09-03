@@ -10,5 +10,6 @@ namespace Core.Models
 		public string Description { get; set; }
 		public decimal Price { get; set; }
 		public byte[] Image { get; set; }
+		public Guid OrderId {get; set;}
 	}
 }
