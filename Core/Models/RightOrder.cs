@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Core.Models
 {
@@ -7,7 +6,6 @@ namespace Core.Models
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public IEnumerable<Guid> Products { get; set; } 
         public decimal TotalPrice { get; set; }
         public DateTime OrderTime { get; set; }
     }

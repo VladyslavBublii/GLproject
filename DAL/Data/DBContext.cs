@@ -1,14 +1,10 @@
 ﻿using Core.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace DAL.Data
 {
     public class DBContext : DbContext
     {
-        private readonly string _conStr;
-
         public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -16,18 +12,16 @@ namespace DAL.Data
         public DbSet<Cart> Cart { get; set; }
         public DbSet<RightOrder> RightOrders { get; set; }
 
+        //change for you server name
+        private readonly string computerName = "Legion-5-PRO";
+
         public DBContext()
         {
-            var builder = new ConfigurationBuilder();
-            string fileName = @"pathdatabase\DatabaseConnection.json";
-            builder.AddJsonFile(Path.GetFullPath(fileName));
-            IConfigurationRoot config = builder.Build();
-            _conStr = config["ConnectionString"];
             Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_conStr);
+            optionsBuilder.UseSqlServer($"Server={computerName}; Database=StoreDB;Trusted_Connection=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -6,8 +6,6 @@ using DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BL.Services
 {
@@ -123,7 +121,6 @@ namespace BL.Services
                 RightOrder rightOrder = new RightOrder
                 {
                     UserId     = userId,
-                    Products   = listOfProducts,
                     TotalPrice = ComputeTotalValue(listOfProducts),
                     OrderTime  = DateTime.UtcNow,
                 };
