@@ -44,6 +44,18 @@ namespace DAL.Repositories
             }
         }
 
+        public ICustomersRepository CustomersRepository
+        {
+            get
+            {
+                if (customerRepository == null)
+                {
+                    customerRepository = new CustomerRepository(_db);
+                }
+                return customerRepository;
+            }
+        }
+
         public IRepository<Product> Products
         {
             get

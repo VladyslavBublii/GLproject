@@ -85,6 +85,19 @@ namespace BL.Services
                 City = customer.SurName, PostIndex = customer.PostIndex };
         }
 
+        public CustomerDTO GetCustomerByUserId(Guid userId)
+        {
+            var customer = _unitOfWork.CustomersRepository.GetByUserId(userId);
+
+            return new CustomerDTO
+            {
+                Name = customer.Name,
+                SurName = customer.SurName,
+                City = customer.SurName,
+                PostIndex = customer.PostIndex
+            };
+        }
+
         public IEnumerable<CustomerDTO> GetCustomers()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();

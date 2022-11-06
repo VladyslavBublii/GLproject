@@ -9,6 +9,7 @@ namespace BL.Services.Interfaces
         UserDTO GetUser(Guid id);
         IEnumerable<UserDTO> GetUsers();
         CustomerDTO GetCustomer(Guid id);
+        CustomerDTO GetCustomerByUserId(Guid userId);
         IEnumerable<CustomerDTO> GetCustomers();
         public void SaveUser(UserDTO userDTO, CustomerDTO customerDTO);
 

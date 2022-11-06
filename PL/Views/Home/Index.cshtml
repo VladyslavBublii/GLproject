@@ -1,4 +1,6 @@
-﻿@{
+﻿@model PL.Models.CustomerViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,4 +8,9 @@
     <p>Current user name: @User.Identity.Name</p>
     <p>Authentication type: @User.Identity.AuthenticationType</p>
     <p>Is user authenticated? @User.Identity.IsAuthenticated</p>
+    @{
+        if(User.Identity.Name != null){
+            <p>You are here @Html.DisplayNameFor(model => model.Name) @Html.DisplayNameFor(model => model.SurName).</p>
+        }
+    }
 </div>
