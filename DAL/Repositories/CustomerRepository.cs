@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DAL.Repositories
 {
-    public class CustomerRepository : IRepository<Customer>
+    public class CustomerRepository : IRepository<Customer>, ICustomersRepository
     {
         private DBContext db;
 
@@ -34,6 +34,11 @@ namespace DAL.Repositories
         public Customer Get(Guid id)
         {
             return db.Customers.Find(id);
+        }
+
+        public Customer GetByUserId(Guid userId)
+        {
+            return db.Customers.Where(p => p.UserId == userId).FirstOrDefault();
         }
 
         public IEnumerable<Customer> GetAll()
