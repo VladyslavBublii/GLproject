@@ -1,16 +1,8 @@
 ﻿using Core.Models;
 using DAL.Data;
-using DAL.Interfaces;
 using DAL.Repositories;
 using FakeItEasy;
-using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace DAL.Test.Repositories
 {
