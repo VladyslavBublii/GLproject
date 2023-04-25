@@ -80,7 +80,7 @@ namespace DAL.Repositories
             }
         }
 
-        public IRepository<Cart> Cart
+        public IRepository<Cart> Carts
         {
             get
             {
