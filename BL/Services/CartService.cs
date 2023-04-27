@@ -32,7 +32,7 @@ namespace BL.Services
                 UserId     = userId,
             };
 
-            _unitOfWork.Cart.Create(ithem);
+            _unitOfWork.Carts.Create(ithem);
             _unitOfWork.Save();
         }
         public bool CheckItem(Guid idItem)
@@ -48,8 +48,8 @@ namespace BL.Services
 
         public void RemoveItem(Guid userId, Guid productId)
         {
-            var ithemCart = _unitOfWork.Cart.GetAll().Where(x => x.ProductsId == productId && x.UserId == userId ).Select(x => x.Id).First();
-            _unitOfWork.Cart.Delete(ithemCart);
+            var ithemCart = _unitOfWork.Carts.GetAll().Where(x => x.ProductsId == productId && x.UserId == userId ).Select(x => x.Id).First();
+            _unitOfWork.Carts.Delete(ithemCart);
             _unitOfWork.Save();
         }
 
@@ -66,11 +66,11 @@ namespace BL.Services
         }
         public void Clear(Guid userId)
         {
-            var products = _unitOfWork.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
+            var products = _unitOfWork.Carts.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
 
             foreach(var product in products)
             {
-                _unitOfWork.Cart.Delete(product);
+                _unitOfWork.Carts.Delete(product);
             }
 
             _unitOfWork.Save();
@@ -79,7 +79,7 @@ namespace BL.Services
         public CartDTO ShowCart(Guid userId)
         {
             using var unit = new UnitOfWork();
-            var cartsId = unit.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
+            var cartsId = unit.Carts.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
 
             CartDTO cartDTO = new CartDTO();
             List<ProductDTO> productsInCart = new List<ProductDTO>();
@@ -133,7 +133,7 @@ namespace BL.Services
         }
         private IEnumerable<Guid> TakeIthemFromCart(Guid userId)
         {
-            return  _unitOfWork.Cart.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
+            return  _unitOfWork.Carts.GetAll().Where(x => x.UserId == userId).Select(x => x.ProductsId);
         }
     }
 }
