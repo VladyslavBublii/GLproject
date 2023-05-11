@@ -13,7 +13,6 @@ namespace DAL.Repositories
         private ProductRepository productRepository;
         private OrderRepository orderRepository;
         private CartRepository cartRepository;
-        private NewOrderRepository newOrderRepository;
 
         public UnitOfWork()
         {
@@ -80,21 +79,9 @@ namespace DAL.Repositories
             }
         }
 
-        public IRepository<RightOrder> NewOrderRepository
-        {
-            get
-            {
-                if (newOrderRepository == null)
-                {
-                    newOrderRepository = new NewOrderRepository(_db);
-                }
-                return newOrderRepository;
-            }
-        }
-
         public void Save()
         {
-            _db.SaveChanges();
+            int t = _db.SaveChanges();
         }
 
         private bool disposed = false;

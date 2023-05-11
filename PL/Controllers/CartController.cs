@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using PL.Models;
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace PL.Controllers
 {

@@ -104,7 +104,7 @@ namespace BL.Services
 
             User user = new User
             {
-                RoleName     = userDTO.RoleName,
+                RoleName = userDTO.RoleName,
                 Email    = userDTO.Email,
                 Password = _password.GetHashString(userDTO.Password),
             };
