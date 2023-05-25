@@ -13,8 +13,8 @@ namespace DAL.Data
         public DbSet<RightOrder> RightOrders { get; set; }
 
         //change for you server name
-        //private readonly string computerName = "DESKTOP-GM1CRMU";
-        private readonly string computerName = "Legion-5-PRO";
+        private readonly string computerName = "DESKTOP-GM1CRMU";
+        //private readonly string computerName = "Legion-5-PRO";
 
         public DBContext()
         {
