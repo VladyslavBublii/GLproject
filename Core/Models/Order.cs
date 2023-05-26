@@ -12,7 +12,7 @@ namespace Core.Models
 
         public OrderStatus Status { get; set; }
 
-        public IDictionary<Guid,int> Products { get; set; }
+        public ICollection<Product> Products { get; set; }
 
         public string PhoneNumber { get; set; }
 
