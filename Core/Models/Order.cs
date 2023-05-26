@@ -1,20 +1,27 @@
-﻿using System;
+﻿using Core.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace Core.Models
 {
-	public class Order // Отсутствует статус заказа, кол-во товара
+	public class Order 
     {
         public Guid Id { get; set; }
-        public Customer Customer { get; set; }
-        public decimal Sum { get; set; }
-        //public string Name { get; set; } // Пока без привязки к Customer(UsersDetails) - *********
-        public string PhoneNumber { get; set; } // Свойство отсутствующее в свойствах Customer(UsersDetails) --- значит надо было его добавить !
-        public string City { get; set; } // Пока без привязки к Customer(UsersDetails)
-        public string PostIndex { get; set; } // Пока без привязки к Customer(UsersDetails)
-        public Guid ProductId { get; set; }
-        public List<Product> Products { get; set; }
 
-        public DateTime Date { get; set; }
+        public Guid UserId { get; set; }
+
+        public OrderStatus Status { get; set; }
+
+        public ICollection<Product> Products { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string City { get; set; } 
+
+        public string PostIndex { get; set; }
+
+        public decimal Sum { get; set; }
+
+        public DateTime OrderTime { get; set; }
     }
 }

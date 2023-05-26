@@ -1,5 +1,6 @@
 ﻿using BL.DTO;
 using BL.Services.Interfaces;
+using Core.Enums;
 using Core.Models;
 using DAL.Interfaces;
 using DAL.Repositories;
@@ -118,14 +119,15 @@ namespace BL.Services
             {
                 var listOfProducts = TakeIthemFromCart(userId);
 
-                RightOrder rightOrder = new RightOrder
+                Order order = new Order
                 {
-                    UserId     = userId,
-                    TotalPrice = ComputeTotalValue(listOfProducts),
+                    UserId = userId,
+                    Sum = ComputeTotalValue(listOfProducts),
                     OrderTime  = DateTime.UtcNow,
+                    Status = OrderStatus.Open
                 };
 
-                _unitOfWork.NewOrderRepository.Create(rightOrder);
+                _unitOfWork.Orders.Create(order);
                 _unitOfWork.Save();
             }
             catch { }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using BL.DTO;
 using BL.Services.Interfaces;
+using Core.Enums;
 using Core.Models;
 using DAL.Interfaces;
 using DAL.Repositories;
@@ -37,12 +38,12 @@ namespace BL.Services
 
             Order order = new Order
             {
-                Date        = DateTime.Now,
-                City        = orderDto.City, // Изменено с Address
-                PostIndex   = orderDto.PostIndex, // Добавлено
-                ProductId   = product.Id, // нахуя ?
-                Sum         = product.Price, // Изменено с sum
-                PhoneNumber = orderDto.PhoneNumber
+                OrderTime = DateTime.Now,
+                City        = orderDto.City,
+                PostIndex   = orderDto.PostIndex, 
+                Sum         = product.Price,
+                PhoneNumber = orderDto.PhoneNumber,
+                Status = OrderStatus.Open
             };
             _unitOfWork.Orders.Create(order);
             _unitOfWork.Save();

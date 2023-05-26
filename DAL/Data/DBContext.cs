@@ -10,11 +10,10 @@ namespace DAL.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Cart> Carts { get; set; }
-        public DbSet<RightOrder> RightOrders { get; set; }
 
         //change for you server name
-        //private readonly string computerName = "DESKTOP-GM1CRMU";
-        private readonly string computerName = "Legion-5-PRO";
+        //private readonly string computerName = "Legion-5-Pro";
+        private readonly string computerName = "DESKTOP-GM1CRMU";
 
         public DBContext()
         {
@@ -22,7 +21,7 @@ namespace DAL.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer($"Server={computerName}; Database=StoreDB;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer($"Server={computerName}; Database=Database4; Trusted_Connection=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -10,50 +10,47 @@ namespace DAL.Repositories
 {
 	public class ProductRepository : IRepository<Product>
 	{
-		private DBContext db;
+		private DBContext _db;
 
 		public ProductRepository(DBContext context)
 		{
-			this.db = context;
+			this._db = context;
 		}
 
 		public IEnumerable<Product> GetAll()
 		{
-			return db.Products.ToList();
+			return _db.Products.ToList();
 		}
 
 		public Product Get(Guid id)
 		{
-			return db.Products.Find(id);
+			return _db.Products.Find(id);
 		}
 
 		public void Create(Product product)
 		{
-			db.Products.Add(product);
+			product.Id = Guid.NewGuid();
+			product.Orders = null;
+            _db.Products.Add(product);
 		}
 
 		public void Update(Product product)
 		{
-			db.Entry(product).State = EntityState.Modified;
+            _db.Entry(product).State = EntityState.Modified;
 		}
-
-		//public IEnumerable<Product> Find(Func<Product, Boolean> predicate)
-		//{
-			//return db.Products.Where(predicate).ToList();
-		//}
 
 		public Product Find(Guid id)
 		{
-			var resultData = db.Products.Where(p => p.Id == id).FirstOrDefault();
+			var resultData = _db.Products.Where(p => p.Id == id).FirstOrDefault();
 			return resultData;
 		}
 
 		public void Delete(Guid id)
 		{
-			Product product = db.Products.Find(id);
+			Product product = _db.Products.Find(id);
 			if (product != null)
 			{
-				db.Products.Remove(product);
+				_db.Products.Remove(product);
 			}
 		}
 	}
