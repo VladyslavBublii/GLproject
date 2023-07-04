@@ -6,12 +6,21 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  public login: Login[] = [];
+  public Login: Login[] = [];
+  private baseUrl: string;
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<Login[]>(baseUrl + 'login').subscribe(result => {
-      this.login = result;
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    this.baseUrl = baseUrl;
+    http.get<Login[]>(baseUrl + 'account/login').subscribe(result => {
+       this.Login = result;
     }, error => console.error(error));
+  }
+
+  login() {
+    var t = this.http.get(this.baseUrl + "account/login");
+    console.log(t);
+    console.log(this.baseUrl);
+    console.log(this.Login);
   }
 }
 

@@ -9,7 +9,7 @@ using PL.Angular.Models;
 namespace PL.Angular.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/account")]
     public class AccountController : ControllerBase
     {
         IUserService _userService;
@@ -23,15 +23,13 @@ namespace PL.Angular.Controllers
             _email = email;
         }
 
-        [HttpGet]
-        [Route("login")]
+        [HttpGet("login")]
         public IActionResult Login()
         {
             return Ok();
         }
 
-        [HttpPost]
-        [Route("login")]
+        [HttpPost("login/{model}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
@@ -48,15 +46,13 @@ namespace PL.Angular.Controllers
             return Ok(model);
         }
 
-        [HttpGet]
-        [Route("register")]
+        [HttpGet("register")]
         public IActionResult Register()
         {
             return Ok();
         }
 
-        [HttpPost]
-        [Route("register")]
+        [HttpPost("register/{model}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
