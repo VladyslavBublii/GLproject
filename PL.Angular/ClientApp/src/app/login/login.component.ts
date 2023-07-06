@@ -11,16 +11,19 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
-    http.get<Login[]>(baseUrl + 'account/login').subscribe(result => {
-       this.Login = result;
-    }, error => console.error(error));
+    // http.get<Login[]>(baseUrl + 'account/login').subscribe(result => {
+    //    this.Login = result;
+    // }, error => console.error(error));
   }
 
   login() {
-    var t = this.http.get(this.baseUrl + "account/login");
-    console.log(t);
-    console.log(this.baseUrl);
-    console.log(this.Login);
+    //console.log(this.http.get(this.baseUrl.toString() + "account/login".toString()));
+    this.http.get(this.baseUrl + "login/login").subscribe(result => {
+      console.log(result);
+    })
+    //console.log(t);
+    //console.log(this.baseUrl);
+    //console.log(this.Login);
   }
 }
 
