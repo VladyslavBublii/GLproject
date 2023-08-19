@@ -11,8 +11,6 @@ import { HomeComponent } from './home/home.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +20,6 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     HomeComponent,
     PrivacyComponent,
     RegisterComponent,
-    CounterComponent,
-    FetchDataComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,8 +30,6 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
       { path: 'privacy', component: PrivacyComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
   providers: [],
