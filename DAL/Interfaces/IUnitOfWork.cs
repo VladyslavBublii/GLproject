@@ -10,7 +10,6 @@ namespace DAL.Interfaces
         IRepository<Product> Products { get; }
         IRepository<Order> Orders { get; }
         IRepository<Cart> Carts { get; }
-        IRepository<RightOrder> NewOrderRepository { get; }
         ICustomersRepository CustomersRepository { get; }
         void Save();
     }
