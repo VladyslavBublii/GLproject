@@ -15,7 +15,7 @@ export class LoginComponent {
 
   login() {
     console.log(this.baseUrl);
-    this.http.get(this.baseUrl + "account/login").subscribe(result => {
+    this.http.get(this.baseUrl + "login/signin").subscribe(result => {
       console.log(result);
     })
   }
