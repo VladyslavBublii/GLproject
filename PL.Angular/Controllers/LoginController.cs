@@ -16,12 +16,12 @@ namespace PL.Angular.Controllers
         [HttpGet("signin")]
         public IActionResult SignIn()
         {
-            return Ok();
+            return Ok(200);
         }
 
-        [HttpPost("signin/{model}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignIn(LoginModel model)
+        [HttpPost("signin")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignIn([FromBody] LoginModel model)
         {
             return Ok(model);
         }
@@ -29,7 +29,7 @@ namespace PL.Angular.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("signin", "Login");
         }
     }
 }

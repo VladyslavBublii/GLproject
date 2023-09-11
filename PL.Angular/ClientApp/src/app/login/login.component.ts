@@ -1,27 +1,47 @@
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  public Login: Login[] = [];
-  private baseUrl: string;
+  public Login = {} as Login;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.baseUrl = baseUrl;
+  constructor(private loginServise: LoginService) {}
+
+  signin() {
+    this.loginServise.signin().subscribe(
+      (res) => {
+        console.log('Answer:', res);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
-  login() {
-    console.log(this.baseUrl);
-    this.http.get(this.baseUrl + "login/signin").subscribe(result => {
-      console.log(result);
-    })
+  signinto() {
+      this.loginServise.signinto(this.Login).subscribe(
+      (res) => {
+        console.log('Answer:', res);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+  }
+
+  onEnterEmail(event: Event){
+      this.Login.email = (<HTMLInputElement>event.target).value;
+  }
+
+  onEnterPassword(event: Event){
+    this.Login.password = (<HTMLInputElement>event.target).value;
   }
 }
 
-interface Login {
+export interface Login {
   email: string;
   password: string;
 }
