@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using PL.Angular.Models;
+using BL.Services.Interfaces;
 
 namespace PL.Angular.Controllers
 {
@@ -9,8 +10,11 @@ namespace PL.Angular.Controllers
     [Route("login")]
     public class LoginController : ControllerBase
     {
-        public LoginController()
+        IUserService _userService;
+
+        public LoginController(IUserService serv)
         {
+            _userService = serv;
         }
 
         [HttpGet("signin")]
@@ -23,6 +27,17 @@ namespace PL.Angular.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> SignIn([FromBody] LoginModel model)
         {
+             if (ModelState.IsValid)
+            {
+                var user = _userService.GetUserLog(model.Email, model.Password);
+                if (user != null)
+                {
+                    //await Authenticate(user);
+                    //return RedirectToAction("Index", "Home");
+                    return Ok(model);
+                }
+                ModelState.AddModelError("", "Incrorrect login and(or) password");
+            }
             return Ok(model);
         }
 
