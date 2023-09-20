@@ -1,7 +1,11 @@
+using BL.Services.Interfaces;
+using BL.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
