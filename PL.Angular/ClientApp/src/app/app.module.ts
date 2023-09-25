@@ -9,7 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { NavFooterComponent } from './nav-footer/nav-footer.component';
 import { HomeComponent } from './home/home.component';
 import { PrivacyComponent } from './privacy/privacy.component';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './registration/register.component';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({

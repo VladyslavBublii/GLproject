@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-Registration',
   templateUrl: './register.component.html',
 })
+
 export class RegisterComponent {
   isExpanded = false;
 
@@ -16,12 +17,3 @@ export class RegisterComponent {
   }
 }
 
-interface Register {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  name: string;
-  surName: string;
-  city: string;
-  postIndex: string;
-}
