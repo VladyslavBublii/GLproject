@@ -12,7 +12,7 @@ namespace PL.Angular.Controllers
 
         }
 
-        [HttpGet("registration")]
+        [HttpPost("registration")]
         public IActionResult Registration(RegisterModel registerModel)
         {
             return Ok(registerModel);
