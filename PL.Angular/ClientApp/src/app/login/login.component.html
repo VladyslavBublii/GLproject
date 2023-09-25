@@ -1,6 +1,21 @@
-<h1>Enter site</h1>
+<h3>Enter site</h3>
 <!--
 <p><a [routerLink]="['../register']">Register</a></p>
   -->
 <p>Input data.</p>
-<button class="nav-link text-dark" id="login" (click)="login()">Login</button>
+  <label>Enter email</label>
+  <input 
+      type="text" 
+      class="form-control"
+      name="email"
+      (input)="onEnterEmail($event)">
+
+  <label>Enter Password</label>
+  <input 
+      type="text" 
+      class="form-control"
+      name="password"
+      (input)="onEnterPassword($event)">
+
+<button class="nav-link text-dark" id="signin" (click)="signin()">Login</button>
+<button class="nav-link text-dark" id="signinto" (click)="signinto()">Signin</button>

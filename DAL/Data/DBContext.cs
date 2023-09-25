@@ -21,7 +21,7 @@ namespace DAL.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer($"Server={computerName}; Database=Database4; Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer($"Server={computerName}; Database=Database4; Trusted_Connection=True; TrustServerCertificate=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
