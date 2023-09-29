@@ -9,4 +9,4 @@ export class RegisterModel {
         public password: string,
     ) {  }
   
-  }
+}
