@@ -7,13 +7,13 @@ namespace PL.Angular.Controllers
     [Route("registration")]
     public class RegistrationController : ControllerBase
     {
-        RegistrationController() 
+        public RegistrationController() 
         {
 
         }
 
         [HttpPost("registration")]
-        public IActionResult Registration(RegisterModel registerModel)
+        public async Task<IActionResult> Registration([FromBody] RegisterModel registerModel)
         {
             return Ok(registerModel);
         }
