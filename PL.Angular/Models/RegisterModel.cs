@@ -12,10 +12,6 @@ namespace PL.Angular.Models
         [Required(ErrorMessage = "Password is not specified")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Password was not repeat correctly")]
-        public string ConfirmPassword { get; set; }
-
         [Required(ErrorMessage = "Name is not specified")]
         public string Name { get; set; }
 

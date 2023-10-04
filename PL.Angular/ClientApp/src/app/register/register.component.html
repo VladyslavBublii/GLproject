@@ -1,2 +1,48 @@
-<h1>Registration</h1>
+<h3>Registration</h3>
+<!--
+<p><a [routerLink]="['../register']">Register</a></p>
+  -->
 <p>Input data.</p>
+  <label>Enter email</label>
+  <input 
+      type="text" 
+      class="form-control"
+      name="email"
+      (input)="onEnterEmail($event)">
+
+  <label>Enter Password</label>
+  <input 
+      type="text" 
+      class="form-control"
+      name="password"
+      (input)="onEnterPassword($event)">
+
+  <label>Enter Name</label>
+  <input 
+      type="text" 
+      class="form-control"
+      name="name"
+      (input)="onEnterName($event)">
+
+  <label>Enter Surame</label>
+  <input 
+      type="text" 
+      class="form-control"
+      name="surname"
+      (input)="onEnterSurname($event)">
+
+  <label>Enter City</label>
+  <input 
+      type="text" 
+      class="form-control"
+      name="city"
+      (input)="onEnterCity($event)">
+
+  <label>Enter Post Index</label>
+  <input 
+      type="text" 
+      class="form-control"
+      name="porstindex"
+      (input)="onEnterPostIndex($event)">
+
+<button class="nav-link text-dark" id="registerinto" (click)="registerinto()">Register</button>

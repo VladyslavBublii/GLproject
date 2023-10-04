@@ -12,8 +12,8 @@ namespace DAL.Data
         public DbSet<Cart> Carts { get; set; }
 
         //change for you server name
-        //private readonly string computerName = "Legion-5-Pro";
-        private readonly string computerName = "DESKTOP-GM1CRMU";
+        private readonly string computerName = "Legion-5-Pro";
+        //private readonly string computerName = "DESKTOP-GM1CRMU";
 
         public DBContext()
         {

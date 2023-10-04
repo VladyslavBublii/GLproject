@@ -9,6 +9,7 @@ const PROXY_CONFIG = [
       "/privacy",
       "/login/signin",
       "/login/signinto",
+      "/registration/registration"
    ],
     target: target,
     secure: false,
