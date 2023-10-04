@@ -31,6 +31,30 @@ export class RegisterComponent {
     }
   );
   }
+
+  onEnterEmail(event: Event){
+      this.RegisterModel.email = (<HTMLInputElement>event.target).value;
+  }
+
+  onEnterPassword(event: Event){
+    this.RegisterModel.password = (<HTMLInputElement>event.target).value;
+  }
+
+  onEnterName(event: Event){
+      this.RegisterModel.name = (<HTMLInputElement>event.target).value;
+  }
+
+  onEnterSurname(event: Event){
+    this.RegisterModel.surName = (<HTMLInputElement>event.target).value;
+  }
+
+  onEnterCity(event: Event){
+    this.RegisterModel.city = (<HTMLInputElement>event.target).value;
+  }
+
+  onEnterPostIndex(event: Event){
+    this.RegisterModel.postIndex = (<HTMLInputElement>event.target).value;
+  }
 }
 
 export interface RegisterModel {
