@@ -14,10 +14,6 @@ export class LoginService {
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 
-  signin(){
-    return this.http.get(this.baseUrl + "login/signin", this.HttpOptions);
-  }
-
   signinto(data: any) {
     console.log(data);
     console.log(JSON.stringify(data));
