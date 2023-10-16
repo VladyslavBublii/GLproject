@@ -58,10 +58,10 @@ export class RegisterComponent {
 }
 
 export interface RegisterModel {
+  email: string,
+  password: string,
   name: string,
   surName: string,
   city: string,
   postIndex: string,
-  email: string,
-  password: string,
 }

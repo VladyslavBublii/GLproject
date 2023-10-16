@@ -93,7 +93,7 @@ namespace PL.Controllers
 
                 var user = _userService.GetUserLog(model.Email, model.Password);
                 //await Authenticate(userDto); //userDto нет ещё правильного id. Куки получат неверный id
-                await Authenticate(user);
+                //await Authenticate(user);
                 return RedirectToAction("Index", "Home");
 
                 //return RedirectToAction("Login", "Account");
