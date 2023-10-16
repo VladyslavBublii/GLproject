@@ -19,17 +19,11 @@ namespace PL.Angular.Controllers
             _userService = serv;
         }
 
-        [HttpGet("signin")]
-        public IActionResult SignIn()
-        {
-            return Ok(200);
-        }
-
         [HttpPost("signin")]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> SignIn([FromBody] LoginModel model)
         {
-             if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = _userService.GetUserLog(model.Email, model.Password);
                 if (user != null)

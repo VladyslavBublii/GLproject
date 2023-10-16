@@ -1,21 +1,24 @@
-<h3>Enter site</h3>
-<!--
-<p><a [routerLink]="['../register']">Register</a></p>
-  -->
-<p>Input data.</p>
-  <label>Enter email</label>
-  <input 
-      type="text" 
-      class="form-control"
-      name="email"
-      (input)="onEnterEmail($event)">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h3 id="enter-site">Enter site</h3>
+      <form>
+        <label>Enter email</label>
+        <input 
+            type="text" 
+            class="form-control"
+            name="email"
+            (input)="onEnterEmail($event)">
+      
+        <label>Enter Password</label>
+        <input 
+            type="text" 
+            class="form-control"
+            name="password"
+            (input)="onEnterPassword($event)">
 
-  <label>Enter Password</label>
-  <input 
-      type="text" 
-      class="form-control"
-      name="password"
-      (input)="onEnterPassword($event)">
-
-<button class="nav-link text-dark" id="signin" (click)="signin()">Login</button>
-<button class="nav-link text-dark" id="signinto" (click)="signinto()">Signin</button>
+        <button class="btn btn-primary mt-3" id="signinto" (click)="signinto()">Signin</button>
+      </form>
+    </div>
+  </div>
+</div>
