@@ -12,15 +12,6 @@ import { RegisterService } from './register.service';
 export class RegisterComponent {
   constructor(private registerService: RegisterService) {}
   public RegisterModel = {} as RegisterModel;
-  isExpanded = false;
-
-  collapse() {
-    this.isExpanded = false;
-  }
-
-  toggle() {
-    this.isExpanded = !this.isExpanded;
-  }
 
   registerinto() {
     this.registerService.registerinto(this.RegisterModel).subscribe(
