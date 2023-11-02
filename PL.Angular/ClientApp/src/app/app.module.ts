@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { MatDialogModule } from "@angular/material/dialog";
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -30,7 +31,8 @@ import { LoginComponent } from './login/login.component';
       { path: 'privacy', component: PrivacyComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'login', component: LoginComponent },
-    ])
+    ]),
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

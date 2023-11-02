@@ -1,5 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { StorageService } from '../storage/storage.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -7,16 +8,27 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
+  constructor(private http: HttpClient, private storageService: StorageService) {}
+  isLoggedIn = false;
   isExpanded = false;
-
-  constructor(private http: HttpClient) {
-  }
-
+  
   collapse() {
     this.isExpanded = false;
   }
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  ngOnInit(): void {
+    if (this.storageService.isLoggedIn()) {
+      this.isLoggedIn = true;
+    }
+  }
+
+  logout(): void {
+    this.storageService.clean();
+    this.isLoggedIn = false;
+    window.location.reload();
   }
 }

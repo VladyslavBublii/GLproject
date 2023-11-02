@@ -15,8 +15,10 @@ export class LoginService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 
   signinto(data: any) {
-    console.log(data);
-    console.log(JSON.stringify(data));
     return this.http.post(this.baseUrl + "login/signin", JSON.stringify(data), this.HttpOptions);
+  }
+
+  returnhome() {
+    window.location.href = this.baseUrl + "/";
   }
 }
