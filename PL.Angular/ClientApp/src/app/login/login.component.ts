@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { LoginService } from './login.service';
 import { StorageService } from '../storage/storage.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAlertComponent } from "../dialog/alert-dialog/alert-dialog.component";
 
 @Component({
   selector: 'app-login',
@@ -8,7 +10,11 @@ import { StorageService } from '../storage/storage.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor(private loginServise: LoginService, private storageService: StorageService) {}
+  constructor(
+    private loginServise: LoginService, 
+    private storageService: StorageService,
+    public dialog: MatDialog) {}
+
   public Login = {} as Login;
   isLoggedIn = false;
 
@@ -27,7 +33,11 @@ export class LoginComponent {
         this.loginServise.returnhome();
       },
       (error) => {
-        console.error('Error:', error);
+        console.error('Error:', error.error);
+        this.dialog.open(DialogAlertComponent, {
+          width: '250px',
+          data: {message: error.error }
+        });
       }
     );
   }

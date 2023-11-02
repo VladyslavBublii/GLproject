@@ -17,7 +17,6 @@ namespace PL.Angular.Controllers
         }
 
         [HttpPost("signin")]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> SignIn([FromBody] LoginModel model)
         {
             if (ModelState.IsValid)
@@ -27,9 +26,8 @@ namespace PL.Angular.Controllers
                 {
                     return Ok(model);
                 }
-                ModelState.AddModelError("", "Incrorrect login and(or) password");
             }
-            return BadRequest(model);
+            return BadRequest("Incrorrect login and(or) password");
         }
     }
 }
