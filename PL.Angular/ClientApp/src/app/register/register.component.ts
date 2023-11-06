@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RegisterService } from './register.service';
+import { TranslateService } from '@ngx-translate/core';
 //import { RegisterModel} from '../models/registerModel';
 
 
@@ -10,7 +11,10 @@ import { RegisterService } from './register.service';
 })
 
 export class RegisterComponent {
-  constructor(private registerService: RegisterService) {}
+  constructor(private registerService: RegisterService, translate: TranslateService) {
+    translate.setDefaultLang('ua');
+    translate.use('ua');
+  }
   public RegisterModel = {} as RegisterModel;
 
   registerinto() {
