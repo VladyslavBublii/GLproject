@@ -1,41 +1,42 @@
 <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <h3>Registration</h3>
+        <h3>{{ 'Registration' | translate }}</h3>
         <form>
           <div class="form-group">
-            <label for="email">Enter Email</label>
+            <label for="email">{{ 'Enter Email' | translate }}</label>
             <input type="email" class="form-control" id="email" name="email" (input)="onEnterEmail($event)">
           </div>
   
           <div class="form-group">
-            <label for="password">Enter Password</label>
+            <label for="password">{{ 'Enter Password' | translate }}</label>
             <input type="password" class="form-control" id="password" name="password" (input)="onEnterPassword($event)">
           </div>
   
           <div class="form-group">
-            <label for="name">Enter Name</label>
+            <label for="name">{{ 'Enter Name' | translate }}</label>
             <input type="text" class="form-control" id="name" name="name" (input)="onEnterName($event)">
           </div>
   
           <div class="form-group">
-            <label for="surname">Enter Surname</label>
+            <label for="surname">{{ 'Enter Surname' | translate }}</label>
             <input type="text" class="form-control" id="surname" name="surname" (input)="onEnterSurname($event)">
           </div>
   
           <div class="form-group">
-            <label for="city">Enter City</label>
+            <label for="city">{{ 'Enter City' | translate }}</label>
             <input type="text" class="form-control" id="city" name="city" (input)="onEnterCity($event)">
           </div>
   
           <div class="form-group">
-            <label for="postindex">Enter Post Index</label>
+            <label for="postindex">{{ 'Enter Post Index' | translate }}</label>
             <input type="text" class="form-control" id="postindex" name="postindex" (input)="onEnterPostIndex($event)">
           </div>
 
           <div class="row justify-right">
-            <button class="btn btn-primary mt-3 float-right" (click)="registerinto()">Register</button>
+            <button class="btn btn-primary mt-3 float-right" (click)="registerinto()">{{ 'Register' | translate }}</button>
           </div>
+
         </form>
       </div>
     </div>
