@@ -3,19 +3,43 @@
     <div class="col-md-6">
       <h3 id="enter-site">Enter site</h3>
       <form>
-        <div class="form-group"> 
-          <label for="email">Enter email</label>
-          <input type="text" class="form-control" id="email" name="email" (input)="onEnterEmail($event)">
-        </div>
-      
-        <div class="form-group">  
-          <label for="password">Enter Password</label>
-          <input type="text" class="form-control" id="password" name="password" (input)="onEnterPassword($event)">
-        </div>
+
+        <mat-form-field class="custom-mat-form-field" appearance="fill">
+          <div class="form-group"> 
+            <mat-label class="custom-mat-label" for="email">Enter email</mat-label>
+            <input class="custom-mat-input" matInput type="email" [formControl]="emailFormControl" [errorStateMatcher]="matcher" 
+              id="email" name="email" (input)="onEnterEmail($event)"
+              placeholder="Ex. pat@example.com" required>
+            <mat-error class="custom-mat-error" *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+              Please enter a valid email address
+            </mat-error>
+            <mat-error class="custom-mat-error" *ngIf="emailFormControl.hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+          </div>
+        </mat-form-field><br />
+
+        <mat-form-field class="custom-mat-form-field" appearance="fill">
+          <div class="form-group">  
+            <mat-label class="custom-mat-label" for="password">Enter Password</mat-label>
+            <input class="custom-mat-input" matInput type="text" matInput [formControl]="pwdFormControl" [errorStateMatcher]="matcher" required
+              id="password" name="password" (input)="onEnterPassword($event)">
+            <mat-error class="custom-mat-error" type="password" *ngIf="pwdFormControl.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </div>
+        </mat-form-field>
+        <br />
+
+        <span class="custom-mat-error" *ngIf="isBadRequest">
+            <strong>Incrorrect email and(or) password!</strong>
+        </span>
 
         <div class="row justify-right">
           <button class="btn btn-primary mt-3 float-right" type="button" (click)="signinto()">Signin</button>
         </div>
+        <br />
+
       </form>
     </div>
   </div>
