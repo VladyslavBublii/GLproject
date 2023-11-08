@@ -34,3 +34,18 @@
     background-color: #0056b3;
   }
   
+  .custom-mat-form-field {
+    width: 100%;
+  }
+
+  .custom-mat-label {
+    margin-left: 10px;
+  }
+
+  .custom-mat-input {
+    border-radius: 5px;
+  }
+
+  .custom-mat-error {
+    color: #ff0000;
+  }
