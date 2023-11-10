@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-nav-footer',
@@ -6,4 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./nav-footer.component.css']
 })
 export class NavFooterComponent {
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('ua');
+    translate.use('ua'); 
+  }
 }

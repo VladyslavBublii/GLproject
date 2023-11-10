@@ -45,7 +45,7 @@ namespace PL.Controllers
                     await Authenticate(user);
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Incrorrect login and(or) password");
+                ModelState.AddModelError("", "Incorrect login and(or) password");
             }
             return View(model);
         }

@@ -7,5 +7,24 @@
     "Enter City": "Город",
     "Enter Post Index": "Почтовый индекс",
 
-    "Register": "Зарегистрироваться"
+    "Register": "Зарегистрироваться",
+    
+    "Privacy": "Политика конфиденциальности",
+
+    "SexShop": "SexShop",
+    "Home": "Домой",
+    "Login": "Войти",
+    "Logout": "Выйти",
+
+    "Enter site": "Зайти",
+    "Enter email": "Введите адрес электронной почты",
+    "Please enter a valid email address": "Пожалуйста, введите действительный адрес электронной почты",
+    "Email is": "Электронная почта",
+    "Password is": "Пароль",
+    "required": "обязателен",
+    "Incorrect email and(or) password!": "Неправильный адрес электронной почты и(или) пароль!",
+    "Signin": "Войти",
+    
+    "Login Error": "Ошибка входа",
+    "OK": "OK"
 }

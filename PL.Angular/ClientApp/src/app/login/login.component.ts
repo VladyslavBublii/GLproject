@@ -4,6 +4,7 @@ import { StorageService } from '../storage/storage.service';
 import { MatDialog } from '@angular/material/dialog';
 //import { DialogAlertComponent } from "../dialog/alert-dialog/alert-dialog.component";
 import { ErrorStateMatcher } from '@angular/material/core';
+import { TranslateService } from '@ngx-translate/core';
 import { NgForm, FormControl, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
@@ -15,7 +16,12 @@ export class LoginComponent {
   constructor(
     private loginServise: LoginService, 
     private storageService: StorageService,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    private translate: TranslateService) {
+
+    translate.setDefaultLang('ua');
+    translate.use('ua');
+    }
 
   public Login = {} as Login;
   isLoggedIn = false;

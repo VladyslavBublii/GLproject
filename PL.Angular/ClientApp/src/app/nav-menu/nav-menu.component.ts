@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from '../storage/storage.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-nav-menu',
@@ -8,7 +9,13 @@ import { StorageService } from '../storage/storage.service';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
-  constructor(private http: HttpClient, private storageService: StorageService) {}
+  constructor(private http: HttpClient, private storageService: StorageService, 
+    private translate: TranslateService) 
+  {
+    translate.setDefaultLang('ua');
+    translate.use('ua');
+  }
+  
   isLoggedIn = false;
   isExpanded = false;
   
