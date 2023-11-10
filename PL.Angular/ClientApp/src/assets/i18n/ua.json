@@ -7,5 +7,24 @@
     "Enter City": "Місто",
     "Enter Post Index": "Поштовий індекс",
 
-    "Register": "Зареєструватися"
+    "Register": "Зареєструватися",
+
+    "Privacy": "Політика конфіденційності",
+
+    "SexShop": "SexShop",
+    "Home": "Додому",
+    "Login": "Ввійти",
+    "Logout": "Вийти",
+
+    "Enter site": "Зайти",
+    "Enter email": "Введіть адресу електронної пошти",
+    "Please enter a valid email address": "Будь ласка, введіть дійсну адресу електронної пошти",
+    "Email is": "Електронна пошта є",
+    "Password is": "Пароль є",
+    "required": "обов'язковим",
+    "Incorrect email and(or) password!": "Неправильна електронна пошта та (або) пароль!",
+    "Signin": "Увійти",
+    
+    "Login Error": "Помилка входу",
+    "OK": "OK"
 }

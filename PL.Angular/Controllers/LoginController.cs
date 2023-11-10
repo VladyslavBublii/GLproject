@@ -27,7 +27,7 @@ namespace PL.Angular.Controllers
                     return Ok(model);
                 }
             }
-            return BadRequest("Incrorrect login and(or) password");
+            return BadRequest("Incorrect login and(or) password");
         }
     }
 }

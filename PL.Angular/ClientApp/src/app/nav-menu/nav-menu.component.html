@@ -3,7 +3,7 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Web-Shop</a>
+      <a class="navbar-brand" [routerLink]="['/']">{{ 'SexShop' | translate }}</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -31,13 +31,13 @@
       >
         <ul class="navbar-nav flex-grow">
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedIn">
-            <a class="nav-link text-dark" id="register" [routerLink]="['/register']">Register</a>
+            <a class="nav-link text-dark" id="register" [routerLink]="['/register']">{{ 'Register' | translate }}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedIn">
-            <a class="nav-link text-dark" id="login" [routerLink]="['/login']">Login</a>
+            <a class="nav-link text-dark" id="login" [routerLink]="['/login']">{{ 'Login' | translate }}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedIn">
-            <a class="nav-link text-dark" id="logout" (click)="logout()">Logout</a>
+            <a class="nav-link text-dark" id="logout" (click)="logout()">{{ 'Logout' | translate }}</a>
           </li>
         </ul>
       </div>

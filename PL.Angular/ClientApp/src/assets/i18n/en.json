@@ -7,5 +7,24 @@
     "Enter City": "Enter City",
     "Enter Post Index": "Enter Email",
 
-    "Register": "Register"
+    "Register": "Register",
+
+    "Privacy": "Privacy Policy",
+
+    "SexShop": "SexShop",
+    "Home": "Home",
+    "Login": "Login",
+    "Logout": "Logout",
+
+    "Enter site": "Enter site",
+    "Enter email": "Enter email",
+    "Please enter a valid email address": "Please enter a valid email address",
+    "Email is": "Email is",
+    "Password is": "Password is",
+    "required": "required",
+    "Incorrect email and(or) password!": "Incorrect email and(or) password!",
+    "Signin": "Signin",
+    
+    "Login Error": "Login Error",
+    "OK": "OK"
 }
