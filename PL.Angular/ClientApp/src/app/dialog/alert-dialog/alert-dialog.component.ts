@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 
 export interface DialogData {
     message: string;
@@ -13,15 +12,9 @@ export interface DialogData {
 export class DialogAlertComponent {
     constructor(
         public dialogRef: MatDialogRef<DialogAlertComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: DialogData,
-        private translate: TranslateService
-        ) {
-            translate.setDefaultLang('ua');
-            translate.use('ua');
-        }
+        @Inject(MAT_DIALOG_DATA) public data: DialogData){}    
     
     onOkClick(): void {
         this.dialogRef.close();
     }
-  
-  }
+}

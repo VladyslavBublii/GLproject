@@ -21,7 +21,7 @@
           <li class="nav-item"
               [routerLinkActive]="['link-active']"
               [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+            <a class="nav-link text-dark" [routerLink]="['/']">{{ 'Home' | translate }}</a>
           </li>
         </ul>
       </div>
@@ -31,15 +31,33 @@
       >
         <ul class="navbar-nav flex-grow">
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedIn">
-            <a class="nav-link text-dark" id="register" [routerLink]="['/register']">{{ 'Register' | translate }}</a>
+            <button class="btn">
+              <a class="nav-link text-dark" id="register" [routerLink]="['/register']">{{ 'Register' | translate }}</a>
+            </button>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedIn">
-            <a class="nav-link text-dark" id="login" [routerLink]="['/login']">{{ 'Login' | translate }}</a>
+            <button class="btn">
+              <a class="nav-link text-dark" id="login" [routerLink]="['/login']">{{ 'Login' | translate }}</a>
+            </button>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedIn">
-            <a class="nav-link text-dark" id="logout" (click)="logout()">{{ 'Logout' | translate }}</a>
+            <button class="btn">
+              <a class="nav-link text-dark" id="logout" (click)="logout()">{{ 'Logout' | translate }}</a>
+            </button>
           </li>
         </ul>
+      </div>
+      <div>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <button mat-button (click)="menuTrigger.openMenu()">
+          <i class="material-icons md-48">language</i>
+          <div #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" place ></div>
+        </button>
+        <mat-menu mat-button #menu="matMenu">
+          <button mat-menu-item (click)="changeLanguage('en')">English</button>
+          <button mat-menu-item (click)="changeLanguage('ua')">Ukrainian</button>
+          <button mat-menu-item (click)="changeLanguage('ru')">Russian</button>
+        </mat-menu>
       </div>
     </div>
   </nav>

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from '../storage/storage.service';
-import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../language/language.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-nav-menu',
@@ -9,12 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
-  constructor(private http: HttpClient, private storageService: StorageService, 
-    private translate: TranslateService) 
-  {
-    translate.setDefaultLang('ua');
-    translate.use('ua');
-  }
+  constructor(private http: HttpClient, private storageService: StorageService, private languageService: LanguageService) {}
   
   isLoggedIn = false;
   isExpanded = false;
@@ -37,5 +33,10 @@ export class NavMenuComponent {
     this.storageService.clean();
     this.isLoggedIn = false;
     window.location.reload();
+  }
+
+  changeLanguage(language: string): void {
+    this.languageService.setCurrentLanguage(language);
+    console.log(`Selected language: ${language}`);
   }
 }

@@ -44,6 +44,7 @@
 
   .custom-mat-input {
     border-radius: 5px;
+    background-color: white;
   }
 
   .custom-mat-error {

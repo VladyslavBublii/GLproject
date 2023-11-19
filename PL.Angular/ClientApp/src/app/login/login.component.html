@@ -17,7 +17,7 @@
               {{ 'Email is ' | translate }}<strong>{{ 'required' | translate }}</strong>
             </mat-error>
           </div>
-        </mat-form-field><br />
+        </mat-form-field>
 
         <mat-form-field class="custom-mat-form-field" appearance="fill">
           <div class="form-group">  
@@ -29,7 +29,6 @@
             </mat-error>
           </div>
         </mat-form-field>
-        <br />
 
         <span class="custom-mat-error" *ngIf="isBadRequest">
             <strong>{{ 'Incorrect email and(or) password!' | translate }}</strong>
