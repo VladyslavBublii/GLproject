@@ -12,8 +12,6 @@ namespace DAL.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Cart> Carts { get; set; }
 
-        //change for you server name
-        //private readonly string computerName = "Legion-5-Pro";
         private readonly string computerName = Environment.MachineName;
 
         public DBContext()
