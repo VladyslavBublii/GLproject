@@ -11,10 +11,13 @@
 
     "Privacy": "Політика конфіденційності",
 
-    "SexShop": "SexShop",
+    "ShopName": "SexShop",
     "Home": "Додому",
     "Login": "Ввійти",
     "Logout": "Вийти",
+
+    "Store": "Магазин",
+    "Price": "Ціна",
 
     "Enter site": "Зайти",
     "Enter email": "Введіть адресу електронної пошти",

@@ -11,10 +11,13 @@
 
     "Privacy": "Privacy Policy",
 
-    "SexShop": "SexShop",
+    "ShopName": "SexShop",
     "Home": "Home",
     "Login": "Login",
     "Logout": "Logout",
+
+    "Store": "Store",
+    "Price": "Price",
 
     "Enter site": "Enter site",
     "Enter email": "Enter email",

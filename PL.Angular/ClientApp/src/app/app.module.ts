@@ -20,6 +20,7 @@ import { HomeComponent } from './home/home.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component'; 
+import { StoreComponent } from './store/store.component'; 
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { LoginComponent } from './login/login.component';
     PrivacyComponent,
     LoginComponent,
     RegisterComponent,
+    StoreComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -40,6 +42,7 @@ import { LoginComponent } from './login/login.component';
       { path: 'privacy', component: PrivacyComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'store', component: StoreComponent },
     ]),
     MatDialogModule,
     ReactiveFormsModule,
