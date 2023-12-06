@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IMainProductInformationService, MainProductInformationService>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllers();
