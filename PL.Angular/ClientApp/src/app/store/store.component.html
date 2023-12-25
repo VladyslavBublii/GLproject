@@ -1,15 +1,29 @@
-<div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-12">
-        <h3>{{ 'Store' | translate }}</h3>
-        <table *ngFor="let product of mainProductInformationList">
-            <tr>
-                <th>{{product.name}}</th>
-                <th><img style='width:240px; height:180px;' [src]="product.image" alt="Product Image"></th>
-                <th>{{ 'Price' | translate }}: {{product.price}}</th>
-            </tr>
-            <br /><br />
-        </table>
-      </div>
+<div class="container_with_sidebar">
+  <main class="main_bar">
+    <div>
+      <h3>{{ 'Store' | translate }}</h3>
+      <div>
+          <ul class="goods">
+            <li class="goods_cell" *ngFor="let product of mainProductInformationList">
+              <div class="tile">
+                <a class="tile_picture">
+                  <img [src]="product.image" alt="Product Image">
+                </a>
+                <a class="tile_title">
+                  {{product.name}}
+                </a>
+                <p class="tile_price">{{ 'Price' | translate }}: {{product.price}}</p>
+              </div>
+            </li>
+          </ul>
+          <br />
+        </div>
     </div>
+  </main>
+  <aside class="side_bar">
+    <div>
+      <h3>{{ 'Sidebar' | translate }}</h3>
+      <p>{{ 'Sidebar' | translate }}</p>
+    </div>
+  </aside>
 </div>
