@@ -5,6 +5,7 @@ import { StorageService } from '../storage/storage.service';
 @Component({
   selector: 'app-store',
   templateUrl: './store.component.html',
+  styleUrls: ['./store.component.css']
 })
 export class StoreComponent {
     constructor(
