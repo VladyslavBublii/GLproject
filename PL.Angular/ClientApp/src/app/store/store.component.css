@@ -1,0 +1,119 @@
+.container_with_sidebar {
+    padding-left: 24px;
+    padding-right: 24px;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+.side_bar{
+    width: 250px;
+    padding-left: 10px;
+    padding-right: 10px;
+    bottom: 0;
+    position: sticky;
+    transform: translateZ(0);
+    display: block;
+    box-sizing: border-box;
+}
+
+.main_bar{
+    padding-left: 10px;
+    padding-right: 10px;
+    width: calc(100% - 250px);
+    border-left: 1px solid #e9e9e9;
+    display: block;
+    box-sizing: border-box;
+}
+
+.goods{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.goods_cell{
+    width: 25%;
+    position: relative;
+    border-right: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+    box-sizing: border-box;
+}
+
+.tile{
+    position: relative;
+    height: 100%;
+    padding: 16px
+}
+
+.tile_picture{
+    position: relative;
+    display: block;
+    height: 170px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.tile_picture img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    max-height: 140px;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.tile_title {
+    display: block;
+    height: 40px;
+    margin-bottom: 7px;
+    overflow: hidden;
+    font-size: 16px;
+    color: #333;
+}
+
+.tile_price {
+    font-size: 24px;
+}
+
+a {
+    color: #3e77aa;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 1200px) {
+    .container_with_sidebar {
+        flex-direction: column-reverse;
+      }
+    
+      .main_bar {
+        width: 100%;
+        border-left: none;
+      }
+    
+      .side_bar {
+        width: 100%;
+        position: static;
+        margin-top: 16px;
+      }
+  }
+
+  @media screen and (max-width: 995px) {
+    .goods_cell{
+        width: 33%;
+    }
+  }
+
+  @media screen and (max-width: 770px) {
+    .goods_cell{
+        width: 50%;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .goods_cell{
+        width: 100%;
+    }
+  }
