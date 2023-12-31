@@ -99,7 +99,7 @@ namespace BL.Services
                             Category    = product.Category,
                             Name        = product.Name,
                             Description = product.Description,
-                            Image       = product.Image,
+                            ImageUrl    = product.ImageUrl,
                         });
                         cartDTO.Sum += product.Price;
                     }

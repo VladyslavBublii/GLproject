@@ -29,8 +29,7 @@ namespace PL.Models
 
 		public IFormFile ImageIn { get; set; }
 
-		public byte[] Image { get; set; }
-
+		public string ImageUrl { get; set; }
 
 	}
 }
