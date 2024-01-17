@@ -7,7 +7,7 @@
             <li class="goods_cell" *ngFor="let product of mainProductInformationList">
               <div class="tile">
                 <a class="tile_picture">
-                  <img [src]="product.image" alt="Product Image">
+                  <img [src]="product.googleUrl" alt={{product.imageUrl}}>
                 </a>
                 <a class="tile_title">
                   {{product.name}}
