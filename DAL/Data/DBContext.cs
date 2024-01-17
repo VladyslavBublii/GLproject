@@ -16,11 +16,11 @@ namespace DAL.Data
 
         public DBContext()
         {
-            Database.EnsureCreated();
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer($"Server={computerName}; Database=Database4; Trusted_Connection=True; TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer($"Server={computerName}; Database=StoreDB; Trusted_Connection=True; TrustServerCertificate=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

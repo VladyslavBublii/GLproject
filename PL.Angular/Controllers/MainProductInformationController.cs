@@ -11,10 +11,12 @@ namespace PL.Angular.Controllers
     public class MainProductsInformationController : ControllerBase
     {
         IMainProductInformationService _mainProductService;
+        private readonly ISettings _settings;
 
-        public MainProductsInformationController(IMainProductInformationService serv)
+        public MainProductsInformationController(IMainProductInformationService serv, ISettings settings)
         {
             _mainProductService = serv;
+            _settings = settings;
         }
 
         [HttpGet("get")]
@@ -22,9 +24,17 @@ namespace PL.Angular.Controllers
         {
             try
             {
+                var GoogleDriveUrl = _settings.GetUrl();
+
                 IEnumerable<MainProductInformationDTO> productDtos = _mainProductService.GetProducts();
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MainProductInformationDTO, MainProductInformation>()).CreateMapper();
                 var mainProductsInformation = mapper.Map<IEnumerable<MainProductInformationDTO>, List<MainProductInformation>>(productDtos);
+
+                foreach (var product in mainProductsInformation)
+                {
+                    product.GoogleUrl = GoogleDriveUrl;
+                }
+
                 return Ok(mainProductsInformation);
             }
             catch (Exception)

@@ -11,6 +11,8 @@ namespace PL.Angular.Models
         [DisplayFormat(DataFormatString = "{0:n0}", ApplyFormatInEditMode = true)]
         public decimal Price { get; set; }
         
-        public byte[] Image { get; set; }
+        public string ImageUrl { get; set; }
+
+        public string GoogleUrl { get; set; }
     }
 }

@@ -9,6 +9,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IMainProductInformationService, MainProductInformationService>();
+builder.Services.AddScoped<ISettings, Settings>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllers();

@@ -7,19 +7,23 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace DAL.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20221021152551_Initial-migration")]
-    partial class Initialmigration
+    [Migration("20240108204053_InitialMigration")]
+    partial class InitialMigration
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3");
+                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Core.Models.Cart", b =>
                 {
@@ -35,7 +39,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cart");
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Core.Models.Customer", b =>
@@ -76,10 +80,7 @@ namespace DAL.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("OrderTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PhoneNumber")
@@ -88,12 +89,16 @@ namespace DAL.Migrations
                     b.Property<string>("PostIndex")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Sum")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("CustomerId");
+                    b.HasKey("Id");
 
                     b.ToTable("Orders");
                 });
@@ -110,8 +115,8 @@ namespace DAL.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -122,26 +127,6 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Core.Models.RightOrder", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("OrderTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RightOrders");
                 });
 
             modelBuilder.Entity("Core.Models.User", b =>
@@ -188,15 +173,6 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Core.Models.Order", b =>
-                {
-                    b.HasOne("Core.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("OrderProduct", b =>
