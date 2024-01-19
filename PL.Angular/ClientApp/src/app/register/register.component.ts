@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { RegisterService } from './register.service';
 import { StorageService } from '../storage/storage.service';
 import { LoginService } from '../login/login.service';
@@ -14,7 +13,6 @@ import { LoginService } from '../login/login.service';
 
 export class RegisterComponent {
   constructor(
-    private router: Router,
     private registerService: RegisterService,
     private storageService: StorageService,
     private loginServise: LoginService) {
@@ -24,13 +22,10 @@ export class RegisterComponent {
   registerinto() {
     this.registerService.registerinto(this.RegisterModel).subscribe(
     (res) => {
-      console.log('Answer: ', res);
       this.loginServise.signinto({email: this.RegisterModel.email, password: this.RegisterModel.password}).subscribe(
         (resLog) => {
           this.storageService.saveUser(resLog);
-          console.log('Answer:', resLog);
           this.loginServise.returnhome();
-          //this.router.navigate(['/store']);
         }
       );
     },
