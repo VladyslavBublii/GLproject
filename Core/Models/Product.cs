@@ -20,7 +20,7 @@ namespace Core.Models
 
 		public decimal Price { get; set; }
 
-		public string ImageUrl { get; set; }
+		public string ImageName { get; set; }
 
 		public ICollection<Order> Orders { get; set; }
 	}
