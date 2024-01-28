@@ -29,11 +29,7 @@ namespace PL.Angular.Controllers
                 IEnumerable<MainProductInformationDTO> productDtos = _mainProductService.GetProducts();
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MainProductInformationDTO, MainProductInformation>()).CreateMapper();
                 var mainProductsInformation = mapper.Map<IEnumerable<MainProductInformationDTO>, List<MainProductInformation>>(productDtos);
-
-                foreach (var product in mainProductsInformation)
-                {
-                    product.GoogleUrl = GoogleDriveUrl;
-                }
+                mainProductsInformation.ForEach(product => product.GoogleUrl = GoogleDriveUrl);
 
                 return Ok(mainProductsInformation);
             }
