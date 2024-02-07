@@ -28,7 +28,7 @@ export class StoreComponent {
           this.mainProductInformationList = data.map((item) => ({
             name: item.name,
             price: item.price.toString(),
-            imageUrl: item.imageUrl,
+            imageName: item.imageName,
             googleUrl: item.googleUrl,
           }));
           console.log(data);
@@ -44,6 +44,6 @@ export class StoreComponent {
 export interface MainProductInformation {
     name: string,
     price: string,
-    imageUrl: string,
+    imageName: string,
     googleUrl: string,
   }

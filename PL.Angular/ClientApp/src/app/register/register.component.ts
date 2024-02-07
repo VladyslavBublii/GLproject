@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RegisterService } from './register.service';
+import { StorageService } from '../storage/storage.service';
+import { LoginService } from '../login/login.service';
 //import { RegisterModel} from '../models/registerModel';
 
 
@@ -10,14 +12,22 @@ import { RegisterService } from './register.service';
 })
 
 export class RegisterComponent {
-  constructor(private registerService: RegisterService) {
+  constructor(
+    private registerService: RegisterService,
+    private storageService: StorageService,
+    private loginServise: LoginService) {
   }
   public RegisterModel = {} as RegisterModel;
 
   registerinto() {
     this.registerService.registerinto(this.RegisterModel).subscribe(
     (res) => {
-      console.log('Answer:', res);
+      this.loginServise.signinto({email: this.RegisterModel.email, password: this.RegisterModel.password}).subscribe(
+        (resLog) => {
+          this.storageService.saveUser(resLog);
+          this.loginServise.returnhome();
+        }
+      );
     },
     (error) => {
       console.error('Error:', error);
