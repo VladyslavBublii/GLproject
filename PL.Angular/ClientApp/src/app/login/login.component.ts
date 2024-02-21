@@ -17,7 +17,7 @@ export class LoginComponent {
     private storageService: StorageService,
     public dialog: MatDialog) {}
 
-  public Login = {} as Login;
+  public Login = { id: "00000000-0000-0000-0000-000000000000" } as Login;
   isLoggedIn = false;
   isBadRequest = false;
 
@@ -47,7 +47,7 @@ export class LoginComponent {
 
       this.loginServise.signinto(this.Login).subscribe(
       (res) => {
-        this.storageService.saveUser(res);
+        this.storageService.saveUserData(res);
         this.isLoggedIn = true;
         console.log('Answer:', res);
         this.loginServise.returnhome();
@@ -84,6 +84,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 export interface Login {
+  id: string;
   email: string;
   password: string;
 }

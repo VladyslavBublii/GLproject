@@ -20,7 +20,19 @@ import { HomeComponent } from './home/home.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component'; 
-import { StoreComponent } from './store/store.component'; 
+import { StoreComponent } from './store/store.component';
+import { StoreModule, MetaReducer, ActionReducer } from '@ngrx/store';
+import { localStorageSync } from 'ngrx-store-localstorage';
+import { storeFreeze } from 'ngrx-store-freeze'
+import { userReducer } from './user/user.reducer';
+
+const localStorageSyncReducer = (reducer: ActionReducer<any>): ActionReducer<any> =>
+  localStorageSync({
+    keys: ['user'],
+    rehydrate: true,
+  })(reducer);
+
+const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer, storeFreeze];
 
 @NgModule({
   declarations: [
@@ -61,6 +73,7 @@ import { StoreComponent } from './store/store.component';
       }
     }),
     BrowserAnimationsModule,
+    StoreModule.forRoot({ user: userReducer }, { metaReducers }),
   ],
   providers: [],
   bootstrap: [AppComponent]

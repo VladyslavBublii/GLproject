@@ -24,7 +24,7 @@ export class RegisterComponent {
     (res) => {
       this.loginServise.signinto({email: this.RegisterModel.email, password: this.RegisterModel.password}).subscribe(
         (resLog) => {
-          this.storageService.saveUser(resLog);
+          this.storageService.saveUserData(this.RegisterModel);
           this.loginServise.returnhome();
         }
       );
