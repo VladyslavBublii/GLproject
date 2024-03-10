@@ -18,16 +18,16 @@ namespace PL.Angular.Controllers
             _cartService = cartService;
         }
 
-        [HttpGet("get")]
-        public async Task<IActionResult> Index()
+        [HttpPost("getBasket")]
+        public async Task<IActionResult> GetBasket([FromBody] string userId)
         {
-            string userId = ""; //current registered user id
-
             var products = _cartService.ShowCart(Guid.Parse(userId));
-            if (products == null) return NotFound();
+            if (products == null || !products.Products.Any()) 
+            {
+                return NotFound();
+            }
             List<CartModel> cartModels = new List<CartModel>();
 
-            //var sum = products.Sum;
             foreach (var product in products.Products)
             {
                 var x = cartModels.Find(x => x.Id == product.Id);
@@ -52,15 +52,15 @@ namespace PL.Angular.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddToCart([FromBody] string id)
+        public async Task<IActionResult> AddToCart([FromBody] string productId)
         {
             string userId = ""; //current registered user id
 
-            if (!_cartService.CheckItem(Guid.Parse(id)))
+            if (!_cartService.CheckItem(Guid.Parse(productId)))
             {
                 return NotFound();
             }
-            _cartService.AddItem(Guid.Parse(id), Guid.Parse(userId));
+            _cartService.AddItem(Guid.Parse(productId), Guid.Parse(userId));
 
             return Ok();
         }

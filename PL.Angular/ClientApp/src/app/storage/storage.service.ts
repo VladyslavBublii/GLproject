@@ -30,13 +30,14 @@ export class StorageService implements OnInit {
     this.store.dispatch(userActions.getUser());
   }
 
-  public getUser(): any {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return JSON.parse(user);
-    }
+  public getUserId(): string {
+    let userId: string = "";
+    this.user$.subscribe(
+      (user) => { 
+        userId = user.id;
+      });
 
-    return {};
+    return userId;
   }
 
   public isLoggedIn(): boolean {

@@ -17,6 +17,7 @@
     "Logout": "Logout",
 
     "Store": "Store",
+    "Cart": "Cart",
     "Sidebar": "Sidebar",
     "Price": "Price",
 
@@ -28,6 +29,7 @@
     "required": "required",
     "Incorrect email and(or) password!": "Incorrect email and(or) password!",
     "Signin": "Signin",
+    "BasketEmpty": "Basket is empty!",
     
     "Login Error": "Login Error",
     "OK": "OK"

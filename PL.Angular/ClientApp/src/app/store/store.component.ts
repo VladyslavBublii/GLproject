@@ -31,7 +31,6 @@ export class StoreComponent {
             imageName: item.imageName,
             googleUrl: item.googleUrl,
           }));
-          console.log(data);
           console.log(this.mainProductInformationList);
         },
         (error) => {
