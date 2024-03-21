@@ -2,6 +2,7 @@
 using PL.Angular.Models;
 using BL.Services.Interfaces;
 using BL.DTO;
+using static Azure.Core.HttpHeader;
 
 namespace PL.Angular.Controllers
 {
@@ -25,26 +26,23 @@ namespace PL.Angular.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool existErrors = false;
+                var errorList = new List<string>();
                 if (!_userService.IsEmailFree(registerModel.Email))
                 {
-                    ModelState.AddModelError("", "This email is already busy");
-                    existErrors = true;
+                    errorList.Add("This email is already busy!");
                 }
                 if (!_emailService.ValideEmail(registerModel.Email))
                 {
-                    ModelState.AddModelError("", "This email is not valid");
-                    existErrors = true;
+                    errorList.Add("This email is not valid!");
                 }
                 if (!_passwordService.IsPasswordStrong(registerModel.Password))
                 {
-                    ModelState.AddModelError("", "Password is too weak");
-                    existErrors = true;
+                    errorList.Add("Password is too weak!");
                 }
 
-                if (existErrors)
+                if (errorList.Count != 0)
                 {
-                    return Ok(registerModel);
+                    return BadRequest("Errors: " + String.Join(" ", errorList.ToArray()));
                 }
 
                 var userDto = new UserDTO { Email = registerModel.Email, Password = registerModel.Password, RoleName = "user" };

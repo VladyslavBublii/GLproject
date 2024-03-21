@@ -66,7 +66,7 @@ namespace PL.Controllers
                     imageData = binaryReader.ReadBytes((int)productViewModel.ImageIn.Length);
                 }
                 productViewModel.Image = imageData;
-                productDto.ImageUrl = productViewModel.ImageUrl;
+                productDto.ImageName = productViewModel.ImageName;
             }
 
             if (ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace PL.Controllers
                         imageData = binaryReader.ReadBytes((int)productViewModel.ImageIn.Length);
                     }
                 }
-                productDto.ImageUrl = productViewModel.ImageUrl;
+                productDto.ImageName = productViewModel.ImageName;
 
                 //TODO: установка ID не помогает пройти ModelState.IsValid
                 productDto.Id = Guid.NewGuid();
