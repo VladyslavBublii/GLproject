@@ -24,6 +24,7 @@ namespace PL.Angular.Controllers
                 var user = _userService.GetUserLog(model.Email, model.Password);
                 if (user != null)
                 {
+                    model.Id = user.Id.ToString();
                     return Ok(model);
                 }
             }

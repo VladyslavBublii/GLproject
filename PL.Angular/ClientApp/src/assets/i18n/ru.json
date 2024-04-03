@@ -17,6 +17,7 @@
     "Logout": "Выйти",
 
     "Store": "Магазин",
+    "Cart": "Корзина",
     "Sidebar": "Столбец",
     "Price": "Цена",
 
@@ -28,6 +29,7 @@
     "required": "обязателен",
     "Incorrect email and(or) password!": "Неправильный адрес электронной почты и(или) пароль!",
     "Signin": "Войти",
+    "BasketEmpty": "Корзина пуста!",
     
     "Login Error": "Ошибка входа",
     "OK": "OK"

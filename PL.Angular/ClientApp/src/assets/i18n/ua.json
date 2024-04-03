@@ -17,6 +17,7 @@
     "Logout": "Вийти",
 
     "Store": "Магазин",
+    "Cart": "Кошик",
     "Sidebar": "Колонка",
     "Price": "Ціна",
 
@@ -28,6 +29,7 @@
     "required": "обов'язковим",
     "Incorrect email and(or) password!": "Неправильна електронна пошта та (або) пароль!",
     "Signin": "Увійти",
+    "BasketEmpty": "Кошик порожній!",
     
     "Login Error": "Помилка входу",
     "OK": "OK"

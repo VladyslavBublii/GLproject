@@ -1,0 +1,8 @@
+<div class="container">
+    <div>
+    <h3>{{ 'Cart' | translate }}</h3>
+        <div>
+            <h3 *ngIf="isBasketEmpty">{{ 'BasketEmpty' | translate }}</h3>
+        </div>
+    </div>
+</div>

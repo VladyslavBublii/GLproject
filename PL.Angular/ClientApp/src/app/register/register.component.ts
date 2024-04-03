@@ -22,9 +22,9 @@ export class RegisterComponent {
   registerinto() {
     this.registerService.registerinto(this.RegisterModel).subscribe(
     (res) => {
-      this.loginServise.signinto({email: this.RegisterModel.email, password: this.RegisterModel.password}).subscribe(
+      this.loginServise.signinto({id: "00000000-0000-0000-0000-000000000000", email: this.RegisterModel.email, password: this.RegisterModel.password}).subscribe(
         (resLog) => {
-          this.storageService.saveUser(resLog);
+          this.storageService.saveUserData(this.RegisterModel);
           this.loginServise.returnhome();
         }
       );

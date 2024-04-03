@@ -4,6 +4,8 @@ namespace PL.Angular.Models
 {
     public class LoginModel
     {
+        public string Id { set; get; }
+        
         [Required(ErrorMessage = "Email is not specified")]
         public string Email { get; set; }
          
