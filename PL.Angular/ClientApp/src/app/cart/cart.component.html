@@ -1,8 +1,24 @@
 <div class="container">
     <div>
     <h3>{{ 'Cart' | translate }}</h3>
-        <div>
-            <h3 *ngIf="isBasketEmpty">{{ 'BasketEmpty' | translate }}</h3>
+        <div *ngIf="isBasketEmpty">
+            <h3>{{ 'BasketEmpty' | translate }}</h3>
         </div>
+        <div *ngIf="!isBasketEmpty">
+            <ul class="goods">
+              <li class="goods_cell" *ngFor="let product of productInformationList">
+                <div class="tile">
+                  <a class="tile_picture">
+                    <img [src]="product.googleUrl" alt={{product.imageName}}>
+                  </a>
+                  <a class="tile_title">
+                    {{product.name}}
+                  </a>
+                  <p class="tile_price">{{ 'Price' | translate }}: {{product.price}}</p>
+                </div>
+              </li>
+            </ul>
+            <br />
+          </div>
     </div>
 </div>
