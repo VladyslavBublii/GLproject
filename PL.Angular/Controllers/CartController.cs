@@ -52,10 +52,8 @@ namespace PL.Angular.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddToCart([FromBody] string productId)
+        public async Task<IActionResult> AddToCart([FromBody] string userId, string productId)
         {
-            string userId = ""; //current registered user id
-
             if (!_cartService.CheckItem(Guid.Parse(productId)))
             {
                 return NotFound();
@@ -66,10 +64,9 @@ namespace PL.Angular.Controllers
         }
 
         [HttpPost("remove")]
-        public async Task<IActionResult> RemoveFromCart([FromBody] Guid productId)
+        public async Task<IActionResult> RemoveFromCart([FromBody] string userId, string productId)
         {
-            string userId = ""; //current registered user id
-            _cartService.RemoveItem(Guid.Parse(userId), productId);
+            _cartService.RemoveItem(Guid.Parse(userId), Guid.Parse(productId));
 
             return Ok();
         }
