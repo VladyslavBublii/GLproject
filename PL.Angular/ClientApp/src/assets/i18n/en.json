@@ -30,6 +30,8 @@
     "Incorrect email and(or) password!": "Incorrect email and(or) password!",
     "Signin": "Signin",
     "BasketEmpty": "Basket is empty!",
+    "Buy": "Buy",
+    "Remove": "Remove",
     
     "Login Error": "Login Error",
     "OK": "OK"

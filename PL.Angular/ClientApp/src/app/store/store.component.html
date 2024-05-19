@@ -13,6 +13,7 @@
                   {{product.name}}
                 </a>
                 <p class="tile_price">{{ 'Price' | translate }}: {{product.price}}</p>
+                <button *ngIf="isLoggedIn" mat-flat-button color="primary" (click)="addProductToBasket(product.id)">{{ 'Buy' | translate }}</button>
               </div>
             </li>
           </ul>

@@ -30,6 +30,8 @@
     "Incorrect email and(or) password!": "Неправильна електронна пошта та (або) пароль!",
     "Signin": "Увійти",
     "BasketEmpty": "Кошик порожній!",
+    "Buy": "Придбати",
+    "Remove": "Прибрати",
     
     "Login Error": "Помилка входу",
     "OK": "OK"

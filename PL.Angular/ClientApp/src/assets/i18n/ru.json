@@ -30,6 +30,8 @@
     "Incorrect email and(or) password!": "Неправильный адрес электронной почты и(или) пароль!",
     "Signin": "Войти",
     "BasketEmpty": "Корзина пуста!",
+    "Buy": "Купить",
+    "Remove": "Убрать",
     
     "Login Error": "Ошибка входа",
     "OK": "OK"

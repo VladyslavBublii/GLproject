@@ -22,6 +22,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component'; 
 import { StoreComponent } from './store/store.component';
 import { CartComponent } from './cart/cart.component';
+
 import { StoreModule, MetaReducer, ActionReducer } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { storeFreeze } from 'ngrx-store-freeze'
