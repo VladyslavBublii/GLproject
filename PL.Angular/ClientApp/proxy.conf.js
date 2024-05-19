@@ -11,6 +11,8 @@ const PROXY_CONFIG = [
       "/registration/registration",
       "/store/get",
       "/cart/getBasket",
+      "/cart/add",
+      "/cart/remove",
    ],
     target: target,
     secure: false,

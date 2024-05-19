@@ -52,23 +52,23 @@ namespace PL.Angular.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddToCart([FromBody] string userId, string productId)
+        public async Task<IActionResult> AddToCart([FromBody] CartRequestModel cartRequestModel)
         {
-            if (!_cartService.CheckItem(Guid.Parse(productId)))
+            if (!_cartService.CheckItem(Guid.Parse(cartRequestModel.ProductId)))
             {
                 return NotFound();
             }
-            _cartService.AddItem(Guid.Parse(productId), Guid.Parse(userId));
+            _cartService.AddItem(Guid.Parse(cartRequestModel.ProductId), Guid.Parse(cartRequestModel.UserId));
 
-            return Ok();
+            return Ok(cartRequestModel);
         }
 
         [HttpPost("remove")]
-        public async Task<IActionResult> RemoveFromCart([FromBody] string userId, string productId)
+        public async Task<IActionResult> RemoveFromCart([FromBody] CartRequestModel cartRequestModel)
         {
-            _cartService.RemoveItem(Guid.Parse(userId), Guid.Parse(productId));
+            _cartService.RemoveItem(Guid.Parse(cartRequestModel.UserId), Guid.Parse(cartRequestModel.ProductId));
 
-            return Ok();
+            return Ok(cartRequestModel);
         }
     }
 }

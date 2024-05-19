@@ -25,6 +25,7 @@ export class CartComponent {
       this.cartServise.getBasket(this.userId).subscribe(
         (data: any[]) => {
           this.productInformationList = data.map((item) => ({
+            id: item.id,
             name: item.name,
             description: item.description,
             category: item.category,
@@ -43,9 +44,21 @@ export class CartComponent {
         }
       );
     }
+
+    removeProductFromBasket(productId: string){
+      this.cartServise.removeFromBasket(this.userId, productId).subscribe(
+        (data: any) => {
+          this.ngOnInit();
+        },
+        (error) => {
+          console.error('Error:', error.error);
+        }
+      );
+    }
 }
 
 export interface ProductInformation {
+    id: string,
     name: string,
     description: string,
     category: string,
