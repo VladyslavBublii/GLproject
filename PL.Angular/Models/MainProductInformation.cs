@@ -13,6 +13,6 @@ namespace PL.Angular.Models
         
         public string ImageName { get; set; }
 
-        public string GoogleUrl { get; set; }
+        public string UrlImage { get; set; }
     }
 }

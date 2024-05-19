@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BL.DTO;
+using BL.Services;
 using BL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using PL.Angular.Models;
@@ -11,12 +12,12 @@ namespace PL.Angular.Controllers
     public class MainProductsInformationController : ControllerBase
     {
         IMainProductInformationService _mainProductService;
-        private readonly ISettings _settings;
+        private readonly IS3Bucket _s3Bucket;
 
-        public MainProductsInformationController(IMainProductInformationService serv, ISettings settings)
+        public MainProductsInformationController(IMainProductInformationService serv, IS3Bucket s3Bucket)
         {
             _mainProductService = serv;
-            _settings = settings;
+            _s3Bucket = s3Bucket;
         }
 
         [HttpGet("get")]
@@ -24,14 +25,17 @@ namespace PL.Angular.Controllers
         {
             try
             {
-                var GoogleDriveUrl = _settings.GetUrl();
+                var s3Bucket = _s3Bucket;
 
                 IEnumerable<MainProductInformationDTO> productDtos = _mainProductService.GetProducts();
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MainProductInformationDTO, MainProductInformation>()).CreateMapper();
-                var mainProductsInformation = mapper.Map<IEnumerable<MainProductInformationDTO>, List<MainProductInformation>>(productDtos);
-                mainProductsInformation.ForEach(product => product.GoogleUrl = GoogleDriveUrl);
+                var mainProductsInformationList = mapper.Map<IEnumerable<MainProductInformationDTO>, List<MainProductInformation>>(productDtos);
+                foreach (var productProductsInformation in mainProductsInformationList) 
+                {
+                    productProductsInformation.UrlImage = s3Bucket.GetImageLink(productProductsInformation.ImageName);
+                }
 
-                return Ok(mainProductsInformation);
+                return Ok(mainProductsInformationList);
             }
             catch (Exception)
             {
