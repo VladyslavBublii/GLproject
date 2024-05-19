@@ -1,5 +1,6 @@
 using BL.Services.Interfaces;
 using BL.Services;
+using System.Runtime;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IMainProductInformationService, MainProductInformationService>();
 builder.Services.AddScoped<ICartService, CartService>();
-builder.Services.AddScoped<ISettings, Settings>();
+builder.Services.AddScoped<IS3Bucket, S3Bucket>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllers();
