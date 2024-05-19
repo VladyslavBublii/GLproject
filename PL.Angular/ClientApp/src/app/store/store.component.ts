@@ -29,7 +29,7 @@ export class StoreComponent {
             name: item.name,
             price: item.price.toString(),
             imageName: item.imageName,
-            googleUrl: item.googleUrl,
+            urlImage: item.urlImage
           }));
           console.log(this.mainProductInformationList);
         },
@@ -44,5 +44,5 @@ export interface MainProductInformation {
     name: string,
     price: string,
     imageName: string,
-    googleUrl: string,
+    urlImage: string
   }

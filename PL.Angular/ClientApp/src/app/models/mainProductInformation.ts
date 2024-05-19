@@ -4,7 +4,6 @@ export class MainProductInformation {
       public name: string,
       public price: string,
       public imageName: string,
-      public GoogleUrl: string,
+      public urlImage: string,
     ) {  }
-  
 }
