@@ -12,10 +12,12 @@ namespace PL.Angular.Controllers
     public class CartController : ControllerBase
     {
         private ICartService _cartService;
+        private readonly IS3Bucket _s3Bucket;
 
-        public CartController(ICartService cartService)
+        public CartController(ICartService cartService, IS3Bucket s3Bucket)
         {
             _cartService = cartService;
+            _s3Bucket = s3Bucket;
         }
 
         [HttpPost("getBasket")]
@@ -27,6 +29,7 @@ namespace PL.Angular.Controllers
                 return NotFound();
             }
             List<CartModel> cartModels = new List<CartModel>();
+            var s3Bucket = _s3Bucket;
 
             foreach (var product in products.Products)
             {
@@ -42,8 +45,10 @@ namespace PL.Angular.Controllers
                         Description = product.Description,
                         Category    = product.Category,
                         Price       = product.Price,
-                        Count       = 1
-                    };
+                        Count       = 1,
+                        ImageName   = product.ImageName,
+                        UrlImage    = s3Bucket.GetImageLink(product.ImageName)
+                };
                     cartModels.Add(cartModel);
                 }
             }

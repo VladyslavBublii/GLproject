@@ -32,7 +32,7 @@ export class CartComponent {
             price: item.price.toString(),
             count: item.count.toString(),
             imageName: item.imageName,
-            googleUrl: item.googleUrl,
+            urlImage: item.urlImage,
           }));
           this.isBasketEmpty = false;
           console.log(data);
@@ -65,5 +65,5 @@ export interface ProductInformation {
     price: string,
     count: string,
     imageName: string,
-    googleUrl: string,
+    urlImage: string
   }
