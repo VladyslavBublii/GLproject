@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BL.DTO
 {
@@ -12,7 +13,8 @@ namespace BL.DTO
         public string City { get; set; } // Пока без привязки к Customer(UsersDetails)
         public string PostIndex { get; set; } // Пока без привязки к Customer(UsersDetails)
 
-        public Guid ProductId { get; set; }
+        public Guid UserId { get; set; }
+        public ICollection<Guid> ProductIds { get; set; }
         public DateTime Date { get; set; }
     }
 }

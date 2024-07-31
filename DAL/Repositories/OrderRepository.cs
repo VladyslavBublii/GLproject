@@ -8,8 +8,8 @@ using System.Linq;
 
 namespace DAL.Repositories
 {
-	public class OrderRepository : IRepository<Order>
-	{
+	public class OrderRepository : IRepository<Order>, IOrdersRepository
+    {
 		private DBContext _db;
 
 		public OrderRepository(DBContext context)
@@ -22,12 +22,22 @@ namespace DAL.Repositories
 			return _db.Orders.ToList();
 		}
 
-		public Order Get(Guid id)
+        public IEnumerable<Order> GetAllByUserId(Guid userId)
+        {
+            return _db.Orders.Where(item => item.UserId == userId)?.ToList();
+        }
+
+        public Guid GetIdByUserIdAndTime(Guid userId, DateTime orderTime)
+        {
+            return (Guid)(_db.Orders.Where(item => item.UserId == userId && item.OrderTime == orderTime)?.FirstOrDefault().Id);
+        }
+
+        public Order Get(Guid id)
 		{
 			return _db.Orders.Find(id);
 		}
 
-		public void Create(Order order)
+        public void Create(Order order)
 		{
 			_db.Orders.Add(order);
 		}
