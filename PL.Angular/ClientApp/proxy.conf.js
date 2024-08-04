@@ -13,6 +13,8 @@ const PROXY_CONFIG = [
       "/cart/getBasket",
       "/cart/add",
       "/cart/remove",
+      "/order/makeOrder",
+      "/order/getByUserId",
    ],
     target: target,
     secure: false,

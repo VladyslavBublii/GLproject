@@ -36,9 +36,24 @@ export class CartService {
     body,
     this.HttpOptions);
   }
+
+  makeOrder(userId: string, products: Array<any>): Observable<any[]> {
+    var body: Array<OrderRequestModel> = products.map(product => ({
+      userId: userId,
+      productId: product.id,
+      count: parseInt(product.count, 10)
+    }));
+    return this.http.post<any[]>(this.baseUrl + "order/makeOrder", JSON.stringify(body), this.HttpOptions);
+  }
 }
 
 export interface CartRequestModel {
   userId: string,
   productId: string
+}
+
+export interface OrderRequestModel {
+  userId: string,
+  productId: string,
+  count: number
 }

@@ -30,7 +30,7 @@ namespace DAL.Repositories
 		public void Create(Product product)
 		{
 			product.Id = Guid.NewGuid();
-			product.Orders = null;
+			product.OrderProducts = null;
             _db.Products.Add(product);
 		}
 
