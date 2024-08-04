@@ -17,6 +17,7 @@ namespace Core.Models
 
 		public string ImageName { get; set; }
 
-        public ICollection<OrderProduct> OrderProducts { get; set; }
+		public ICollection<OrderProduct> OrderProducts { get; set; }
+
     }
 }
