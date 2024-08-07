@@ -5,11 +5,6 @@ namespace Core.Models
 {
 	public class Product
 	{
-		public Product()
-		{
-			Orders = new HashSet<Order>();
-		}
-
 		public Guid Id { get; set; }
 
 		public string Category { get; set; }
@@ -22,6 +17,7 @@ namespace Core.Models
 
 		public string ImageName { get; set; }
 
-		public ICollection<Order> Orders { get; set; }
-	}
+		public ICollection<OrderProduct> OrderProducts { get; set; }
+
+    }
 }

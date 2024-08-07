@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace BL.DTO
+namespace PL.Angular.Models
 {
-	public class OrderDTO
+    public class OrderModel
     {
         public Guid Id { get; set; }
         public decimal Sum { get; set; }
@@ -15,6 +17,5 @@ namespace BL.DTO
 
         public Guid UserId { get; set; }
         public ICollection<Guid> ProductIds { get; set; }
-        public DateTime Date { get; set; }
     }
 }

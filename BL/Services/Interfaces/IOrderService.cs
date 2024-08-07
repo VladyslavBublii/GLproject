@@ -9,6 +9,6 @@ namespace BL.Services.Interfaces
 		void MakeOrder(OrderDTO orderDto);
 		ProductDTO GetProduct(Guid id);
 		IEnumerable<ProductDTO> GetProducts();
-		//void Dispose();
-	}
+		IEnumerable<OrderDTO> GetOrdersByUserId(Guid userId);
+    }
 }

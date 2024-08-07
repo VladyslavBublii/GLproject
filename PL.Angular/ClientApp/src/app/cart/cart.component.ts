@@ -13,7 +13,7 @@ export class CartComponent {
         private storageService: StorageService) {}
     
     isBasketEmpty = false;
-    userId: string = "";
+    public userId: string = "";
     public productInformationList: Array<ProductInformation> = [];
     
     ngOnInit(): void {
@@ -35,8 +35,6 @@ export class CartComponent {
             urlImage: item.urlImage,
           }));
           this.isBasketEmpty = false;
-          console.log(data);
-          console.log(this.productInformationList);
         },
         (error) => {
           this.isBasketEmpty = true;
@@ -52,6 +50,17 @@ export class CartComponent {
         },
         (error) => {
           console.error('Error:', error.error);
+        }
+      );
+    }
+
+    makeOrder(): void{
+      this.cartServise.makeOrder(this.userId, this.productInformationList).subscribe(
+        (data: any[]) => {
+          console.log(data);
+        },
+        (error) => {
+          console.error(error);
         }
       );
     }
