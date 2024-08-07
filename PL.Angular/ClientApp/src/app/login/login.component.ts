@@ -55,12 +55,6 @@ export class LoginComponent {
       (error) => {
         console.error('Error:', error.error);
         this.isBadRequest = true;
-        /*
-        this.dialog.open(DialogAlertComponent, {
-          width: '250px',
-          data: {message: error.error }
-        });
-        */
       }
     );
   }
