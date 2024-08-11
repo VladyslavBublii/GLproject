@@ -49,6 +49,13 @@ export class StorageService implements OnInit {
   }
 
   public isLoggedIn(): boolean {
+    //TODO: Remove console log
+    this.user$.subscribe(
+      (user) => { 
+        console.log('User Email:', user.email);
+        console.log('User Id:', user.id);
+        console.log('User Role:', user.role);
+      });
     let isLogged = false;
     this.user$.subscribe(user => {
       isLogged = user.email !== '';

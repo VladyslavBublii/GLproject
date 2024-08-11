@@ -17,7 +17,7 @@ export class LoginComponent {
     private storageService: StorageService,
     public dialog: MatDialog) {}
 
-  public Login = { id: "00000000-0000-0000-0000-000000000000" } as Login;
+  public Login = { id: "00000000-0000-0000-0000-000000000000", userRole: "user" } as Login;
   isLoggedIn = false;
   isBadRequest = false;
 
@@ -66,7 +66,7 @@ export class LoginComponent {
 
   onEnterPassword(event: Event){
     this.isBadRequest = false;
-    this.Login.password = (<HTMLInputElement>event.target).value;
+    this.Login.passwordCache = (<HTMLInputElement>event.target).value;
   }
 }
 
@@ -80,5 +80,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export interface Login {
   id: string;
   email: string;
-  password: string;
+  passwordCache: string;
+  userRole: string;
 }

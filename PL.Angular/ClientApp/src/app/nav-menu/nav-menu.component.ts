@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from '../storage/storage.service';
 import { LanguageService } from '../language/language.service';
-import { UserRole } from '../models/enums/user-role.enum'; 
+import { UserRole } from '../models/enums/user-role.enum';
 
 @Component({
   selector: 'app-nav-menu',
