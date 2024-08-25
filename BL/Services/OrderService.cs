@@ -22,6 +22,7 @@ namespace BL.Services
 
         public void MakeOrder(OrderDTO orderDto)
         {
+            // # Step 1. Add in Order Table
             decimal sum = 0;
 
             foreach (var productId in orderDto.ProductIds)
@@ -43,6 +44,7 @@ namespace BL.Services
             _unitOfWork.Orders.Create(order);
             _unitOfWork.Save();
 
+            // # Step 2. Add in OrderProduct Table
             var recentOrderId = _unitOfWork.OrdersRepository.GetIdByUserIdAndTime(orderDto.UserId, order.OrderTime);
 
             var productCounts = orderDto.ProductIds.GroupBy(id => id)
@@ -61,6 +63,12 @@ namespace BL.Services
             }).ToList();
 
             _unitOfWork.OrdersProducts.AddRangeOrderProduct(orderProducts);
+            _unitOfWork.Save();
+
+            // # Step 3. Remove from Cart Table
+            var carts = _unitOfWork.Carts.GetAll().Where(x => x.UserId == orderDto.UserId);
+
+            _unitOfWork.Carts.DeleteRange(carts);
             _unitOfWork.Save();
         }
 

@@ -61,7 +61,12 @@ namespace DAL.Repositories
 			}
 		}
 
-		public Order Find(Guid id)
+        public void DeleteRange(IEnumerable<Order> orders)
+        {
+            _db.Orders.RemoveRange(orders);
+        }
+
+        public Order Find(Guid id)
 		{
 			var resultData = _db.Orders.Where(p => p.Id == id).FirstOrDefault();
 			return resultData;

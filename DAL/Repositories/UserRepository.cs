@@ -31,6 +31,11 @@ namespace DAL.Repositories
             }
         }
 
+        public void DeleteRange(IEnumerable<User> users)
+        {
+            db.Users.RemoveRange(users);
+        }
+
         public User Get(Guid id)
         {
             return db.Users.Find(id);
