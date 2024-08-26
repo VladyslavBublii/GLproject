@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Enums;
+using System;
 
 namespace BL.DTO
 {
@@ -6,7 +7,7 @@ namespace BL.DTO
     {
         public Guid Id { set; get; }
 
-        public string RoleName { set; get; }
+        public Role UserRole { set; get; }
 
         public string Email { set; get; }
 

@@ -15,13 +15,14 @@ const PROXY_CONFIG = [
       "/cart/remove",
       "/order/makeOrder",
       "/order/getByUserId",
-   ],
+    ],
     target: target,
-    secure: false,
+    secure: true, 
+    changeOrigin: true, 
     headers: {
       Connection: 'Keep-Alive'
     }
   }
-]
+];
 
 module.exports = PROXY_CONFIG;
