@@ -7,8 +7,6 @@ namespace BL.DTO
     {
         public Guid Id { get; set; }
         public decimal Sum { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
         public string PhoneNumber { get; set; }
         public string City { get; set; }
         public string PostIndex { get; set; }

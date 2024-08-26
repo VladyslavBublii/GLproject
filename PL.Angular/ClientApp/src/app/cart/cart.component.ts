@@ -58,6 +58,7 @@ export class CartComponent {
       this.cartServise.makeOrder(this.userId, this.productInformationList).subscribe(
         (data: any[]) => {
           console.log(data);
+          this.cartServise.goToOrder();
         },
         (error) => {
           console.error(error);
