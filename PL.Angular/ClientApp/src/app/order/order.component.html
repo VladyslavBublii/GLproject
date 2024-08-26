@@ -1,0 +1,12 @@
+<div class="container">
+    <div>
+    <h3>{{ 'OrderNoun' | translate }}</h3>
+        <div *ngIf="isOrderEmpty">
+            <h3>{{ 'OrderEmpty' | translate }}</h3>
+        </div>
+        <div *ngIf="!isOrderEmpty">
+            <br />
+            <button mat-flat-button color="primary" (click)="payOrder()">{{ 'Pay' | translate }}</button>
+          </div>
+    </div>
+</div>

@@ -53,5 +53,10 @@ namespace DAL.Repositories
 				_db.Products.Remove(product);
 			}
 		}
-	}
+
+        public void DeleteRange(IEnumerable<Product> products)
+        {
+            _db.Products.RemoveRange(products);
+        }
+    }
 }

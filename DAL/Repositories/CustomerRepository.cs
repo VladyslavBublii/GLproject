@@ -31,6 +31,11 @@ namespace DAL.Repositories
             }
         }
 
+        public void DeleteRange(IEnumerable<Customer> customers)
+        {
+            db.Customers.RemoveRange(customers);
+        }
+
         public Customer Get(Guid id)
         {
             return db.Customers.Find(id);

@@ -45,6 +45,10 @@ export class CartService {
     }));
     return this.http.post<any[]>(this.baseUrl + "order/makeOrder", JSON.stringify(body), this.HttpOptions);
   }
+
+  goToOrder() {
+    window.location.href = this.baseUrl + "/order";
+  }
 }
 
 export interface CartRequestModel {
