@@ -11,6 +11,7 @@ namespace DAL.Interfaces
         void Create(T item);
         void Update(T item);
         void Delete(Guid id);
+        void DeleteRange(IEnumerable<T> collection);
         //IEnumerable<T> Find(Func<T, Boolean> predicate);
     }
 }
