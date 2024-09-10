@@ -21,11 +21,11 @@ namespace PL.Angular.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _userService.GetUserLog(model.Email, model.PasswordCache, model.UserRole.ParseRole());
+                var user = _userService.GetUserLog(model.Email, model.PasswordCache, model.UserRole.ParseStringToRole());
                 if (user != null)
                 {
                     model.Id = user.Id.ToString();
-                    model.UserRole = user.UserRole.ToString();
+                    model.UserRole = user.UserRole.ParseRoleToString();
                     return Ok(model);
                 }
             }

@@ -17,7 +17,7 @@ const PROXY_CONFIG = [
       "/order/getByUserId",
     ],
     target: target,
-    secure: true, 
+    secure: false, 
     changeOrigin: true, 
     headers: {
       Connection: 'Keep-Alive'

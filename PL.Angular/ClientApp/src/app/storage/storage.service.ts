@@ -26,7 +26,8 @@ export class StorageService implements OnInit {
   }
 
   public saveUserData(login: any): void {
-    this.store.dispatch(userActions.setUser({ userId: login.id, userEmail: login.email, userRole: login.role }));
+    login.role = parseInt(login.userRole);
+    this.store.dispatch(userActions.setUser({ userId: login.id, userEmail: login.email, userRole:  login.role }));
     this.store.dispatch(userActions.getUser());
   }
 
@@ -49,12 +50,8 @@ export class StorageService implements OnInit {
   }
 
   public isLoggedIn(): boolean {
-    //TODO: Remove console log
     this.user$.subscribe(
       (user) => { 
-        console.log('User Email:', user.email);
-        console.log('User Id:', user.id);
-        console.log('User Role:', user.role);
       });
     let isLogged = false;
     this.user$.subscribe(user => {

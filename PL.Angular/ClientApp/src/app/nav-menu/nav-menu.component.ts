@@ -32,7 +32,7 @@ export class NavMenuComponent implements OnInit {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
       const userRole = this.storageService.getUserRole();
-      this.isAdmin = userRole === UserRole.admin;
+      this.isAdmin = userRole === UserRole.Admin;
     }
   }
 
