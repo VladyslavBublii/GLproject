@@ -45,11 +45,11 @@ namespace PL.Angular.Controllers
                     return BadRequest("Errors: " + String.Join(" ", errorList.ToArray()));
                 }
 
-                var userDto = new UserDTO { Email = registerModel.Email, Password = registerModel.Password, RoleName = "user" };
+                var userDto = new UserDTO { Email = registerModel.Email, Password = registerModel.Password, UserRole = Core.Enums.Role.User };
                 var customerDto = new CustomerDTO { Name = registerModel.Name, SurName = registerModel.SurName, City = registerModel.City, PostIndex = registerModel.PostIndex };
                 _userService.SaveUser(userDto, customerDto);
 
-                var user = _userService.GetUserLog(registerModel.Email, registerModel.Password);
+                var user = _userService.GetUserLog(registerModel.Email, registerModel.Password, Core.Enums.Role.User);
             }
             return Ok(registerModel);
         }

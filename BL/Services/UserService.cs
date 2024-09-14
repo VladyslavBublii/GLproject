@@ -58,12 +58,14 @@ namespace BL.Services
             return true;
         }       
 
-        public UserDTO GetUserLog(string email, string password)
+        public UserDTO GetUserLog(string email, string password, Role UserRole)
         {
             IEnumerable<UserDTO> userDtos = GetUsers();
             foreach (UserDTO userDto in userDtos)
             {
-                if (userDto.Email == email && userDto.Password == _password.GetHashString(password))
+                if (userDto.Email == email 
+                    && userDto.Password == _password.GetHashString(password)
+                    && userDto.UserRole == userDto.UserRole)
                 {
                     return userDto;
                 }
@@ -117,7 +119,7 @@ namespace BL.Services
 
             User user = new User
             {
-                RoleName = userDTO.RoleName,
+                UserRole = userDTO.UserRole,
                 Email    = userDTO.Email,
                 Password = _password.GetHashString(userDTO.Password),
             };

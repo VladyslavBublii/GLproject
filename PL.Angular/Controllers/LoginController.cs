@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PL.Angular.Models;
 using BL.Services.Interfaces;
-using BL.DTO;
+using Core.Extantion;
 
 namespace PL.Angular.Controllers
 {
@@ -21,10 +21,11 @@ namespace PL.Angular.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _userService.GetUserLog(model.Email, model.Password);
+                var user = _userService.GetUserLog(model.Email, model.PasswordCache, model.UserRole.ParseStringToRole());
                 if (user != null)
                 {
                     model.Id = user.Id.ToString();
+                    model.UserRole = user.UserRole.ParseRoleToString();
                     return Ok(model);
                 }
             }

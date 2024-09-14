@@ -11,6 +11,9 @@ namespace PL.Angular.Models
          
         [Required(ErrorMessage = "Password is not specified")]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string PasswordCache { get; set; }
+
+        [Required(ErrorMessage = "User role is not specified")]
+        public string UserRole { get; set; }
     }
 }
