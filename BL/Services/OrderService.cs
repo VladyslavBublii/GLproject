@@ -47,13 +47,11 @@ namespace BL.Services
             // # Step 2. Add in OrderProduct Table
             var recentOrderId = _unitOfWork.OrdersRepository.GetIdByUserIdAndTime(orderDto.UserId, order.OrderTime);
 
-            var productCounts = orderDto.ProductIds.GroupBy(id => id)
-                .Select(group => new
-                {
-                    ProductsId = group.Key,
-                    NumberOfProduct = group.Count()
-                })
-                .ToList();
+            var productCounts = orderDto.ProductIds.GroupBy(id => id).Select(group => new
+            {
+                 ProductsId = group.Key,
+                 NumberOfProduct = group.Count()
+            }).ToList();
 
             var orderProducts = productCounts.Select(pc => new OrderProduct
             {
@@ -75,20 +73,33 @@ namespace BL.Services
         public IEnumerable<OrderDTO> GetOrdersByUserId(Guid userId)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Order, OrderDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Order>, List<OrderDTO>>(_unitOfWork.OrdersRepository.GetAllByUserId(userId));
+            var ordersDto = mapper.Map<IEnumerable<Order>, List<OrderDTO>>(_unitOfWork.OrdersRepository.GetAllByUserId(userId));
+            foreach(var order in ordersDto)
+            {
+                var ordersProductsList = _unitOfWork.OrdersProducts.GetOrderProductsByOrderId(order.Id);
+                order.ProductIds = ordersProductsList.SelectMany(op => Enumerable.Repeat(op.ProductsId, op.NumberOfProduct)).ToList();
+            }
+            return ordersDto;
         }
         
         public IEnumerable<ProductDTO> GetProducts()
         {
 			var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDTO>()).CreateMapper();
 			return mapper.Map<IEnumerable<Product>, List<ProductDTO>>(_unitOfWork.Products.GetAll());
-
         }
 
         public ProductDTO GetProduct(Guid id)
         {
             var product = _unitOfWork.Products.Get(id);
-            return new ProductDTO { Description = product.Description, Id = product.Id, Name = product.Name, Price = product.Price };
+            return new ProductDTO 
+            { 
+                Id = product.Id,
+                Category = product.Category,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                ImageName = product.ImageName,
+            };
         }
     }
 }

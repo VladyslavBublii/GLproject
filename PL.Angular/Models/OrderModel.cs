@@ -15,5 +15,6 @@ namespace PL.Angular.Models
 
         public Guid UserId { get; set; }
         public ICollection<Guid> ProductIds { get; set; }
+        public ICollection<OrderedProduct> OrderedProducts { get; set; }
     }
 }

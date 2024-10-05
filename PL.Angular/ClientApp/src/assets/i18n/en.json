@@ -37,6 +37,8 @@
   "OrderNoun": "Order",
   "OrderEmpty": "Order is empty!",
   "Pay": "Pay",
+  "Sum": "Sum",
+  "Count": "Count",
 
   "Login Error": "Login Error",
   "OK": "OK"

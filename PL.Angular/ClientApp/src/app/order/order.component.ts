@@ -12,10 +12,9 @@ export class OrderComponent {
         private orderServise: OrderService, 
         private storageService: StorageService) {}
     
-    isOrderEmpty = false;
+    isOrderEmpty = true;
     public userId: string = "";
     public orderInformation: Array<OrderInformation> = [];
-    public orderProductList: Array<OrderProduct> = [];
     public productInformationList: Array<ProductInformation> = [];
     
     ngOnInit(): void {
@@ -33,8 +32,11 @@ export class OrderComponent {
             city: item.city,
             sum: item.sum.toString(),
             postIndex: item.postIndex,
+            products: item.orderedProducts
           }));
-          this.isOrderEmpty = false;
+          if(this.orderInformation.length != 0){
+            this.isOrderEmpty = false;
+          }
         },
         (error) => {
           this.isOrderEmpty = true;
@@ -47,11 +49,6 @@ export class OrderComponent {
     }
 }
 
-export interface OrderProduct {
-    orderId: string,
-    productId: string
-  }
-
 export interface OrderInformation {
     id: string,
     userId: string,
@@ -59,6 +56,7 @@ export interface OrderInformation {
     city: string,
     postIndex: string,
     sum: string,
+    products: ProductInformation[],
   }
 
 export interface ProductInformation {

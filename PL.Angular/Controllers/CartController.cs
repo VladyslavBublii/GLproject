@@ -48,7 +48,7 @@ namespace PL.Angular.Controllers
                         Count       = 1,
                         ImageName   = product.ImageName,
                         UrlImage    = s3Bucket.GetImageLink(product.ImageName)
-                };
+                    };
                     cartModels.Add(cartModel);
                 }
             }
