@@ -37,6 +37,11 @@ namespace DAL.Repositories
 			return _db.Orders.Find(id);
 		}
 
+        public IEnumerable<Order> Get(IEnumerable<Guid> ids)
+        {
+            return _db.Orders.Where(c => ids.Contains(c.Id)).ToList();
+        }
+
         public void Create(Order order)
 		{
 			_db.Orders.Add(order);

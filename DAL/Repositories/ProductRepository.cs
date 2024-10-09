@@ -27,7 +27,12 @@ namespace DAL.Repositories
 			return _db.Products.Find(id);
 		}
 
-		public void Create(Product product)
+        public IEnumerable<Product> Get(IEnumerable<Guid> ids)
+		{
+			return _db.Products.Where(p => ids.Contains(p.Id)).ToList();
+        }
+
+        public void Create(Product product)
 		{
 			product.Id = Guid.NewGuid();
 			product.OrderProducts = null;

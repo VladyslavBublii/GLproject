@@ -6,6 +6,7 @@
         </div>
         <div *ngIf="!isOrderEmpty">
             <ul class="orders">
+              <!--TODO: Numbers of orders instead of ids -->
                 <li class="orders_cell" *ngFor="let order of orderInformation">
                   <div class="tile">
                     <a class="tile_title">

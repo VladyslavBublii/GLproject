@@ -41,6 +41,11 @@ namespace DAL.Repositories
             return db.Customers.Find(id);
         }
 
+        public IEnumerable<Customer> Get(IEnumerable<Guid> ids)
+        {
+            return db.Customers.Where(c => ids.Contains(c.Id)).ToList();
+        }
+
         public Customer GetByUserId(Guid userId)
         {
             return db.Customers.Where(p => p.UserId == userId).FirstOrDefault();

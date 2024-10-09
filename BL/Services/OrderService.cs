@@ -72,12 +72,18 @@ namespace BL.Services
 
         public IEnumerable<OrderDTO> GetOrdersByUserId(Guid userId)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Order, OrderDTO>()).CreateMapper();
+            //TODO: complex mapper
+            var mapper = new MapperConfiguration(cfg => {
+                cfg.CreateMap<Order, OrderDTO>();
+                cfg.CreateMap<Product, ProductDTO>();
+                }).CreateMapper(); ;
+
             var ordersDto = mapper.Map<IEnumerable<Order>, List<OrderDTO>>(_unitOfWork.OrdersRepository.GetAllByUserId(userId));
             foreach(var order in ordersDto)
             {
                 var ordersProductsList = _unitOfWork.OrdersProducts.GetOrderProductsByOrderId(order.Id);
                 order.ProductIds = ordersProductsList.SelectMany(op => Enumerable.Repeat(op.ProductsId, op.NumberOfProduct)).ToList();
+                order.Products = mapper.Map<IEnumerable<Product>, List<ProductDTO>>(_unitOfWork.Products.Get(order.ProductIds));
             }
             return ordersDto;
         }

@@ -7,6 +7,7 @@ namespace DAL.Interfaces
     {
         IEnumerable<T> GetAll();
         T Get(Guid id);
+        IEnumerable<T> Get(IEnumerable<Guid> T);
         T Find(Guid id);
         void Create(T item);
         void Update(T item);

@@ -23,36 +23,34 @@ namespace PL.Angular.Controllers
         public async Task<IActionResult> GetOrdersByUserId([FromBody] string userId)
         {
             IEnumerable<OrderDTO> orderDtos = _orderService.GetOrdersByUserId(Guid.Parse(userId));
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<OrderDTO, OrderModel>()).CreateMapper();
-            var orderList = mapper.Map<IEnumerable<OrderDTO>, List<OrderModel>>(orderDtos);
-            
             var s3Bucket = _s3Bucket;
-            foreach (var order in orderList)
+            var mapper = new MapperConfiguration(cfg =>
             {
-                order.OrderedProducts = new List<OrderedProduct>();
-                foreach(var productId in order.ProductIds) 
-                {
-                    var product = _orderService.GetProduct(productId);
-                    var x = order.OrderedProducts.FirstOrDefault(x => x.Id == product.Id);
-
-                    if (x != null) { x.Count++; }
-                    else
+                //TODO: Update, when we have complex mapper
+                cfg.CreateMap<ProductDTO, OrderedProduct>();
+                cfg.CreateMap<OrderDTO, OrderModel>()
+                    .AfterMap((orderDtos,orders) =>
                     {
-                        var orderedProduct = new OrderedProduct()
+                        orders.OrderedProducts = orderDtos.Products
+                        .Select(product => 
                         {
-                            Id = product.Id,
-                            Name = product.Name,
-                            Description = product.Description,
-                            Category = product.Category,
-                            Price = product.Price,
-                            Count = 1,
-                            ImageName = product.ImageName,
-                            UrlImage = s3Bucket.GetImageLink(product.ImageName)
-                        };
-                        order.OrderedProducts.Add(orderedProduct);
-                    }
-                }
-            }
+                            var count = orderDtos.ProductIds
+                                .Count(productId => productId == product.Id);
+                            return new OrderedProduct
+                            {
+                                Id = product.Id,
+                                Name = product.Name,
+                                Description = product.Description,
+                                Category = product.Category,
+                                Price = product.Price,
+                                Count = (uint)count,
+                                ImageName = product.ImageName,
+                                UrlImage = s3Bucket.GetImageLink(product.ImageName)
+                            };
+                        }).ToList();
+                    });
+            }).CreateMapper();
+            var orderList = mapper.Map<IEnumerable<OrderDTO>, List<OrderModel>>(orderDtos);
 
             return Ok(orderList);
         }
