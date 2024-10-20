@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using BL.DTO;
-using BL.Services;
 using BL.Services.Interfaces;
 using PL.Angular.Models;
 using Microsoft.AspNetCore.Mvc;
-using Core.Models;
 
 namespace PL.Angular.Controllers
 {

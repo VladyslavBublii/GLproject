@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { StoreComponent } from './store/store.component';
 import { CartComponent } from './cart/cart.component';
 import { OrderComponent } from './order/order.component';
+import { ProductComponent } from './product/product.component';
 
 import { StoreModule, MetaReducer, ActionReducer } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
@@ -49,6 +50,7 @@ const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer, storeFreeze];
     StoreComponent,
     CartComponent,
     OrderComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -62,6 +64,7 @@ const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer, storeFreeze];
       { path: 'store', component: StoreComponent },
       { path: 'cart', component: CartComponent },
       { path: 'order', component: OrderComponent },
+      { path: 'product', component: ProductComponent },
     ]),
     MatDialogModule,
     ReactiveFormsModule,
