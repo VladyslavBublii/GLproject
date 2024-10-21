@@ -1,0 +1,55 @@
+<div class="container_with_sidebar">
+  <main class="main_bar">
+    <div>
+      <h3>{{ 'Add product' | translate }}</h3>
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+        
+        <div>
+          <label for="category"> Category </label>
+          <input
+            id="category"
+            type="text"
+            formControlName="category"
+          />
+        </div>
+
+        <div>
+          <label for="name"> Name </label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+          />
+        </div>
+
+        <div>
+          <label for="description"> Description </label>
+          <textarea
+            id="description"
+            formControlName="description"
+          ></textarea>
+        </div>
+
+        <div>
+          <label for="price"> Price </label>
+          <input
+            id="price"
+            type="number"
+            formControlName="price"
+          />
+        </div>
+
+        <div>
+          <label for="ImageName"> URL Image </label>
+          <input
+            id="ImageName"
+            type="text"
+            formControlName="ImageName"
+          />
+        </div>
+
+        <button class="button" type="submit">Add Product</button>
+      </form>
+    </div>
+  </main>
+</div>
