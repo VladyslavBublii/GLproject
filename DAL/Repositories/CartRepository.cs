@@ -26,7 +26,12 @@ namespace DAL.Repositories
 			return _db.Carts.Find(id);
 		}
 
-		public void Create(Cart product)
+        public IEnumerable<Cart> Get(IEnumerable<Guid> ids)
+        {
+            return _db.Carts.Where(c => ids.Contains(c.Id)).ToList();
+        }
+
+        public void Create(Cart product)
 		{
 			_db.Carts.Add(product);
 		}

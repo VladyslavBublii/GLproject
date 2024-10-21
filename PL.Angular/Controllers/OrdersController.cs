@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using BL.DTO;
-using BL.Services;
 using BL.Services.Interfaces;
 using PL.Angular.Models;
 using Microsoft.AspNetCore.Mvc;
-using Core.Models;
 
 namespace PL.Angular.Controllers
 {
@@ -12,19 +10,48 @@ namespace PL.Angular.Controllers
     [Route("order")]
     public class OrdersController : Controller
     {
-        IOrderService _orderService;
+        private IOrderService _orderService;
+        private readonly IS3Bucket _s3Bucket;
 
-        public OrdersController(IOrderService orderService)
+        public OrdersController(IOrderService orderService, IS3Bucket s3Bucket)
         {
             _orderService = orderService;
+            _s3Bucket = s3Bucket;
         }
 
         [HttpPost("getByUserId")]
         public async Task<IActionResult> GetOrdersByUserId([FromBody] string userId)
         {
             IEnumerable<OrderDTO> orderDtos = _orderService.GetOrdersByUserId(Guid.Parse(userId));
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<OrderDTO, OrderModel>()).CreateMapper();
+            var s3Bucket = _s3Bucket;
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                //TODO: Update, when we have complex mapper
+                cfg.CreateMap<ProductDTO, OrderedProduct>();
+                cfg.CreateMap<OrderDTO, OrderModel>()
+                    .AfterMap((orderDtos,orders) =>
+                    {
+                        orders.OrderedProducts = orderDtos.Products
+                        .Select(product => 
+                        {
+                            var count = orderDtos.ProductIds
+                                .Count(productId => productId == product.Id);
+                            return new OrderedProduct
+                            {
+                                Id = product.Id,
+                                Name = product.Name,
+                                Description = product.Description,
+                                Category = product.Category,
+                                Price = product.Price,
+                                Count = (uint)count,
+                                ImageName = product.ImageName,
+                                UrlImage = s3Bucket.GetImageLink(product.ImageName)
+                            };
+                        }).ToList();
+                    });
+            }).CreateMapper();
             var orderList = mapper.Map<IEnumerable<OrderDTO>, List<OrderModel>>(orderDtos);
+
             return Ok(orderList);
         }
 

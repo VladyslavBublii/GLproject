@@ -13,6 +13,8 @@ namespace BL.DTO
 
         public Guid UserId { get; set; }
         public ICollection<Guid> ProductIds { get; set; }
+
+        public ICollection<ProductDTO> Products { get; set; }
         public DateTime Date { get; set; }
     }
 }

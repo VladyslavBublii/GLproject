@@ -3,6 +3,8 @@ using DAL.Data;
 using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace DAL.Repositories
 {
@@ -30,6 +32,11 @@ namespace DAL.Repositories
         {
             var orderProduct = new OrderProduct { OrdersId = ordersId, ProductsId = productsId };
             _db.OrderProduct.Remove(orderProduct);
+        }
+
+        public ICollection<OrderProduct> GetOrderProductsByOrderId(Guid orderId)
+        {
+            return _db.OrderProduct.Where(item => item.OrdersId == orderId).ToList();
         }
     }
 }

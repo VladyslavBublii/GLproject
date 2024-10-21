@@ -41,6 +41,11 @@ namespace DAL.Repositories
             return db.Users.Find(id);
         }
 
+        public IEnumerable<User> Get(IEnumerable<Guid> ids)
+        {
+            return db.Users.Where(c => ids.Contains(c.Id)).ToList();
+        }
+
         public IEnumerable<User> GetAll()
         {
             return db.Users.ToList();

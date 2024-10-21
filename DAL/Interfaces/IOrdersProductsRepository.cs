@@ -9,5 +9,9 @@ namespace DAL.Interfaces
         void AddOrderProduct(Guid ordersId, Guid productsId, int amount);
         void AddRangeOrderProduct(ICollection<OrderProduct> orderProducts);
         void DeleteOrderProduct(Guid ordersId, Guid productsId);
+
+        ICollection<OrderProduct> GetOrderProductsByOrderId(Guid orderId);
+
+
     }
 }
