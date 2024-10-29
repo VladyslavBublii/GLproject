@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BL.DTO;
-using BL.Services;
 using BL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using PL.Angular.Models;
@@ -25,14 +24,12 @@ namespace PL.Angular.Controllers
         {
             try
             {
-                var s3Bucket = _s3Bucket;
-
                 IEnumerable<MainProductInformationDTO> productDtos = _mainProductService.GetProducts();
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MainProductInformationDTO, MainProductInformation>()).CreateMapper();
                 var mainProductsInformationList = mapper.Map<IEnumerable<MainProductInformationDTO>, List<MainProductInformation>>(productDtos);
                 foreach (var productProductsInformation in mainProductsInformationList) 
                 {
-                    productProductsInformation.UrlImage = s3Bucket.GetImageLink(productProductsInformation.ImageName);
+                    productProductsInformation.UrlImage = _s3Bucket.GetImageLink(productProductsInformation.ImageName);
                 }
 
                 return Ok(mainProductsInformationList);

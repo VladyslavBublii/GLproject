@@ -26,7 +26,7 @@ namespace BL.Services
                 Category    = productDTO.Category,
                 Description = productDTO.Description,
                 Price       = productDTO.Price,
-                ImageName    = productDTO.ImageName,
+                ImageName   = productDTO.ImageName,
             };
 
             _unitOfWork.Products.Create(product);
@@ -47,7 +47,9 @@ namespace BL.Services
             //if (product == null)
             //    throw new ValidationException("Товар не найден", "");
             var product = _unitOfWork.Products.Get(id);
-            return new ProductDTO { Id = product.Id, ImageName = product.ImageName, Name = product.Name, Category = product.Category, Description = product.Description, Price = product.Price, };
+            return new ProductDTO { Id = product.Id, ImageName = product.ImageName, 
+                Name = product.Name, Category = product.Category, Description = product.Description, 
+                Price = product.Price, };
         }
 
         public void Update(ProductDTO productDTO)
@@ -60,7 +62,7 @@ namespace BL.Services
                 dbEntry.Category    = productDTO.Category;
                 dbEntry.Description = productDTO.Description;
                 dbEntry.Price       = productDTO.Price;
-                dbEntry.ImageName    = productDTO.ImageName;
+                dbEntry.ImageName   = productDTO.ImageName;
             }
             _unitOfWork.Products.Update(dbEntry);
             _unitOfWork.Save();
@@ -69,8 +71,9 @@ namespace BL.Services
         public ProductDTO Find(Guid id)
         {
             var product = _unitOfWork.Products.Find(id);
-            return new ProductDTO { Id = product.Id, ImageName = product.ImageName, Name = product.Name, Category = product.Category, Description = product.Description, Price = product.Price, };
-
+            return new ProductDTO { Id = product.Id, ImageName = product.ImageName, 
+                Name = product.Name, Category = product.Category, Description = product.Description, 
+                Price = product.Price, };
         }
 
         public ProductDTO Delete(Guid id)
@@ -81,10 +84,22 @@ namespace BL.Services
                 _unitOfWork.Products.Delete(product.Id);
                 _unitOfWork.Save();
             }
-            return new ProductDTO { Id = product.Id, ImageName = product.ImageName, Name = product.Name, Category = product.Category, Description = product.Description, Price = product.Price, };
+            return new ProductDTO { Id = product.Id, ImageName = product.ImageName, 
+                Name = product.Name, Category = product.Category, Description = product.Description, 
+                Price = product.Price, };
 
         }
 
+        public bool CheckItem(Guid idItem)
+        {
+            try
+            {
+                var product = _unitOfWork.Products.Get(idItem);
+                if (product != null) return true;
+            }
+            catch { };
+            return false;
+        }
         //TODO:
         //public void Dispose()
         //{

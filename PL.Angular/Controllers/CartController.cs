@@ -1,9 +1,6 @@
 ﻿using BL.Services.Interfaces;
-using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using PL.Angular.Models;
-using System;
-using System.Collections.Generic;
 
 namespace PL.Angular.Controllers
 {

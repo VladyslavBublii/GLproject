@@ -1,6 +1,5 @@
 using BL.Services.Interfaces;
 using BL.Services;
-using System.Runtime;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +11,7 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IMainProductInformationService, MainProductInformationService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IS3Bucket, S3Bucket>();
 builder.Services.AddControllersWithViews();
 

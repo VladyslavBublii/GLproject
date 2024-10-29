@@ -33,14 +33,15 @@
               [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn">
             <a class="nav-link text-dark" [routerLink]="['/cart']">{{ 'Cart' | translate }}</a>
           </li>
-          <li class="nav-item" 
-              [routerLinkActive]="['link-active']" 
-              [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn && isAdmin">
-            <a class="nav-link text-dark" [routerLink]="['/AddProduct']">{{ 'Add product' | translate }}</a>
           <li class="nav-item"
               [routerLinkActive]="['link-active']"
               [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn">
             <a class="nav-link text-dark" [routerLink]="['/order']">{{ 'OrderNoun' | translate }}</a>
+          </li>
+          <li class="nav-item" 
+            [routerLinkActive]="['link-active']" 
+            [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn && isAdmin">
+            <a class="nav-link text-dark" [routerLink]="['/product']">{{ 'Add product' | translate }}</a>
           </li>
         </ul>
       </div>

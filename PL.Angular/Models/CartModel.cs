@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace PL.Angular.Models
 {
     public class CartModel
