@@ -22,9 +22,9 @@ namespace PL.Angular.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> CreateNewProduct([FromBody] ProductModel productRequestModel)
         {
-            var productDto = new ProductDTO();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductDTO, ProductModel>()).CreateMapper();
-            var productModel = mapper.Map<ProductModel>(productDto);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductModel, ProductDTO>()).CreateMapper();
+            var productDto = mapper.Map<ProductDTO>(productRequestModel);
+
             _productService.Create(productDto);
 
             return Ok(productRequestModel);
