@@ -5,76 +5,79 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-	public class OrderRepository : IRepository<Order>, IOrdersRepository
+    public class OrderRepository : IRepository<Order>, IOrdersRepository
     {
-		private DBContext _db;
+        private readonly DBContext _db;
 
-		public OrderRepository(DBContext context)
-		{
-			_db = context;
-		}
-
-		public IEnumerable<Order> GetAll()
-		{
-			return _db.Orders.ToList();
-		}
-
-        public IEnumerable<Order> GetAllByUserId(Guid userId)
+        public OrderRepository(DBContext context)
         {
-            return _db.Orders.Where(item => item.UserId == userId)?.ToList();
+            _db = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public Guid GetIdByUserIdAndTime(Guid userId, DateTime orderTime)
+        public async Task<IEnumerable<Order>> GetAllAsync()
         {
-            return (Guid)(_db.Orders.Where(item => item.UserId == userId && item.OrderTime == orderTime)?.FirstOrDefault().Id);
+            return await _db.Orders.ToListAsync();
         }
 
-        public Order Get(Guid id)
-		{
-			return _db.Orders.Find(id);
-		}
-
-        public IEnumerable<Order> Get(IEnumerable<Guid> ids)
+        public async Task<IEnumerable<Order>> GetAllByUserIdAsync(Guid userId)
         {
-            return _db.Orders.Where(c => ids.Contains(c.Id)).ToList();
+            return await _db.Orders.Where(item => item.UserId == userId).ToListAsync();
         }
 
-        public void Create(Order order)
-		{
-			_db.Orders.Add(order);
-		}
+        public async Task<Guid> GetIdByUserIdAndTimeAsync(Guid userId, DateTime orderTime)
+        {
+            var order = await _db.Orders
+                .Where(item => item.UserId == userId && item.OrderTime == orderTime)
+                .FirstOrDefaultAsync();
 
-		public void Update(Order order)
-		{
-			_db.Entry(order).State = EntityState.Modified;
-		}
+            return order?.Id ?? Guid.Empty;
+        }
 
-		//public IEnumerable<Order> Find(Func<Order, Boolean> predicate)
-		//{
-		//	return db.Orders.Include(o => o.Product).Where(predicate).ToList();
-		//}
+        public async Task<Order> GetAsync(Guid id)
+        {
+            return await _db.Orders.FindAsync(id);
+        }
 
-		public void Delete(Guid id)
-		{
-			Order order = _db.Orders.Find(id);
-			if (order != null)
-			{
-				_db.Orders.Remove(order);
-			}
-		}
+        public async Task<IEnumerable<Order>> GetAsync(IEnumerable<Guid> ids)
+        {
+            return await _db.Orders.Where(c => ids.Contains(c.Id)).ToListAsync();
+        }
 
-        public void DeleteRange(IEnumerable<Order> orders)
+        public async Task CreateAsync(Order order)
+        {
+            await _db.Orders.AddAsync(order);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Order order)
+        {
+            _db.Entry(order).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var order = await _db.Orders.FindAsync(id);
+            if (order != null)
+            {
+                _db.Orders.Remove(order);
+                await _db.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteRangeAsync(IEnumerable<Order> orders)
         {
             _db.Orders.RemoveRange(orders);
+            await _db.SaveChangesAsync();
         }
 
-        public Order Find(Guid id)
-		{
-			var resultData = _db.Orders.Where(p => p.Id == id).FirstOrDefault();
-			return resultData;
-		}
-	}
+        public async Task<Order> FindAsync(Guid id)
+        {
+            return await _db.Orders.Where(p => p.Id == id).FirstOrDefaultAsync();
+        }
+    }
 }

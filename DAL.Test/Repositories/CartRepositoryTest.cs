@@ -1,8 +1,11 @@
-﻿using Core.Models;
+﻿using System;
+using System.Threading.Tasks;
 using DAL.Data;
 using DAL.Repositories;
-using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
+using Xunit;
+using FakeItEasy;
+using Core.Models;
 
 namespace DAL.Test.Repositories
 {
@@ -11,15 +14,18 @@ namespace DAL.Test.Repositories
         private readonly DBContext _db = A.Fake<DBContext>();
 
         [Fact]
-        public void GetCart_Success_Test()
+        public async Task GetCart_Success_Test()
         {
             _db.Carts = A.Fake<DbSet<Cart>>();
             var cartId = Guid.NewGuid();
             var fakeCart = new Cart { Id = cartId };
-            A.CallTo(() => _db.Carts.Find(A<Guid>._))
-                .Returns(fakeCart);
+
+            A.CallTo(() => _db.Carts.FindAsync(cartId))
+                .Returns(new ValueTask<Cart>(fakeCart));
+
             var cartRepository = new CartRepository(_db);
-            var result = cartRepository.Get(cartId);
+
+            var result = await cartRepository.GetAsync(cartId);
 
             Assert.NotNull(result);
             Assert.Equal(fakeCart, result);

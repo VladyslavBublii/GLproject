@@ -5,61 +5,65 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
     public class UserRepository : IRepository<User>
     {
-        private DBContext db;
+        private readonly DBContext _db;
 
         public UserRepository(DBContext context)
         {
-            this.db = context;
+            _db = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Create(User user)
+        public async Task CreateAsync(User user)
         {
-            db.Users.Add(user);
+            await _db.Users.AddAsync(user);
+            await _db.SaveChangesAsync();
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            User user = db.Users.Find(id);
+            var user = await _db.Users.FindAsync(id);
             if (user != null)
             {
-                db.Users.Remove(user);
+                _db.Users.Remove(user);
+                await _db.SaveChangesAsync();
             }
         }
 
-        public void DeleteRange(IEnumerable<User> users)
+        public async Task DeleteRangeAsync(IEnumerable<User> users)
         {
-            db.Users.RemoveRange(users);
+            _db.Users.RemoveRange(users);
+            await _db.SaveChangesAsync();
         }
 
-        public User Get(Guid id)
+        public async Task<User> GetAsync(Guid id)
         {
-            return db.Users.Find(id);
+            return await _db.Users.FindAsync(id);
         }
 
-        public IEnumerable<User> Get(IEnumerable<Guid> ids)
+        public async Task<IEnumerable<User>> GetAsync(IEnumerable<Guid> ids)
         {
-            return db.Users.Where(c => ids.Contains(c.Id)).ToList();
+            return await _db.Users.Where(c => ids.Contains(c.Id)).ToListAsync();
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return db.Users.ToList();
+            return await _db.Users.ToListAsync();
         }
 
-        public void Update(User user)
+        public async Task UpdateAsync(User user)
         {
-            db.Entry(user).State = EntityState.Modified;
+            _db.Entry(user).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
 
-        public User Find(Guid id)
+        public async Task<User> FindAsync(Guid id)
         {
-            var resultData = db.Users.Where(p => p.Id == id).FirstOrDefault();
-            return resultData;
+            return await _db.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
     }
 }

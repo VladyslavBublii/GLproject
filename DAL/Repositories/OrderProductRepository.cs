@@ -1,42 +1,58 @@
 ﻿using Core.Models;
 using DAL.Data;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
     public class OrdersProductsRepository : IOrdersProductsRepository
     {
-        private DBContext _db;
+        private readonly DBContext _db;
 
         public OrdersProductsRepository(DBContext context)
         {
-            _db = context;
+            _db = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void AddOrderProduct(Guid ordersId, Guid productsId, int amount)
+        public async Task AddOrderProductAsync(Guid ordersId, Guid productsId, int amount)
         {
+            if (amount <= 0) throw new ArgumentException("Amount must be greater than zero.");
+
             var orderProduct = new OrderProduct { OrdersId = ordersId, ProductsId = productsId, NumberOfProduct = amount };
-            _db.OrderProduct.Add(orderProduct);
+            await _db.OrderProduct.AddAsync(orderProduct);
+            await _db.SaveChangesAsync();
         }
 
-        public void AddRangeOrderProduct(ICollection<OrderProduct> orderProducts)
+        public async Task AddRangeOrderProductAsync(ICollection<OrderProduct> orderProducts)
         {
-            _db.OrderProduct.AddRange(orderProducts);
+            if (orderProducts == null || !orderProducts.Any())
+                throw new ArgumentException("Order products collection is empty or null.");
+
+            await _db.OrderProduct.AddRangeAsync(orderProducts);
+            await _db.SaveChangesAsync();
         }
 
-        public void DeleteOrderProduct(Guid ordersId, Guid productsId)
+        public async Task DeleteOrderProductAsync(Guid ordersId, Guid productsId)
         {
-            var orderProduct = new OrderProduct { OrdersId = ordersId, ProductsId = productsId };
-            _db.OrderProduct.Remove(orderProduct);
+            var orderProduct = await _db.OrderProduct
+                .FirstOrDefaultAsync(op => op.OrdersId == ordersId && op.ProductsId == productsId);
+
+            if (orderProduct != null)
+            {
+                _db.OrderProduct.Remove(orderProduct);
+                await _db.SaveChangesAsync();
+            }
         }
 
-        public ICollection<OrderProduct> GetOrderProductsByOrderId(Guid orderId)
+        public async Task<ICollection<OrderProduct>> GetOrderProductsByOrderIdAsync(Guid orderId)
         {
-            return _db.OrderProduct.Where(item => item.OrdersId == orderId).ToList();
+            return await _db.OrderProduct
+                .Where(item => item.OrdersId == orderId)
+                .ToListAsync();
         }
     }
 }

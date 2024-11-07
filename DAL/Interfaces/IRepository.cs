@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
-        T Get(Guid id);
-        IEnumerable<T> Get(IEnumerable<Guid> T);
-        T Find(Guid id);
-        void Create(T item);
-        void Update(T item);
-        void Delete(Guid id);
-        void DeleteRange(IEnumerable<T> collection);
-        //IEnumerable<T> Find(Func<T, Boolean> predicate);
+        Task<IEnumerable<T>> GetAllAsync();
+
+        Task<T> GetAsync(Guid id);
+
+        Task<IEnumerable<T>> GetAsync(IEnumerable<Guid> ids);
+
+        Task<T> FindAsync(Guid id);
+
+        Task CreateAsync(T item);
+
+        Task UpdateAsync(T item);
+
+        Task DeleteAsync(Guid id);
+
+        Task DeleteRangeAsync(IEnumerable<T> collection);
     }
 }
