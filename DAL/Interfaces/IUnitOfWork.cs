@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
@@ -21,6 +22,6 @@ namespace DAL.Interfaces
 
         IOrdersProductsRepository OrdersProducts { get; }
 
-        void Save();
+        Task SaveAsync();
     }
 }

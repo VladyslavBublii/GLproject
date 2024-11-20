@@ -1,109 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using BL.DTO;
 using BL.Services.Interfaces;
 using Core.Models;
 using DAL.Interfaces;
-using DAL.Repositories;
 
 namespace BL.Services
 {
-    public class ProductService : IProductService
+    public class ProductService : IProductService, IDisposable
     {
-        public IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ProductService()
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public void Create(ProductDTO productDTO)
+        public async Task CreateAsync(ProductDTO productDTO)
         {
-            Product product = new Product
+            var product = new Product
             {
-                Name        = productDTO.Name,
-                Category    = productDTO.Category,
+                Name = productDTO.Name,
+                Category = productDTO.Category,
                 Description = productDTO.Description,
-                Price       = productDTO.Price,
-                ImageName   = productDTO.ImageName,
+                Price = productDTO.Price,
+                ImageName = productDTO.ImageName,
             };
 
-            _unitOfWork.Products.Create(product);
-            _unitOfWork.Save();
+            await _unitOfWork.Products.CreateAsync(product);
+            await _unitOfWork.SaveAsync();
         }
 
-        public IEnumerable<ProductDTO> GetProducts()
+        public async Task<IEnumerable<ProductDTO>> GetProductsAsync()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Product>, List<ProductDTO>>(_unitOfWork.Products.GetAll());
+            var products = await _unitOfWork.Products.GetAllAsync();
+            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
         }
 
-        public ProductDTO GetProduct(Guid id)
+        public async Task<ProductDTO> GetProductAsync(Guid id)
         {
-            //TODO: Exception
-            //if (id == null)
-            //    throw new ValidationException("Не установлено id товара", "");
-            //if (product == null)
-            //    throw new ValidationException("Товар не найден", "");
-            var product = _unitOfWork.Products.Get(id);
-            return new ProductDTO { Id = product.Id, ImageName = product.ImageName, 
-                Name = product.Name, Category = product.Category, Description = product.Description, 
-                Price = product.Price, };
+            var product = await _unitOfWork.Products.GetAsync(id);
+            if (product == null)
+                throw new KeyNotFoundException("Product not found");
+
+            return _mapper.Map<ProductDTO>(product);
         }
 
-        public void Update(ProductDTO productDTO)
+        public async Task UpdateAsync(ProductDTO productDTO)
         {
+            var dbEntry = await _unitOfWork.Products.FindAsync(productDTO.Id);
+            if (dbEntry == null)
+                throw new KeyNotFoundException("Product not found for update");
 
-            Product dbEntry = _unitOfWork.Products.Find(productDTO.Id);
-            if (dbEntry != null)
-            {
-                dbEntry.Name        = productDTO.Name;
-                dbEntry.Category    = productDTO.Category;
-                dbEntry.Description = productDTO.Description;
-                dbEntry.Price       = productDTO.Price;
-                dbEntry.ImageName   = productDTO.ImageName;
-            }
-            _unitOfWork.Products.Update(dbEntry);
-            _unitOfWork.Save();
+            dbEntry.Name = productDTO.Name;
+            dbEntry.Category = productDTO.Category;
+            dbEntry.Description = productDTO.Description;
+            dbEntry.Price = productDTO.Price;
+            dbEntry.ImageName = productDTO.ImageName;
+
+            await _unitOfWork.Products.UpdateAsync(dbEntry);
+            await _unitOfWork.SaveAsync();
         }
 
-        public ProductDTO Find(Guid id)
+        public async Task<ProductDTO> FindAsync(Guid id)
         {
-            var product = _unitOfWork.Products.Find(id);
-            return new ProductDTO { Id = product.Id, ImageName = product.ImageName, 
-                Name = product.Name, Category = product.Category, Description = product.Description, 
-                Price = product.Price, };
+            var product = await _unitOfWork.Products.FindAsync(id);
+            if (product == null)
+                throw new KeyNotFoundException("Product not found");
+
+            return _mapper.Map<ProductDTO>(product);
         }
 
-        public ProductDTO Delete(Guid id)
+        public async Task<ProductDTO> DeleteAsync(Guid id)
         {
-            var product = _unitOfWork.Products.Find(id);
-            if (product != null)
-            {
-                _unitOfWork.Products.Delete(product.Id);
-                _unitOfWork.Save();
-            }
-            return new ProductDTO { Id = product.Id, ImageName = product.ImageName, 
-                Name = product.Name, Category = product.Category, Description = product.Description, 
-                Price = product.Price, };
+            var product = await _unitOfWork.Products.FindAsync(id);
+            if (product == null)
+                throw new KeyNotFoundException("Product not found");
 
+            await _unitOfWork.Products.DeleteAsync(id);
+            await _unitOfWork.SaveAsync();
+            return _mapper.Map<ProductDTO>(product);
         }
 
-        public bool CheckItem(Guid idItem)
+        public async Task<bool> CheckItemAsync(Guid idItem)
         {
             try
             {
-                var product = _unitOfWork.Products.Get(idItem);
-                if (product != null) return true;
+                var product = await _unitOfWork.Products.GetAsync(idItem);
+                return product != null;
             }
-            catch { };
-            return false;
+            catch
+            {
+                return false;
+            }
         }
-        //TODO:
-        //public void Dispose()
-        //{
-        //    _unitOfWork.Dispose();
-        //}
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+        }
     }
 }

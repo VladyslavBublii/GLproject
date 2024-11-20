@@ -17,6 +17,7 @@ namespace BL.Services
                 score = 1;
             }
             Role result;
+
             switch (score)
             {
                 case 0: result = Role.Guest; break;

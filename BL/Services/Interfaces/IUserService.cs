@@ -1,28 +1,29 @@
 ﻿using BL.DTO;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 using Core.Enums;
 
 namespace BL.Services.Interfaces
 {
     public interface IUserService
     {
-        UserDTO GetUser(Guid id);
+        Task<UserDTO> GetUserAsync(Guid id);
 
-        IEnumerable<UserDTO> GetUsers();
+        Task<IEnumerable<UserDTO>> GetUsersAsync();
 
-        CustomerDTO GetCustomer(Guid id);
+        Task<CustomerDTO> GetCustomerAsync(Guid id);
 
-        CustomerDTO GetCustomerByUserId(Guid userId);
+        Task<CustomerDTO> GetCustomerByUserIdAsync(Guid userId);
 
-        IEnumerable<CustomerDTO> GetCustomers();
+        Task<IEnumerable<CustomerDTO>> GetCustomersAsync();
 
-        public void SaveUser(UserDTO userDTO, CustomerDTO customerDTO);
+        Task SaveUserAsync(UserDTO userDTO, CustomerDTO customerDTO);
 
-        bool IsPasswordSame(string password);
+        Task<bool> IsPasswordSameAsync(string password);
 
-        bool IsEmailFree(string email);
+        Task<bool> IsEmailFreeAsync(string email);
 
-        UserDTO GetUserLog(string email, string password, Role UserRole);
+        Task<UserDTO> GetUserLogAsync(string email, string password, Role userRole);
     }
 }

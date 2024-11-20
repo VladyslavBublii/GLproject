@@ -1,23 +1,24 @@
 ﻿using BL.DTO;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BL.Services.Interfaces
 {
     public interface ICartService
     {
-        public void AddItem(Guid idItem, Guid userId);
+        Task AddItemAsync(Guid idItem, Guid userId);
 
-        public void RemoveItem(Guid userId, Guid productId);
+        Task RemoveItemAsync(Guid userId, Guid productId);
 
-        public bool CheckItem(Guid idItem);
+        Task<bool> CheckItemAsync(Guid idItem);
 
-        public decimal ComputeTotalValue(IEnumerable<Guid> ithemIds);
+        Task<decimal> ComputeTotalValueAsync(IEnumerable<Guid> itemIds);
 
-        public CartDTO ShowCart(Guid userId);
+        Task<CartDTO> ShowCartAsync(Guid userId);
 
-        public void MakeOrder(Guid userId);
+        Task MakeOrderAsync(Guid userId);
 
-        public void Clear(Guid userId);
+        Task ClearAsync(Guid userId);
     }
 }

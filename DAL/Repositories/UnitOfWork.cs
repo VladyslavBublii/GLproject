@@ -2,6 +2,7 @@
 using DAL.Data;
 using DAL.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
@@ -116,9 +117,9 @@ namespace DAL.Repositories
             }
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            int t = _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
         private bool disposed = false;

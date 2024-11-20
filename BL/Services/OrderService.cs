@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using BL.DTO;
 using BL.Services.Interfaces;
@@ -20,38 +21,42 @@ namespace BL.Services
             _unitOfWork = new UnitOfWork();
         }
 
-        public void MakeOrder(OrderDTO orderDto)
+        public async Task MakeOrderAsync(OrderDTO orderDto)
         {
-            // # Step 1. Add in Order Table
             decimal sum = 0;
-
             foreach (var productId in orderDto.ProductIds)
             {
-                sum += _unitOfWork.Products.Get(productId).Price;
+                var product = await _unitOfWork.Products.GetAsync(productId);
+                if (product != null)
+                {
+                    sum += product.Price;
+                }
             }
 
-            Order order = new Order
+            var order = new Order
             {
-                UserId      = orderDto.UserId,
-                OrderTime   = DateTime.Now,
-                City        = orderDto.City,
-                PostIndex   = orderDto.PostIndex,
-                Sum         = sum,
+                UserId = orderDto.UserId,
+                OrderTime = DateTime.Now,
+                City = orderDto.City,
+                PostIndex = orderDto.PostIndex,
+                Sum = sum,
                 PhoneNumber = orderDto.PhoneNumber,
-                Status      = OrderStatus.Open
+                Status = OrderStatus.Open
             };
 
-            _unitOfWork.Orders.Create(order);
-            _unitOfWork.Save();
+            await _unitOfWork.Orders.CreateAsync(order);
+            await _unitOfWork.SaveAsync();
 
-            // # Step 2. Add in OrderProduct Table
-            var recentOrderId = _unitOfWork.OrdersRepository.GetIdByUserIdAndTime(orderDto.UserId, order.OrderTime);
+            var recentOrderId = await _unitOfWork.OrdersRepository.GetIdByUserIdAndTimeAsync(orderDto.UserId, order.OrderTime);
 
-            var productCounts = orderDto.ProductIds.GroupBy(id => id).Select(group => new
-            {
-                 ProductsId = group.Key,
-                 NumberOfProduct = group.Count()
-            }).ToList();
+            var productCounts = orderDto.ProductIds
+                .GroupBy(id => id)
+                .Select(group => new
+                {
+                    ProductsId = group.Key,
+                    NumberOfProduct = group.Count()
+                })
+                .ToList();
 
             var orderProducts = productCounts.Select(pc => new OrderProduct
             {
@@ -60,45 +65,63 @@ namespace BL.Services
                 NumberOfProduct = pc.NumberOfProduct
             }).ToList();
 
-            _unitOfWork.OrdersProducts.AddRangeOrderProduct(orderProducts);
-            _unitOfWork.Save();
+            await _unitOfWork.OrdersProducts.AddRangeOrderProductAsync(orderProducts);
+            await _unitOfWork.SaveAsync();
 
-            // # Step 3. Remove from Cart Table
-            var carts = _unitOfWork.Carts.GetAll().Where(x => x.UserId == orderDto.UserId);
+            var carts = await _unitOfWork.Carts
+                .GetAllAsync();
+            var userCarts = carts.Where(cart => cart.UserId == orderDto.UserId).ToList();
 
-            _unitOfWork.Carts.DeleteRange(carts);
-            _unitOfWork.Save();
+            await _unitOfWork.Carts.DeleteRangeAsync(userCarts);
+            await _unitOfWork.SaveAsync();
         }
 
-        public IEnumerable<OrderDTO> GetOrdersByUserId(Guid userId)
+
+        public async Task<IEnumerable<OrderDTO>> GetOrdersByUserIdAsync(Guid userId)
         {
-            //TODO: complex mapper
             var mapper = new MapperConfiguration(cfg => {
                 cfg.CreateMap<Order, OrderDTO>();
                 cfg.CreateMap<Product, ProductDTO>();
-                }).CreateMapper(); ;
+            }).CreateMapper();
 
-            var ordersDto = mapper.Map<IEnumerable<Order>, List<OrderDTO>>(_unitOfWork.OrdersRepository.GetAllByUserId(userId));
-            foreach(var order in ordersDto)
+            var orders = await _unitOfWork.OrdersRepository.GetAllByUserIdAsync(userId);
+            var ordersDto = mapper.Map<IEnumerable<Order>, List<OrderDTO>>(orders);
+
+            foreach (var order in ordersDto)
             {
-                var ordersProductsList = _unitOfWork.OrdersProducts.GetOrderProductsByOrderId(order.Id);
-                order.ProductIds = ordersProductsList.SelectMany(op => Enumerable.Repeat(op.ProductsId, op.NumberOfProduct)).ToList();
-                order.Products = mapper.Map<IEnumerable<Product>, List<ProductDTO>>(_unitOfWork.Products.Get(order.ProductIds));
+                var ordersProductsList = await _unitOfWork.OrdersProducts.GetOrderProductsByOrderIdAsync(order.Id);
+
+                order.ProductIds = ordersProductsList
+                    .SelectMany(op => Enumerable.Repeat(op.ProductsId, op.NumberOfProduct))
+                    .ToList();
+
+                var products = await _unitOfWork.Products.GetAsync(order.ProductIds);
+
+                order.Products = mapper.Map<IEnumerable<Product>, List<ProductDTO>>(products);
             }
+
             return ordersDto;
         }
-        
-        public IEnumerable<ProductDTO> GetProducts()
+
+
+        public async Task<IEnumerable<ProductDTO>> GetProductsAsync()
         {
-			var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDTO>()).CreateMapper();
-			return mapper.Map<IEnumerable<Product>, List<ProductDTO>>(_unitOfWork.Products.GetAll());
+            var products = await _unitOfWork.Products.GetAllAsync();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<Product>, List<ProductDTO>>(products);
         }
 
-        public ProductDTO GetProduct(Guid id)
+        public async Task<ProductDTO> GetProductAsync(Guid id)
         {
-            var product = _unitOfWork.Products.Get(id);
-            return new ProductDTO 
-            { 
+            var product = await _unitOfWork.Products.GetAsync(id);
+
+            if (product == null)
+            {
+                throw new Exception("Product not found");
+            }
+
+            return new ProductDTO
+            {
                 Id = product.Id,
                 Category = product.Category,
                 Name = product.Name,

@@ -20,7 +20,7 @@ namespace BL.Services
         public IEnumerable<MainProductInformationDTO> GetProducts()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, MainProductInformationDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Product>, List<MainProductInformationDTO>>(_unitOfWork.Products.GetAll());
+            return mapper.Map<IEnumerable<Product>, List<MainProductInformationDTO>>((IEnumerable<Product>)_unitOfWork.Products.GetAllAsync());
         }
     }
 }
