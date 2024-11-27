@@ -16,7 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { NavFooterComponent } from './nav-footer/nav-footer.component';
-import { HomeComponent } from './home/home.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component'; 
@@ -43,7 +42,6 @@ const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer, storeFreeze];
     AppComponent,
     NavMenuComponent,
     NavFooterComponent,
-    HomeComponent,
     PrivacyComponent,
     LoginComponent,
     RegisterComponent,
@@ -57,11 +55,10 @@ const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer, storeFreeze];
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'privacy', component: PrivacyComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'store', component: StoreComponent },
+      { path: '', component: StoreComponent, pathMatch: 'full' },
       { path: 'cart', component: CartComponent },
       { path: 'order', component: OrderComponent },
       { path: 'product', component: ProductComponent },

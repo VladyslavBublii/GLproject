@@ -1,9 +1,8 @@
 <header>
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-  >
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">{{ 'SexShop' | translate }}</a>
+
       <button
         class="navbar-toggler"
         type="button"
@@ -15,65 +14,48 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-start"
-           [ngClass]="{ show: isExpanded }">
+
+      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-start" [ngClass]="{ show: isExpanded }">
         <ul class="navbar-nav flex-grow">
-          <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/']">{{ 'Home' | translate }}</a>
+          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link text-dark" [routerLink]="['/']">{{ 'Store' | translate }}</a>
           </li>
-          <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/store']">{{ 'Store' | translate }}</a>
-          </li>
-          <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn">
+          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn">
             <a class="nav-link text-dark" [routerLink]="['/cart']">{{ 'Cart' | translate }}</a>
           </li>
-          <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn">
+          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn">
             <a class="nav-link text-dark" [routerLink]="['/order']">{{ 'OrderNoun' | translate }}</a>
           </li>
-          <li class="nav-item" 
-            [routerLinkActive]="['link-active']" 
-            [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn && isAdmin">
+          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn && isAdmin">
             <a class="nav-link text-dark" [routerLink]="['/product']">{{ 'Add product' | translate }}</a>
           </li>
         </ul>
       </div>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-        [ngClass]="{ show: isExpanded }"
-      >
+
+      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end" [ngClass]="{ show: isExpanded }">
         <ul class="navbar-nav flex-grow">
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedIn">
-            <button class="btn">
-              <a class="nav-link text-dark" id="register" [routerLink]="['/register']">{{ 'Register' | translate }}</a>
-            </button>
+          <li class="nav-item" *ngIf="!isLoggedIn">
+            <button class="btn nav-link text-dark" id="register" [routerLink]="['/register']">{{ 'Register' | translate }}</button>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedIn">
-            <button class="btn">
-              <a class="nav-link text-dark" id="login" [routerLink]="['/login']">{{ 'Login' | translate }}</a>
-            </button>
+          <li class="nav-item" *ngIf="!isLoggedIn">
+            <button class="btn nav-link text-dark" id="login" [routerLink]="['/login']">{{ 'Login' | translate }}</button>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedIn">
-            <button class="btn">
-              <a class="nav-link text-dark" id="logout" (click)="logout()">{{ 'Logout' | translate }}</a>
-            </button>
+          <li class="nav-item" *ngIf="isLoggedIn">
+            <button class="btn nav-link text-dark" id="logout" (click)="logout()">{{ 'Logout' | translate }}</button>
           </li>
         </ul>
       </div>
+
       <div>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <button mat-button (click)="menuTrigger.openMenu()">
+        <button mat-button (click)="menuTrigger.openMenu()" aria-label="Language Menu">
           <i class="material-icons md-48">language</i>
-          <div #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" place ></div>
         </button>
-        <mat-menu mat-button #menu="matMenu">
+        <button mat-button aria-label="Office Menu">
+          <i class="material-icons md-48">person</i>
+        </button>
+        <div #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" class="language-button"></div>
+        <mat-menu mat-button #menu="matMenu" class="custom-mat-menu">
           <button mat-menu-item (click)="changeLanguage('en')">English</button>
           <button mat-menu-item (click)="changeLanguage('ua')">Ukrainian</button>
           <button mat-menu-item (click)="changeLanguage('ru')">Russian</button>

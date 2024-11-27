@@ -1,25 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { StorageService } from '../storage/storage.service';
 import { MatDialog } from '@angular/material/dialog';
-//import { DialogAlertComponent } from "../dialog/alert-dialog/alert-dialog.component";
 import { ErrorStateMatcher } from '@angular/material/core';
-import { NgForm, FormControl, FormGroupDirective, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { LoginModel } from '../models/loginModel'
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  constructor(
-    private loginServise: LoginService, 
-    private storageService: StorageService,
-    public dialog: MatDialog) {}
-
-  public Login = { id: "00000000-0000-0000-0000-000000000000", userRole: "user" } as Login;
+export class LoginComponent implements OnInit {
+  public Login: LoginModel = new LoginModel();
   isLoggedIn = false;
   isBadRequest = false;
+
+  constructor(
+    private loginService: LoginService, 
+    private storageService: StorageService,
+    public dialog: MatDialog) {}
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
@@ -31,42 +31,47 @@ export class LoginComponent {
     Validators.required,
     Validators.email,
   ]);
+
   pwdFormControl = new FormControl('', [
     Validators.required,
   ]);  
+
   matcher = new MyErrorStateMatcher();
 
-  signinto() {
-      if(this.emailFormControl.status=="INVALID"){
-        return;
-      }
+  signinto(): void {
+    if (this.emailFormControl.invalid || this.pwdFormControl.invalid) {
+      return;
+    }
 
-      if(this.pwdFormControl.status=="INVALID"){
-        return;
-      }
+    this.Login.email = this.emailFormControl.value ?? ' ';
+    this.Login.passwordCache = this.pwdFormControl.value ?? ' ';
 
-      this.loginServise.signinto(this.Login).subscribe(
-      (res) => {
+    if (!this.Login.isValid()) {
+      console.error('Invalid login data');
+      return;
+    }
+
+    this.loginService.signinto(this.Login).subscribe({
+      next: (res) => {
         this.storageService.saveUserData(res);
         this.isLoggedIn = true;
-        console.log('Answer:', res);
-        this.loginServise.returnhome();
+        this.loginService.returnhome();
       },
-      (error) => {
-        console.error('Error:', error.error);
+      error: (error) => {
+        console.error('Error:', error);
         this.isBadRequest = true;
       }
-    );
+    });
   }
 
-  onEnterEmail(event: Event){
+  onEnterEmail(event: Event): void {
     this.isBadRequest = false;
-    this.Login.email = (<HTMLInputElement>event.target).value;
+    this.emailFormControl.setValue((<HTMLInputElement>event.target).value);
   }
 
-  onEnterPassword(event: Event){
+  onEnterPassword(event: Event): void {
     this.isBadRequest = false;
-    this.Login.passwordCache = (<HTMLInputElement>event.target).value;
+    this.pwdFormControl.setValue((<HTMLInputElement>event.target).value);
   }
 }
 
@@ -75,11 +80,4 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
-}
-
-export interface Login {
-  id: string;
-  email: string;
-  passwordCache: string;
-  userRole: string;
 }

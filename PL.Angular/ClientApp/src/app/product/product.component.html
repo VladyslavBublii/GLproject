@@ -3,52 +3,61 @@
     <div>
       <h3>{{ 'Add product' | translate }}</h3>
       <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
-        
-        <div>
-          <label for="category"> Category </label>
-          <input
-            id="category"
-            type="text"
-            formControlName="category"
-          />
-        </div>
 
-        <div>
-          <label for="name"> Name </label>
-          <input
-            id="name"
-            type="text"
-            formControlName="name"
-          />
-        </div>
+        <fieldset>
+          <legend> {{ 'Product Details' | translate }} </legend>
 
-        <div>
-          <label for="description"> Description </label>
-          <textarea
-            id="description"
-            formControlName="description"
-          ></textarea>
-        </div>
+          <div>
+            <label for="category"> {{ 'Category' | translate }} </label>
+            <input
+              id="category"
+              type="text"
+              formControlName="category"
+              aria-label="Product category"
+            />
+          </div>
 
-        <div>
-          <label for="price"> Price </label>
-          <input
-            id="price"
-            type="number"
-            formControlName="price"
-          />
-        </div>
+          <div>
+            <label for="name"> {{ 'Name' | translate }} </label>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              aria-label="Product name"
+            />
+          </div>
 
-        <div>
-          <label for="ImageName"> URL Image </label>
-          <input
-            id="ImageName"
-            type="text"
-            formControlName="ImageName"
-          />
-        </div>
+          <div>
+            <label for="description"> {{ 'Description' | translate }} </label>
+            <textarea
+              id="description"
+              formControlName="description"
+              aria-label="Product description"
+            ></textarea>
+          </div>
 
-        <button class="button" type="submit">Add Product</button>
+          <div>
+            <label for="price"> {{ 'Price' | translate }} </label>
+            <input
+              id="price"
+              type="number"
+              formControlName="price"
+              aria-label="Product price"
+            />
+          </div>
+
+          <div>
+            <label for="ImageName"> {{ 'ImageName' | translate }} </label>
+            <input
+              id="ImageName"
+              type="text"
+              formControlName="ImageName"
+              aria-label="Product image URL"
+            />
+          </div>
+        </fieldset>
+
+        <button class="button" type="submit">{{ 'Add product' | translate }}</button>
       </form>
     </div>
   </main>
