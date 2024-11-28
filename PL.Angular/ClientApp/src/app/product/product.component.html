@@ -3,9 +3,8 @@
     <div>
       <h3>{{ 'Add product' | translate }}</h3>
       <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
-
+        <legend> {{ 'Product Details' | translate }} </legend>
         <fieldset>
-          <legend> {{ 'Product Details' | translate }} </legend>
 
           <div>
             <label for="category"> {{ 'Category' | translate }} </label>
