@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CartRequestModel } from '../models/cartRequestModel';
+import { OrderRequestModel } from '../models/orderRequestModel'
 
 @Injectable({
   providedIn: 'root',
@@ -49,15 +51,4 @@ export class CartService {
   goToOrder() {
     window.location.href = this.baseUrl + "/order";
   }
-}
-
-export interface CartRequestModel {
-  userId: string,
-  productId: string
-}
-
-export interface OrderRequestModel {
-  userId: string,
-  productId: string,
-  count: number
 }

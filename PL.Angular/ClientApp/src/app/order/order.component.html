@@ -6,11 +6,10 @@
         </div>
         <div *ngIf="!isOrderEmpty">
             <ul class="orders">
-              <!--TODO: Numbers of orders instead of ids -->
-                <li class="orders_cell" *ngFor="let order of orderInformation">
+                <li class="orders_cell" *ngFor="let order of orderInformation; let i = index">
                   <div class="tile">
                     <a class="tile_title">
-                      {{order.id}}
+                      {{ 'OrderNoun' | translate }} №{{ (i + 1) }}
                     </a>
                     <ul class="goods">
                       <li class="goods_cell" *ngFor="let product of order.products">

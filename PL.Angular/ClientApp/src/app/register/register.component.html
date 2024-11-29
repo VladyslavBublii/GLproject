@@ -1,44 +1,103 @@
 <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <h3>{{ 'Registration' | translate }}</h3>
-        <form>
-          <div class="form-group">
-            <label for="email">{{ 'Enter Email' | translate }}</label>
-            <input type="email" class="form-control" id="email" name="email" (input)="onEnterEmail($event)">
-          </div>
-  
-          <div class="form-group">
-            <label for="password">{{ 'Enter Password' | translate }}</label>
-            <input type="password" class="form-control" id="password" name="password" (input)="onEnterPassword($event)">
-          </div>
-  
-          <div class="form-group">
-            <label for="name">{{ 'Enter Name' | translate }}</label>
-            <input type="text" class="form-control" id="name" name="name" (input)="onEnterName($event)">
-          </div>
-  
-          <div class="form-group">
-            <label for="surname">{{ 'Enter Surname' | translate }}</label>
-            <input type="text" class="form-control" id="surname" name="surname" (input)="onEnterSurname($event)">
-          </div>
-  
-          <div class="form-group">
-            <label for="city">{{ 'Enter City' | translate }}</label>
-            <input type="text" class="form-control" id="city" name="city" (input)="onEnterCity($event)">
-          </div>
-  
-          <div class="form-group">
-            <label for="postindex">{{ 'Enter Post Index' | translate }}</label>
-            <input type="text" class="form-control" id="postindex" name="postindex" (input)="onEnterPostIndex($event)">
-          </div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h3 class="common-title">{{ 'Registration' | translate }}</h3>
+      <form [formGroup]="registerForm" (ngSubmit)="registerinto()">
+        <fieldset>
+          <mat-form-field class="custom-mat-form-field" appearance="fill">
+            <div class="form-group">
+              <mat-label class="custom-mat-label">{{ 'Enter Email' | translate }}</mat-label>
+              <input
+                class="custom-mat-input"
+                matInput
+                type="email"
+                formControlName="email"
+                aria-label="User email"
+                required
+              />
+              <mat-error class="custom-mat-error" *ngIf="registerForm.get('email')?.hasError('email')">
+                {{ 'Please enter a valid email address' | translate }}
+              </mat-error>
+              <mat-error class="custom-mat-error" *ngIf="registerForm.get('email')?.hasError('required')">
+                {{ 'Email is required' | translate }}
+              </mat-error>
+            </div>
+          </mat-form-field>
 
-          <div class="row justify-right">
-            <button class="btn btn-primary mt-3 float-right" (click)="registerinto()">{{ 'Register' | translate }}</button>
-          </div>
-          <br />
+          <mat-form-field class="custom-mat-form-field" appearance="fill">
+            <div class="form-group">
+              <mat-label class="custom-mat-label">{{ 'Enter Password' | translate }}</mat-label>
+              <input
+                class="custom-mat-input"
+                matInput
+                type="password"
+                formControlName="password"
+                aria-label="User password"
+                required
+              />
+              <mat-error class="custom-mat-error" *ngIf="registerForm.get('password')?.hasError('required')">
+                {{ 'Password is required' | translate }}
+              </mat-error>
+            </div>
+          </mat-form-field>
 
-        </form>
-      </div>
+          <mat-form-field class="custom-mat-form-field" appearance="fill">
+            <div class="form-group">
+              <mat-label class="custom-mat-label">{{ 'Enter Name' | translate }}</mat-label>
+              <input
+                class="custom-mat-input"
+                matInput
+                type="text"
+                formControlName="name"
+                aria-label="User name"
+              />
+            </div>
+          </mat-form-field>
+
+          <mat-form-field class="custom-mat-form-field" appearance="fill">
+            <div class="form-group">
+              <mat-label class="custom-mat-label">{{ 'Enter Surname' | translate }}</mat-label>
+              <input
+                class="custom-mat-input"
+                matInput
+                type="text"
+                formControlName="surName"
+                aria-label="User surname"
+              />
+            </div>
+          </mat-form-field>
+
+          <mat-form-field class="custom-mat-form-field" appearance="fill">
+            <div class="form-group">
+              <mat-label class="custom-mat-label">{{ 'Enter City' | translate }}</mat-label>
+              <input
+                class="custom-mat-input"
+                matInput
+                type="text"
+                formControlName="city"
+                aria-label="User city"
+              />
+            </div>
+          </mat-form-field>
+
+          <mat-form-field class="custom-mat-form-field" appearance="fill">
+            <div class="form-group">
+              <mat-label class="custom-mat-label">{{ 'Enter Post Index' | translate }}</mat-label>
+              <input
+                class="custom-mat-input"
+                matInput
+                type="text"
+                formControlName="postIndex"
+                aria-label="User post index"
+              />
+            </div>
+          </mat-form-field>
+
+          <div class="row justify-content-end">
+            <button class="btn btn-primary mt-3" type="submit">{{ 'Register' | translate }}</button>
+          </div>
+        </fieldset>
+      </form>
     </div>
   </div>
+</div>

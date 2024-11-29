@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { StoreService } from './store.service';
 import { StorageService } from '../storage/storage.service';
 import { CartService } from '../cart/cart.service';
+import { MainProductInformation } from '../models/mainProductInformation'
 
 @Component({
   selector: 'app-store',
@@ -29,14 +30,13 @@ export class StoreComponent {
     getData(): void {
       this.storeServise.get().subscribe(
         (data: any[]) => {
-          this.mainProductInformationList = data.map((item) => ({
-            id: item.id,
-            name: item.name,
-            price: item.price.toString(),
-            imageName: item.imageName,
-            urlImage: item.urlImage
-          }));
-          console.log(this.mainProductInformationList);
+          this.mainProductInformationList = data.map((item) => new MainProductInformation(
+            item.id,
+            item.name,
+            item.price.toString(),
+            item.imageName,
+            item.urlImage
+          ));
         },
         (error) => {
           console.error(error);
@@ -54,11 +54,3 @@ export class StoreComponent {
       );
     }
 }
-
-export interface MainProductInformation {
-    id: string,
-    name: string,
-    price: string,
-    imageName: string,
-    urlImage: string
-  }

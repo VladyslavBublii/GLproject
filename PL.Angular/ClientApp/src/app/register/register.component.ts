@@ -1,70 +1,75 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegisterService } from './register.service';
 import { StorageService } from '../storage/storage.service';
 import { LoginService } from '../login/login.service';
-//import { RegisterModel} from '../models/registerModel';
-
+import { RegisterModel } from '../models/registerModel'
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-
 export class RegisterComponent {
+  registerForm: FormGroup;
+
   constructor(
+    private formBuilder: FormBuilder,
     private registerService: RegisterService,
     private storageService: StorageService,
-    private loginServise: LoginService) {
+    private loginService: LoginService
+  ) {
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      name: [''],
+      surName: [''],
+      city: [''],
+      postIndex: ['']
+    });
   }
-  public RegisterModel = {} as RegisterModel;
 
   registerinto() {
-    this.registerService.registerinto(this.RegisterModel).subscribe(
-    (res) => {
-      this.loginServise.signinto({id: "00000000-0000-0000-0000-000000000000", userRole: "user", email: this.RegisterModel.email, passwordCache: this.RegisterModel.password}).subscribe(
-        (resLog) => {
-          this.storageService.saveUserData(resLog);
-          this.loginServise.returnhome();
-        }
-      );
-    },
-    (error) => {
-      console.error('Error:', error);
+    if (this.registerForm.invalid) {
+      return;
     }
-  );
-  }
 
-  onEnterEmail(event: Event){
-      this.RegisterModel.email = (<HTMLInputElement>event.target).value;
-  }
+    const registerData = new RegisterModel(
+      this.registerForm.get('email')?.value ?? '',
+      this.registerForm.get('password')?.value ?? '',
+      this.registerForm.get('name')?.value ?? '',
+      this.registerForm.get('surName')?.value ?? '',
+      this.registerForm.get('city')?.value ?? '',
+      this.registerForm.get('postIndex')?.value ?? ''
+    );
 
-  onEnterPassword(event: Event){
-    this.RegisterModel.password = (<HTMLInputElement>event.target).value;
-  }
+    if (!registerData.isValid()) {
+      console.error('Invalid registration data');
+      return;
+    }
 
-  onEnterName(event: Event){
-      this.RegisterModel.name = (<HTMLInputElement>event.target).value;
-  }
+    this.registerService.registerinto(registerData).subscribe(
+      (res) => {
+        const loginData = {
+          id: "00000000-0000-0000-0000-000000000000",
+          userRole: "user",
+          email: registerData.email,
+          passwordCache: registerData.password
+        };
 
-  onEnterSurname(event: Event){
-    this.RegisterModel.surName = (<HTMLInputElement>event.target).value;
+        this.loginService.signinto(loginData).subscribe(
+          (resLog) => {
+            this.storageService.saveUserData(resLog);
+            this.loginService.returnhome();
+          },
+          (errorLog) => {
+            console.error('Login error:', errorLog);
+          }
+        );
+      },
+      (error) => {
+        console.error('Registration error:', error);
+      }
+    );
   }
-
-  onEnterCity(event: Event){
-    this.RegisterModel.city = (<HTMLInputElement>event.target).value;
-  }
-
-  onEnterPostIndex(event: Event){
-    this.RegisterModel.postIndex = (<HTMLInputElement>event.target).value;
-  }
-}
-
-export interface RegisterModel {
-  email: string,
-  password: string,
-  name: string,
-  surName: string,
-  city: string,
-  postIndex: string,
 }

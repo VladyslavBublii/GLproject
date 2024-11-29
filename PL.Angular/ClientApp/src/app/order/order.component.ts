@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { OrderService } from './order.service';
 import { StorageService } from '../storage/storage.service';
+import { OrderModel } from '../models/orderModel';
+import { OrderedProduct } from '../models/orderedProduct';
 
 @Component({
   selector: 'app-order',
@@ -14,8 +16,8 @@ export class OrderComponent {
     
     isOrderEmpty = true;
     public userId: string = "";
-    public orderInformation: Array<OrderInformation> = [];
-    public productInformationList: Array<ProductInformation> = [];
+    public orderInformation: OrderModel[] = [];
+    public productInformationList: OrderedProduct[] = [];
     
     ngOnInit(): void {
         this.userId = this.storageService.getUserId();
@@ -48,24 +50,3 @@ export class OrderComponent {
     payOrder(): void{
     }
 }
-
-export interface OrderInformation {
-    id: string,
-    userId: string,
-    phoneNumber: string,
-    city: string,
-    postIndex: string,
-    sum: string,
-    products: ProductInformation[],
-  }
-
-export interface ProductInformation {
-    id: string,
-    name: string,
-    description: string,
-    category: string,
-    price: string,
-    count: string,
-    imageName: string,
-    urlImage: string
-  }

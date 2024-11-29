@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ProductService } from './product.service';
-//import { ProductInformation } from '../models/productInformation';
-//import { ProductInformation } from '../models/productInformation';
+import { ProductModel } from '../models/productModel';
 
 @Component({
     selector: 'app-product',
@@ -25,16 +24,20 @@ export class ProductComponent {
         private productService: ProductService) 
     {}
 
-    public product = {} as ProductInformation;
+    public product: ProductModel = new ProductModel();
 
     onSubmit(): void {
-        this.product.category = this.checkoutForm.value.category ?? ' ';
-        this.product.name = this.checkoutForm.value.name ?? ' ';
-        this.product.description = this.checkoutForm.value.description ?? ' ';
-        this.product.price = this.checkoutForm.value.price ?? 0;
-        this.product.ImageName = this.checkoutForm.value.ImageName ?? ' ';
+        this.product = new ProductModel(
+            this.checkoutForm.value.category ?? ' ',
+            this.checkoutForm.value.name ?? ' ',
+            this.checkoutForm.value.description ?? ' ',
+            this.checkoutForm.value.price ?? 0,
+            this.checkoutForm.value.ImageName ?? ' '
+        );
+
         this.productService.addProduct(this.product).subscribe(
             (data) => {
+                console.log('Product added:', data);
             },
             (error) => {
               console.error(error);
@@ -46,12 +49,4 @@ export class ProductComponent {
         );
         this.checkoutForm.reset();
     }
-}
-
-export interface ProductInformation {
-    category:string,
-    name: string,
-    description: string,
-    price: number,
-    ImageName: string
 }
