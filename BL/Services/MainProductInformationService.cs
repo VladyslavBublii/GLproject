@@ -17,7 +17,7 @@ namespace BL.Services
             _unitOfWork = new UnitOfWork();
         }
 
-        public IEnumerable<MainProductInformationDTO> GetProducts()
+        public IEnumerable<MainProductInformationDTO> GetProductsAsync()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, MainProductInformationDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<Product>, List<MainProductInformationDTO>>((IEnumerable<Product>)_unitOfWork.Products.GetAllAsync());

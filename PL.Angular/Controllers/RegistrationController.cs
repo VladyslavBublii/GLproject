@@ -2,7 +2,6 @@
 using PL.Angular.Models;
 using BL.Services.Interfaces;
 using BL.DTO;
-using static Azure.Core.HttpHeader;
 
 namespace PL.Angular.Controllers
 {
@@ -10,48 +9,80 @@ namespace PL.Angular.Controllers
     [Route("registration")]
     public class RegistrationController : ControllerBase
     {
-        IUserService _userService;
-        IPasswordService _passwordService;
-        IEmailService _emailService;
+        private readonly IUserService _userService;
+        private readonly IPasswordService _passwordService;
+        private readonly IEmailService _emailService;
 
-        public RegistrationController(IUserService user, IPasswordService password, IEmailService email) 
+        public RegistrationController(IUserService userService, IPasswordService passwordService, IEmailService emailService)
         {
-            _userService = user;
-            _passwordService = password;
-            _emailService = email;
+            _userService = userService;
+            _passwordService = passwordService;
+            _emailService = emailService;
         }
 
-        [HttpPost("registration")]
-        public async Task<IActionResult> Registration([FromBody] RegisterModel registerModel)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var errorList = new List<string>();
-                if (!_userService.IsEmailFree(registerModel.Email))
-                {
-                    errorList.Add("This email is already busy!");
-                }
-                if (!_emailService.ValideEmail(registerModel.Email))
-                {
-                    errorList.Add("This email is not valid!");
-                }
-                if (!_passwordService.IsPasswordStrong(registerModel.Password))
-                {
-                    errorList.Add("Password is too weak!");
-                }
-
-                if (errorList.Count != 0)
-                {
-                    return BadRequest("Errors: " + String.Join(" ", errorList.ToArray()));
-                }
-
-                var userDto = new UserDTO { Email = registerModel.Email, Password = registerModel.Password, UserRole = Core.Enums.Role.User };
-                var customerDto = new CustomerDTO { Name = registerModel.Name, SurName = registerModel.SurName, City = registerModel.City, PostIndex = registerModel.PostIndex };
-                _userService.SaveUser(userDto, customerDto);
-
-                var user = _userService.GetUserLog(registerModel.Email, registerModel.Password, Core.Enums.Role.User);
+                return BadRequest("Invalid model state.");
             }
-            return Ok(registerModel);
+
+            var errorList = new List<string>();
+
+            if (!await _userService.IsEmailFreeAsync(registerModel.Email))
+            {
+                errorList.Add("This email is already in use.");
+            }
+
+            if (!_emailService.ValideEmail(registerModel.Email))
+            {
+                errorList.Add("This email is not valid.");
+            }
+
+            if (!_passwordService.IsPasswordStrong(registerModel.Password))
+            {
+                errorList.Add("Password is too weak.");
+            }
+
+            if (errorList.Any())
+            {
+                return BadRequest(new { Errors = errorList });
+            }
+
+            try
+            {
+                var userDto = new UserDTO
+                {
+                    Email = registerModel.Email,
+                    Password = registerModel.Password,
+                    UserRole = Core.Enums.Role.User
+                };
+
+                var customerDto = new CustomerDTO
+                {
+                    Name = registerModel.Name,
+                    SurName = registerModel.SurName,
+                    City = registerModel.City,
+                    PostIndex = registerModel.PostIndex
+                };
+
+                await _userService.SaveUserAsync(userDto, customerDto);
+
+                var user = await _userService.GetUserLogAsync(registerModel.Email, registerModel.Password, Core.Enums.Role.User);
+
+                return Ok(new
+                {
+                    Message = "Registration successful.",
+                    UserId = user.Id,
+                    Email = user.Email,
+                    Role = user.UserRole
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred during registration: {ex.Message}");
+            }
         }
     }
 }

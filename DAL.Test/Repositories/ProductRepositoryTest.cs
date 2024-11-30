@@ -19,7 +19,7 @@ namespace DAL.Test.Repositories
             A.CallTo(() => _db.Products.Find(A<Guid>._))
                 .Returns(fakeProduct);
             var productRepository = new ProductRepository(_db);
-            var result = productRepository.Get(productId);
+            var result = productRepository.GetAsync(productId);
 
             Assert.NotNull(result);
             Assert.Equal(fakeProduct, result);

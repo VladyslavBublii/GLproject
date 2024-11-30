@@ -19,7 +19,7 @@ namespace DAL.Test.Repositories
             A.CallTo(() => _db.Users.Find(A<Guid>._))
                 .Returns(fakeUser);
             var userRepository = new UserRepository(_db);
-            var result = userRepository.Get(userId);
+            var result = userRepository.GetAsync(userId);
 
             Assert.NotNull(result);
             Assert.Equal(fakeUser, result);

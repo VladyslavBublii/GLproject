@@ -25,7 +25,7 @@ namespace PL.Angular.Controllers
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductModel, ProductDTO>()).CreateMapper();
             var productDto = mapper.Map<ProductDTO>(productRequestModel);
 
-            _productService.Create(productDto);
+            await _productService.CreateAsync(productDto);
 
             return Ok(productRequestModel);
         }
