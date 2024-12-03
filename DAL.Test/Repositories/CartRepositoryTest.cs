@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using DAL.Data;
+﻿using DAL.Data;
 using DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Xunit;

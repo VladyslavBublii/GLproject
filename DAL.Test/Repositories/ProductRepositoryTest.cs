@@ -11,18 +11,24 @@ namespace DAL.Test.Repositories
         private readonly DBContext _db = A.Fake<DBContext>();
 
         [Fact]
-        public void GetProduct_Success_Test()
+        public async Task GetProduct_Success_Test()
         {
-            _db.Products = A.Fake<DbSet<Product>>();
             var productId = Guid.NewGuid();
             var fakeProduct = new Product { Id = productId, Name = "Product" };
-            A.CallTo(() => _db.Products.Find(A<Guid>._))
-                .Returns(fakeProduct);
+
+            _db.Products = A.Fake<DbSet<Product>>();
+
+            A.CallTo(() => _db.Products.FindAsync(A<Guid>._))
+                .Returns(new ValueTask<Product>(fakeProduct));
+
             var productRepository = new ProductRepository(_db);
-            var result = productRepository.GetAsync(productId);
+            var result = await productRepository.GetAsync(productId);
 
             Assert.NotNull(result);
-            Assert.Equal(fakeProduct, result);
+            Assert.Equal(fakeProduct.Id, result.Id);
+            Assert.Equal(fakeProduct.Name, result.Name);
+
+            A.CallTo(() => _db.Products.FindAsync(productId)).MustHaveHappenedOnceExactly();
         }
     }
 }
