@@ -6,20 +6,20 @@ namespace PL.Angular.Models
     {
         [Required(ErrorMessage = "Email is not specified")]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public required string Email { get; set; }
 
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Password is not specified")]
-        public string Password { get; set; }
+        public required string Password { get; set; }
 
         [Required(ErrorMessage = "Name is not specified")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [Required(ErrorMessage = "Surname is not specified")]
-        public string SurName { get; set; }
+        public required string SurName { get; set; }
 
-        public string City { get; set; }
+        public required string City { get; set; }
 
-        public string PostIndex { get; set; }
+        public required string PostIndex { get; set; }
     }
 }
