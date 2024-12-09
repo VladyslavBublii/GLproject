@@ -5,9 +5,10 @@ import { OrderModel } from '../models/orderModel';
 import { OrderedProduct } from '../models/orderedProduct';
 
 @Component({
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css']
+    selector: 'app-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.css'],
+    standalone: false
 })
 export class OrderComponent {
     constructor(

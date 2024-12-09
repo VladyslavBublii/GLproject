@@ -5,9 +5,10 @@ import { LanguageService } from '../language/language.service';
 import { UserRole } from '../models/enums/user-role.enum';
 
 @Component({
-  selector: 'app-nav-menu',
-  templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.css']
+    selector: 'app-nav-menu',
+    templateUrl: './nav-menu.component.html',
+    styleUrls: ['./nav-menu.component.css'],
+    standalone: false
 })
 export class NavMenuComponent implements OnInit {
   isLoggedIn = false;
