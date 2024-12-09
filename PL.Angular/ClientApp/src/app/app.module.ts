@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,52 +37,45 @@ const localStorageSyncReducer = (reducer: ActionReducer<any>): ActionReducer<any
 
 const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer, storeFreeze];
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    NavMenuComponent,
-    NavFooterComponent,
-    PrivacyComponent,
-    LoginComponent,
-    RegisterComponent,
-    StoreComponent,
-    CartComponent,
-    OrderComponent,
-    ProductComponent,
-  ],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot([
-      { path: 'privacy', component: PrivacyComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'login', component: LoginComponent },
-      { path: '', component: StoreComponent, pathMatch: 'full' },
-      { path: 'cart', component: CartComponent },
-      { path: 'order', component: OrderComponent },
-      { path: 'product', component: ProductComponent },
-    ]),
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (http: HttpClient) => {
-          return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-        },
-        deps: [HttpClient]
-      }
-    }),
-    BrowserAnimationsModule,
-    StoreModule.forRoot({ user: userReducer }, { metaReducers }),
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        NavMenuComponent,
+        NavFooterComponent,
+        PrivacyComponent,
+        LoginComponent,
+        RegisterComponent,
+        StoreComponent,
+        CartComponent,
+        OrderComponent,
+        ProductComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        FormsModule,
+        RouterModule.forRoot([
+            { path: 'privacy', component: PrivacyComponent },
+            { path: 'register', component: RegisterComponent },
+            { path: 'login', component: LoginComponent },
+            { path: '', component: StoreComponent, pathMatch: 'full' },
+            { path: 'cart', component: CartComponent },
+            { path: 'order', component: OrderComponent },
+            { path: 'product', component: ProductComponent },
+        ]),
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatMenuModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (http: HttpClient) => {
+                    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+                },
+                deps: [HttpClient]
+            }
+        }),
+        BrowserAnimationsModule,
+        StoreModule.forRoot({ user: userReducer }, { metaReducers })], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
