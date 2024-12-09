@@ -68,4 +68,26 @@
   button[type="submit"]:hover {
     background-color: #0056b3;
   }
+
+  fieldset {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  legend {
+    font-size: 1.2rem;
+    color: #333;
+    padding: 0 10px;
+  }
+
+  @media (max-width: 768px) {
+    .container_with_sidebar {
+      flex-direction: column;
+    }
+  
+    .main_bar {
+      padding: 15px;
+    }
+  }
   

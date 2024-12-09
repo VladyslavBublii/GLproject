@@ -1,0 +1,55 @@
+.common-title {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .custom-mat-form-field {
+    width: 100%;
+  }
+  
+  .custom-mat-label {
+    margin-left: 10px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .custom-mat-input {
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+  
+  .custom-mat-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .custom-mat-error {
+    color: #ff0000;
+  }
+  
+  button.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button.btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  fieldset {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+  }

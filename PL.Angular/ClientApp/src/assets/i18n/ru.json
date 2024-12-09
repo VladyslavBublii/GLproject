@@ -11,12 +11,17 @@
 
   "Privacy": "Политика конфиденциальности",
 
-
   "Store": "Магазин",
   "Cart": "Корзина",
   "Add product": "Добавить товар",
   "Sidebar": "Столбец",
   "Price": "Цена",
+
+  "Product Details": "Информация о товаре",
+  "Name": "Имя",
+  "Category": "Категория",
+  "Description": "Описание",
+  "ImageName": "URL Картинки",
   
   "ShopName": "SexShop",
   "Home": "Домой",

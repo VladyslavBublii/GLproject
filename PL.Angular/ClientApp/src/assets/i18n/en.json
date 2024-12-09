@@ -22,6 +22,12 @@
   "Sidebar": "Sidebar",
   "Price": "Price",
 
+  "Product Details": "Product Details",
+  "Name": "Name",
+  "Category": "Category",
+  "Description": "Description",
+  "ImageName": "URL Image",
+
   "Enter site": "Enter site",
   "Enter email": "Enter email",
   "Please enter a valid email address": "Please enter a valid email address",

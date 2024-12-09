@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
-import { ProductInformation } from './product.component';
-import { Observable } from 'rxjs';
+import { ProductModel } from '../models/productModel';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +14,7 @@ export class ProductService {
     },
   };
 
-  addProduct(product: ProductInformation) {
+  addProduct(product: ProductModel) {
     return this.http.post(this.baseUrl + "product/add", JSON.stringify(product), this.HttpOptions);
   }
 

@@ -22,6 +22,12 @@
   "Sidebar": "Колонка",
   "Price": "Ціна",
 
+  "Product Details": "Інформація про товар",
+  "Name": "Ім'я",
+  "Category": "Категорія",
+  "Description": "Опис",
+  "ImageName": "URL Зображення",
+
   "Enter site": "Зайти",
   "Enter email": "Введіть адресу електронної пошти",
   "Please enter a valid email address": "Будь ласка, введіть дійсну адресу електронної пошти",

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CartService } from './cart.service';
 import { StorageService } from '../storage/storage.service';
+import { CartModel } from '../models/cartModel';
 
 @Component({
   selector: 'app-cart',
@@ -14,7 +15,7 @@ export class CartComponent {
     
     isBasketEmpty = false;
     public userId: string = "";
-    public productInformationList: Array<ProductInformation> = [];
+    public productInformationList: Array<CartModel> = [];
     
     ngOnInit(): void {
         this.userId = this.storageService.getUserId();
@@ -66,14 +67,3 @@ export class CartComponent {
       );
     }
 }
-
-export interface ProductInformation {
-    id: string,
-    name: string,
-    description: string,
-    category: string,
-    price: string,
-    count: string,
-    imageName: string,
-    urlImage: string
-  }
