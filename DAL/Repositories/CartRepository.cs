@@ -1,64 +1,69 @@
 ﻿using Core.Models;
 using DAL.Data;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
     public class CartRepository : IRepository<Cart>
     {
-        private DBContext _db;
+        private readonly DBContext _db;
 
         public CartRepository(DBContext context)
         {
-            _db = context;
+            _db = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-		public IEnumerable<Cart> GetAll()
-		{
-			return _db.Carts.ToList();
-		}
-
-		public Cart Get(Guid id)
-		{
-			return _db.Carts.Find(id);
-		}
-
-        public IEnumerable<Cart> Get(IEnumerable<Guid> ids)
+        public async Task<IEnumerable<Cart>> GetAllAsync()
         {
-            return _db.Carts.Where(c => ids.Contains(c.Id)).ToList();
+            return await _db.Carts.ToListAsync();
         }
 
-        public void Create(Cart product)
-		{
-			_db.Carts.Add(product);
-		}
-
-		public void Update(Cart item)
-		{
-			//_db.Cart(product).State = EntityState.Modified;
-			throw new Exception();
-		}
-
-        public Cart Find(Guid id)
+        public async Task<Cart> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _db.Carts.FindAsync(id);
         }
 
-        public void Delete(Guid productId)
+        public async Task<IEnumerable<Cart>> GetAsync(IEnumerable<Guid> ids)
         {
-			Cart ithem = _db.Carts.Find(productId);
-			if (ithem != null)
-			{
-				_db.Carts.Remove(ithem);
-			}
-		}
+            return await _db.Carts.Where(c => ids.Contains(c.Id)).ToListAsync();
+        }
 
-        public void DeleteRange(IEnumerable<Cart> carts)
+        public async Task CreateAsync(Cart cart)
+        {
+            await _db.Carts.AddAsync(cart);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Cart cart)
+        {
+            _db.Entry(cart).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<Cart> FindAsync(Guid id)
+        {
+            return await _db.Carts.Where(c => c.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task DeleteAsync(Guid cartId)
+        {
+            var cart = await _db.Carts.FindAsync(cartId);
+            if (cart != null)
+            {
+                _db.Carts.Remove(cart);
+                await _db.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteRangeAsync(IEnumerable<Cart> carts)
         {
             _db.Carts.RemoveRange(carts);
+            await _db.SaveChangesAsync();
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
     public interface IOrdersRepository
     {
-        IEnumerable<Order> GetAllByUserId(Guid userId);
-        Guid GetIdByUserIdAndTime(Guid userId, DateTime orderTime);
+        Task<IEnumerable<Order>> GetAllByUserIdAsync(Guid userId);
+
+        Task<Guid> GetIdByUserIdAndTimeAsync(Guid userId, DateTime orderTime);
     }
 }

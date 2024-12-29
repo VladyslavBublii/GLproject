@@ -2,20 +2,20 @@
 {
     public class OrderedProduct
     {
-        public Guid Id { get; set; }
+        public required Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
-        public string Description { get; set; }
+        public required string Description { get; set; }
 
-        public string Category { get; set; }
+        public required string Category { get; set; }
 
-        public decimal Price { get; set; }
+        public required decimal Price { get; set; }
 
-        public uint Count { get; set; }
+        public required uint Count { get; set; }
 
-        public string ImageName { get; set; }
+        public required string ImageName { get; set; }
 
-        public string UrlImage { get; set; }
+        public required string UrlImage { get; set; }
     }
 }

@@ -6,7 +6,8 @@ import { ProductModel } from '../models/productModel';
 @Component({
     selector: 'app-product',
     templateUrl: './product.component.html',
-    styleUrls: ['./product.component.css']
+    styleUrls: ['./product.component.css'],
+    standalone: false
 })
 export class ProductComponent {
     items = this.productService.getItems();

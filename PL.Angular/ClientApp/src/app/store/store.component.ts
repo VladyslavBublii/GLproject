@@ -5,9 +5,10 @@ import { CartService } from '../cart/cart.service';
 import { MainProductInformation } from '../models/mainProductInformation'
 
 @Component({
-  selector: 'app-store',
-  templateUrl: './store.component.html',
-  styleUrls: ['./store.component.css']
+    selector: 'app-store',
+    templateUrl: './store.component.html',
+    styleUrls: ['./store.component.css'],
+    standalone: false
 })
 export class StoreComponent {
     constructor(

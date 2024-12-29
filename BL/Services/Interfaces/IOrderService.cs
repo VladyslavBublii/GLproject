@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BL.DTO;
 
 namespace BL.Services.Interfaces
 {
-	public interface IOrderService
-	{
-		void MakeOrder(OrderDTO orderDto);
+    public interface IOrderService
+    {
+        Task MakeOrderAsync(OrderDTO orderDto);
 
-		ProductDTO GetProduct(Guid id);
+        Task<ProductDTO> GetProductAsync(Guid id);
 
-		IEnumerable<ProductDTO> GetProducts();
+        Task<IEnumerable<ProductDTO>> GetProductsAsync();
 
-		IEnumerable<OrderDTO> GetOrdersByUserId(Guid userId);
+        Task<IEnumerable<OrderDTO>> GetOrdersByUserIdAsync(Guid userId);
     }
 }

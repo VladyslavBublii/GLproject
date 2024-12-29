@@ -2,18 +2,19 @@
 using DAL.Data;
 using DAL.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
         private DBContext _db;
-        private UserRepository userRepository;
-        private CustomerRepository customerRepository;
-        private ProductRepository productRepository;
-        private OrderRepository orderRepository;
-        private CartRepository cartRepository;
-        private OrdersProductsRepository ordersProductsRepository;
+        private UserRepository _userRepository;
+        private CustomerRepository _customerRepository;
+        private ProductRepository _productRepository;
+        private OrderRepository _orderRepository;
+        private CartRepository _cartRepository;
+        private OrdersProductsRepository _ordersProductsRepository;
 
         public UnitOfWork()
         {
@@ -24,11 +25,11 @@ namespace DAL.Repositories
         {
             get
             {
-                if (userRepository == null)
+                if (_userRepository == null)
                 {
-                    userRepository = new UserRepository(_db);
+                    _userRepository = new UserRepository(_db);
                 }
-                return userRepository;
+                return _userRepository;
             }
         }
 
@@ -36,11 +37,11 @@ namespace DAL.Repositories
         {
             get
             {
-                if (customerRepository == null)
+                if (_customerRepository == null)
                 {
-                    customerRepository = new CustomerRepository(_db);
+                    _customerRepository = new CustomerRepository(_db);
                 }
-                return customerRepository;
+                return _customerRepository;
             }
         }
 
@@ -48,11 +49,11 @@ namespace DAL.Repositories
         {
             get
             {
-                if (customerRepository == null)
+                if (_customerRepository == null)
                 {
-                    customerRepository = new CustomerRepository(_db);
+                    _customerRepository = new CustomerRepository(_db);
                 }
-                return customerRepository;
+                return _customerRepository;
             }
         }
 
@@ -60,11 +61,11 @@ namespace DAL.Repositories
         {
             get
             {
-                if (productRepository == null)
+                if (_productRepository == null)
                 {
-                    productRepository = new ProductRepository(_db);
+                    _productRepository = new ProductRepository(_db);
                 }
-                return productRepository;
+                return _productRepository;
             }
         }
 
@@ -72,11 +73,11 @@ namespace DAL.Repositories
         {
             get
             {
-                if (orderRepository == null)
+                if (_orderRepository == null)
                 {
-                    orderRepository = new OrderRepository(_db);
+                    _orderRepository = new OrderRepository(_db);
                 }
-                return orderRepository;
+                return _orderRepository;
             }
         }
 
@@ -84,11 +85,11 @@ namespace DAL.Repositories
         {
             get
             {
-                if (orderRepository == null)
+                if (_orderRepository == null)
                 {
-                    orderRepository = new OrderRepository(_db);
+                    _orderRepository = new OrderRepository(_db);
                 }
-                return orderRepository;
+                return _orderRepository;
             }
         }
 
@@ -96,11 +97,11 @@ namespace DAL.Repositories
         {
             get
             {
-                if (cartRepository == null)
+                if (_cartRepository == null)
                 {
-                    cartRepository = new CartRepository(_db);
+                    _cartRepository = new CartRepository(_db);
                 }
-                return cartRepository;
+                return _cartRepository;
             }
         }
 
@@ -108,17 +109,17 @@ namespace DAL.Repositories
         {
             get
             {
-                if (ordersProductsRepository == null)
+                if (_ordersProductsRepository == null)
                 {
-                    ordersProductsRepository = new OrdersProductsRepository(_db);
+                    _ordersProductsRepository = new OrdersProductsRepository(_db);
                 }
-                return ordersProductsRepository;
+                return _ordersProductsRepository;
             }
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            int t = _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
         private bool disposed = false;

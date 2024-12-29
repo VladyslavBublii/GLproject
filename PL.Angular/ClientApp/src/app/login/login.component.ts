@@ -7,9 +7,10 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 import { LoginModel } from '../models/loginModel'
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   public Login: LoginModel = new LoginModel();

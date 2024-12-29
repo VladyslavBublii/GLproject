@@ -10,33 +10,41 @@ namespace PL.Angular.Controllers
     [Route("store")]
     public class MainProductsInformationController : ControllerBase
     {
-        IMainProductInformationService _mainProductService;
+        private readonly IMainProductInformationService _mainProductService;
         private readonly IS3Bucket _s3Bucket;
+        private readonly IMapper _mapper;
 
-        public MainProductsInformationController(IMainProductInformationService serv, IS3Bucket s3Bucket)
+        public MainProductsInformationController(IMainProductInformationService mainProductService, IS3Bucket s3Bucket, IMapper mapper)
         {
-            _mainProductService = serv;
+            _mainProductService = mainProductService;
             _s3Bucket = s3Bucket;
+            _mapper = mapper;
         }
 
         [HttpGet("get")]
-        public async Task<IActionResult> GetMainProductsInformation()
+        public Task<IActionResult> GetMainProductsInformation()
         {
             try
             {
-                IEnumerable<MainProductInformationDTO> productDtos = _mainProductService.GetProducts();
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MainProductInformationDTO, MainProductInformation>()).CreateMapper();
-                var mainProductsInformationList = mapper.Map<IEnumerable<MainProductInformationDTO>, List<MainProductInformation>>(productDtos);
-                foreach (var productProductsInformation in mainProductsInformationList) 
+                IEnumerable<MainProductInformationDTO> productDtos = (IEnumerable<MainProductInformationDTO>)_mainProductService.GetProductsAsync();
+
+                if (productDtos == null || !productDtos.Any())
                 {
-                    productProductsInformation.UrlImage = _s3Bucket.GetImageLink(productProductsInformation.ImageName);
+                    return Task.FromResult<IActionResult>(NotFound("No products found."));
                 }
 
-                return Ok(mainProductsInformationList);
+                var mainProductsInformationList = _mapper.Map<IEnumerable<MainProductInformation>>(productDtos);
+
+                foreach (var product in mainProductsInformationList)
+                {
+                    product.UrlImage = _s3Bucket.GetImageLink(product.ImageName);
+                }
+
+                return Task.FromResult<IActionResult>(Ok(mainProductsInformationList));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return Task.FromResult<IActionResult>(StatusCode(500, $"An error occurred: {ex.Message}"));
             }
         }
     }

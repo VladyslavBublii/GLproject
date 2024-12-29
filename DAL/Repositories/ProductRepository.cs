@@ -5,63 +5,67 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-	public class ProductRepository : IRepository<Product>
-	{
-		private DBContext _db;
+    public class ProductRepository : IRepository<Product>
+    {
+        private readonly DBContext _db;
 
-		public ProductRepository(DBContext context)
-		{
-			this._db = context;
-		}
-
-		public IEnumerable<Product> GetAll()
-		{
-			return _db.Products.ToList();
-		}
-
-		public Product Get(Guid id)
-		{
-			return _db.Products.Find(id);
-		}
-
-        public IEnumerable<Product> Get(IEnumerable<Guid> ids)
-		{
-			return _db.Products.Where(p => ids.Contains(p.Id)).ToList();
+        public ProductRepository(DBContext context)
+        {
+            _db = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Create(Product product)
-		{
-			product.Id = Guid.NewGuid();
-			product.OrderProducts = null;
-            _db.Products.Add(product);
-		}
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            return await _db.Products.ToListAsync();
+        }
 
-		public void Update(Product product)
-		{
+        public async Task<Product> GetAsync(Guid id)
+        {
+            return await _db.Products.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Product>> GetAsync(IEnumerable<Guid> ids)
+        {
+            return await _db.Products.Where(p => ids.Contains(p.Id)).ToListAsync();
+        }
+
+        public async Task CreateAsync(Product product)
+        {
+            product.Id = Guid.NewGuid();
+            product.OrderProducts = null;
+            await _db.Products.AddAsync(product);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Product product)
+        {
             _db.Entry(product).State = EntityState.Modified;
-		}
+            await _db.SaveChangesAsync();
+        }
 
-		public Product Find(Guid id)
-		{
-			var resultData = _db.Products.Where(p => p.Id == id).FirstOrDefault();
-			return resultData;
-		}
+        public async Task<Product> FindAsync(Guid id)
+        {
+            return await _db.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
+        }
 
-		public void Delete(Guid id)
-		{
-			Product product = _db.Products.Find(id);
-			if (product != null)
-			{
-				_db.Products.Remove(product);
-			}
-		}
+        public async Task DeleteAsync(Guid id)
+        {
+            var product = await _db.Products.FindAsync(id);
+            if (product != null)
+            {
+                _db.Products.Remove(product);
+                await _db.SaveChangesAsync();
+            }
+        }
 
-        public void DeleteRange(IEnumerable<Product> products)
+        public async Task DeleteRangeAsync(IEnumerable<Product> products)
         {
             _db.Products.RemoveRange(products);
+            await _db.SaveChangesAsync();
         }
     }
 }

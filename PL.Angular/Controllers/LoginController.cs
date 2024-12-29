@@ -9,19 +9,34 @@ namespace PL.Angular.Controllers
     [Route("login")]
     public class LoginController : ControllerBase
     {
-        IUserService _userService;
+        private readonly IUserService _userService;
 
-        public LoginController(IUserService serv)
+        public LoginController(IUserService userService)
         {
-            _userService = serv;
+            _userService = userService;
         }
 
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn([FromBody] LoginModel model)
         {
-            if (ModelState.IsValid)
+            if (model == null)
             {
-                var user = _userService.GetUserLog(model.Email, model.PasswordCache, model.UserRole.ParseStringToRole());
+                return BadRequest("Invalid request body.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model state.");
+            }
+
+            try
+            {
+                var user = await _userService.GetUserLogAsync(
+                    model.Email,
+                    model.PasswordCache,
+                    model.UserRole.ParseStringToRole()
+                );
+
                 if (user != null)
                 {
                     model.Id = user.Id.ToString();
@@ -29,7 +44,12 @@ namespace PL.Angular.Controllers
                     return Ok(model);
                 }
             }
-            return BadRequest("Incorrect login and(or) password");
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+
+            return Unauthorized("Incorrect login and/or password.");
         }
     }
 }

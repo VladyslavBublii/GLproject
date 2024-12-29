@@ -7,35 +7,40 @@ using DAL.Interfaces;
 using DAL.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BL.Services
 {
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-
         private readonly IPasswordService _password;
-
         private readonly IEmailService _email;
+        private readonly IMapper _mapper;
 
         public UserService()
-        {    
+        {
             _unitOfWork = new UnitOfWork();
             _password = new PasswordService();
             _email = new EmailService();
+
+            _mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<User, UserDTO>();
+                cfg.CreateMap<Customer, CustomerDTO>();
+            }).CreateMapper();
         }
 
-        public UserDTO GetUser(Guid id)
+        public async Task<UserDTO> GetUserAsync(Guid id)
         {
-            var user = _unitOfWork.Users.Get(id);
-
-            return new UserDTO { Email = user.Email, Password = user.Password };
+            var user = await _unitOfWork.Users.GetAsync(id);
+            return _mapper.Map<UserDTO>(user);
         }
 
-        public bool IsPasswordSame(string password)
+        public async Task<bool> IsPasswordSameAsync(string password)
         {
-            IEnumerable<UserDTO> userDtos = GetUsers();
-            foreach (UserDTO userDto in userDtos)
+            var userDtos = await GetUsersAsync();
+            foreach (var userDto in userDtos)
             {
                 if (userDto.Password == password)
                 {
@@ -45,10 +50,10 @@ namespace BL.Services
             return false;
         }
 
-        public bool IsEmailFree(string email)
+        public async Task<bool> IsEmailFreeAsync(string email)
         {
-            IEnumerable<UserDTO> userDtos = GetUsers();
-            foreach (UserDTO userDto in userDtos)
+            var userDtos = await GetUsersAsync();
+            foreach (var userDto in userDtos)
             {
                 if (userDto.Email == email)
                 {
@@ -56,16 +61,16 @@ namespace BL.Services
                 }
             }
             return true;
-        }       
+        }
 
-        public UserDTO GetUserLog(string email, string password, Role UserRole)
+        public async Task<UserDTO> GetUserLogAsync(string email, string password, Role userRole)
         {
-            IEnumerable<UserDTO> userDtos = GetUsers();
-            foreach (UserDTO userDto in userDtos)
+            var userDtos = await GetUsersAsync();
+            foreach (var userDto in userDtos)
             {
-                if (userDto.Email == email 
-                    && userDto.Password == _password.GetHashString(password)
-                    && userDto.UserRole == userDto.UserRole)
+                if (userDto.Email == email &&
+                    userDto.Password == _password.GetHashString(password) &&
+                    userDto.UserRole == userRole)
                 {
                     return userDto;
                 }
@@ -73,72 +78,63 @@ namespace BL.Services
             return null;
         }
 
-        public IEnumerable<UserDTO> GetUsers()
+        public async Task<IEnumerable<UserDTO>> GetUsersAsync()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<User>, List<UserDTO>>(_unitOfWork.Users.GetAll());
+            var users = await _unitOfWork.Users.GetAllAsync();
+            return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
 
-        public CustomerDTO GetCustomer(Guid id)
+        public async Task<CustomerDTO> GetCustomerAsync(Guid id)
         {
-            var customer = _unitOfWork.Customers.Get(id);
-
-            return new CustomerDTO { Name = customer.Name, SurName = customer.SurName, 
-                City = customer.SurName, PostIndex = customer.PostIndex };
+            var customer = await _unitOfWork.Customers.GetAsync(id);
+            return _mapper.Map<CustomerDTO>(customer);
         }
 
-        public CustomerDTO GetCustomerByUserId(Guid userId)
+        public async Task<CustomerDTO> GetCustomerByUserIdAsync(Guid userId)
         {
-            var customer = _unitOfWork.CustomersRepository.GetByUserId(userId);
-
-            return new CustomerDTO
-            {
-                Name = customer.Name,
-                SurName = customer.SurName,
-                City = customer.SurName,
-                PostIndex = customer.PostIndex
-            };
+            var customer = await _unitOfWork.CustomersRepository.GetByUserIdAsync(userId);
+            return _mapper.Map<CustomerDTO>(customer);
         }
 
-        public IEnumerable<CustomerDTO> GetCustomers()
+        public async Task<IEnumerable<CustomerDTO>> GetCustomersAsync()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Customer>, List<CustomerDTO>>(_unitOfWork.Customers.GetAll());
+            var customers = await _unitOfWork.Customers.GetAllAsync();
+            return _mapper.Map<IEnumerable<CustomerDTO>>(customers);
         }
 
-        public void SaveUser(UserDTO userDTO, CustomerDTO customerDTO)
+        public async Task SaveUserAsync(UserDTO userDTO, CustomerDTO customerDTO)
         {
             if (!_email.ValideEmail(userDTO.Email))
             {
-                throw new Exception("Invalide Email");
+                throw new Exception("Invalid Email");
             }
             if (_password.PasswordStrength(userDTO.Password) < PassStrength.Medium)
             {
-                throw new Exception("Pass not strong enough");
+                throw new Exception("Password not strong enough");
             }
 
-            User user = new User
+            var user = new User
             {
                 UserRole = userDTO.UserRole,
-                Email    = userDTO.Email,
+                Email = userDTO.Email,
                 Password = _password.GetHashString(userDTO.Password),
             };
 
-            Customer customer = new Customer
+            var customer = new Customer
             {
-                Name      = customerDTO.Name,
-                SurName   = customerDTO.SurName,
-                City      = customerDTO.City,
+                Name = customerDTO.Name,
+                SurName = customerDTO.SurName,
+                City = customerDTO.City,
                 PostIndex = customerDTO.PostIndex,
-                User      = user             
+                User = user
             };
 
             user.Customer = customer;
 
-            _unitOfWork.Users.Create(user);
-            _unitOfWork.Customers.Create(customer);
+            await _unitOfWork.Users.CreateAsync(user);
+            await _unitOfWork.Customers.CreateAsync(customer);
 
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
         }
     }
 }

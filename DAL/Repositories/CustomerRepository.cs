@@ -5,66 +5,70 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
     public class CustomerRepository : IRepository<Customer>, ICustomersRepository
     {
-        private DBContext db;
+        private readonly DBContext db;
 
         public CustomerRepository(DBContext context)
         {
-            this.db = context;
+            db = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Create(Customer customer)
+        public async Task CreateAsync(Customer customer)
         {
-            db.Customers.Add(customer);
+            await db.Customers.AddAsync(customer);
+            await db.SaveChangesAsync();
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            Customer customer = db.Customers.Find(id);
+            var customer = await db.Customers.FindAsync(id);
             if (customer != null)
             {
                 db.Customers.Remove(customer);
+                await db.SaveChangesAsync();
             }
         }
 
-        public void DeleteRange(IEnumerable<Customer> customers)
+        public async Task DeleteRangeAsync(IEnumerable<Customer> customers)
         {
             db.Customers.RemoveRange(customers);
+            await db.SaveChangesAsync();
         }
 
-        public Customer Get(Guid id)
+        public async Task<Customer> GetAsync(Guid id)
         {
-            return db.Customers.Find(id);
+            return await db.Customers.FindAsync(id);
         }
 
-        public IEnumerable<Customer> Get(IEnumerable<Guid> ids)
+        public async Task<IEnumerable<Customer>> GetAsync(IEnumerable<Guid> ids)
         {
-            return db.Customers.Where(c => ids.Contains(c.Id)).ToList();
+            return await db.Customers.Where(c => ids.Contains(c.Id)).ToListAsync();
         }
 
-        public Customer GetByUserId(Guid userId)
+        public async Task<Customer> GetByUserIdAsync(Guid userId)
         {
-            return db.Customers.Where(p => p.UserId == userId).FirstOrDefault();
+            return await db.Customers.Where(p => p.UserId == userId).FirstOrDefaultAsync();
         }
 
-        public IEnumerable<Customer> GetAll()
+        public async Task<IEnumerable<Customer>> GetAllAsync()
         {
-            return db.Customers.ToList();
+            return await db.Customers.ToListAsync();
         }
 
-        public void Update(Customer customer)
+        public async Task UpdateAsync(Customer customer)
         {
             db.Entry(customer).State = EntityState.Modified;
+            await db.SaveChangesAsync();
         }
 
-        public Customer Find(Guid id)
+        public async Task<Customer> FindAsync(Guid id)
         {
-            var resultData = db.Customers.Where(p => p.Id == id).FirstOrDefault();
-            return resultData;
+            return await db.Customers.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
     }
 }

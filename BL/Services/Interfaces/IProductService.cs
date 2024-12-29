@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BL.DTO;
 
 namespace BL.Services.Interfaces
 {
-	public interface IProductService
-	{
-		IEnumerable<ProductDTO> GetProducts();
+    public interface IProductService
+    {
+        Task<IEnumerable<ProductDTO>> GetProductsAsync();
 
-		ProductDTO GetProduct(Guid id);
+        Task<ProductDTO> GetProductAsync(Guid id);
 
-		void Create(ProductDTO productDTO);
+        Task CreateAsync(ProductDTO productDTO);
 
-		void Update(ProductDTO productDTO);
+        Task UpdateAsync(ProductDTO productDTO);
 
-		ProductDTO Find(Guid id);
+        Task<ProductDTO> FindAsync(Guid id);
 
-		ProductDTO Delete(Guid id);
+        Task<ProductDTO> DeleteAsync(Guid id);
+
+        Task<bool> CheckItemAsync(Guid idItem);
     }
 }

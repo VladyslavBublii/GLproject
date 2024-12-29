@@ -5,6 +5,6 @@ namespace BL.Services.Interfaces
 {
     public interface IMainProductInformationService
     {
-        IEnumerable<MainProductInformationDTO> GetProducts();
+        IEnumerable<MainProductInformationDTO> GetProductsAsync();
     }
 }

@@ -11,18 +11,24 @@ namespace DAL.Test.Repositories
         private readonly DBContext _db = A.Fake<DBContext>();
 
         [Fact]
-        public void GetUser_Success_Test()
+        public async Task GetUser_Success_Test()
         {
-            _db.Users = A.Fake<DbSet<User>>();
             var userId = Guid.NewGuid();
             var fakeUser = new User { Id = userId, Email = "test@gmail.com" };
-            A.CallTo(() => _db.Users.Find(A<Guid>._))
-                .Returns(fakeUser);
+
+            _db.Users = A.Fake<DbSet<User>>();
+
+            A.CallTo(() => _db.Users.FindAsync(A<Guid>._))
+                .Returns(new ValueTask<User>(fakeUser));
+
             var userRepository = new UserRepository(_db);
-            var result = userRepository.Get(userId);
+            var result = await userRepository.GetAsync(userId);
 
             Assert.NotNull(result);
-            Assert.Equal(fakeUser, result);
+            Assert.Equal(fakeUser.Id, result.Id);
+            Assert.Equal(fakeUser.Email, result.Email);
+
+            A.CallTo(() => _db.Users.FindAsync(userId)).MustHaveHappenedOnceExactly();
         }
     }
 }
