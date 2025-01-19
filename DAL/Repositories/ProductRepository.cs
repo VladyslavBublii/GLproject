@@ -30,7 +30,20 @@ namespace DAL.Repositories
 
         public async Task<IEnumerable<Product>> GetAsync(IEnumerable<Guid> ids)
         {
-            return await _db.Products.Where(p => ids.Contains(p.Id)).ToListAsync();
+            // Преобразуем ids в список для многократного доступа
+            var idList = ids.ToList();
+
+            // Получаем уникальные продукты из базы данных
+            var products = await _db.Products
+                .Where(p => idList.Contains(p.Id))
+                .ToListAsync();
+
+            // Восстанавливаем порядок и дубли
+            var productsWithDuplicates = idList
+                .Select(id => products.First(p => p.Id == id))
+                .ToList();
+
+            return productsWithDuplicates;
         }
 
         public async Task CreateAsync(Product product)
