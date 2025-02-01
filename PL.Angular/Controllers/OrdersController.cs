@@ -22,7 +22,7 @@ namespace PL.Angular.Controllers
         [HttpPost("getByUserId")]
         public async Task<IActionResult> GetOrdersByUserId([FromBody] string userId)
         {
-            IEnumerable<OrderDTO> orderDtos = (IEnumerable<OrderDTO>)_orderService.GetOrdersByUserIdAsync(Guid.Parse(userId));
+            var orderDtos = await _orderService.GetOrdersByUserIdAsync(Guid.Parse(userId));
             var s3Bucket = _s3Bucket;
             var mapper = new MapperConfiguration(cfg =>
             {

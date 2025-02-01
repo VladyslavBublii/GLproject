@@ -69,8 +69,7 @@ namespace BL.Services
             foreach (var userDto in userDtos)
             {
                 if (userDto.Email == email &&
-                    userDto.Password == _password.GetHashString(password) &&
-                    userDto.UserRole == userRole)
+                    userDto.Password == _password.GetHashString(password))
                 {
                     return userDto;
                 }
