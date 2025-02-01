@@ -22,16 +22,24 @@ namespace PL.Angular.Controllers
         }
 
         [HttpGet("get")]
-        public Task<IActionResult> GetMainProductsInformation()
+        public async Task<IActionResult> GetMainProductsInformation()
         {
             try
             {
-                IEnumerable<MainProductInformationDTO> productDtos = (IEnumerable<MainProductInformationDTO>)_mainProductService.GetProductsAsync();
+                var productDtos = await _mainProductService.GetProductsAsync();
 
                 if (productDtos == null || !productDtos.Any())
                 {
-                    return Task.FromResult<IActionResult>(NotFound("No products found."));
+                    return NotFound("No products found.");
                 }
+
+                var mapperConfig = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<MainProductInformationDTO, MainProductInformation>()
+                        .ForMember(dest => dest.UrlImage, opt => opt.Ignore());
+                });
+
+                var _mapper = mapperConfig.CreateMapper();
 
                 var mainProductsInformationList = _mapper.Map<IEnumerable<MainProductInformation>>(productDtos);
 
@@ -40,11 +48,11 @@ namespace PL.Angular.Controllers
                     product.UrlImage = _s3Bucket.GetImageLink(product.ImageName);
                 }
 
-                return Task.FromResult<IActionResult>(Ok(mainProductsInformationList));
+                return Ok(mainProductsInformationList);
             }
             catch (Exception ex)
             {
-                return Task.FromResult<IActionResult>(StatusCode(500, $"An error occurred: {ex.Message}"));
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
     }

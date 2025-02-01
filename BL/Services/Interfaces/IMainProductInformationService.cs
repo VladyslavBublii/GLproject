@@ -1,10 +1,11 @@
 ﻿using BL.DTO;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BL.Services.Interfaces
 {
     public interface IMainProductInformationService
     {
-        IEnumerable<MainProductInformationDTO> GetProductsAsync();
+        Task<IEnumerable<MainProductInformationDTO>> GetProductsAsync();
     }
 }
