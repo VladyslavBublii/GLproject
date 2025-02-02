@@ -6,7 +6,7 @@ using BL.DTO;
 namespace PL.Angular.Controllers
 {
     [ApiController]
-    [Route("registration")]
+    [Route("register")]
     public class RegistrationController : ControllerBase
     {
         private readonly IUserService _userService;

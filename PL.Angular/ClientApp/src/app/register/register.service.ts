@@ -15,6 +15,6 @@ export class RegisterService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 
   registerinto(data: any) {
-    return this.http.post(this.baseUrl + "registration/registration", JSON.stringify(data), this.HttpOptions);
+    return this.http.post(this.baseUrl + "register/register", JSON.stringify(data), this.HttpOptions);
   }
 }
