@@ -8,7 +8,7 @@ const PROXY_CONFIG = [
     context: [
       "/privacy",
       "/login/signin",
-      "/registration/registration",
+      "/register/register",
       "/store/get",
       "/cart/getBasket",
       "/cart/add",

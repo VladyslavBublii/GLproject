@@ -21,7 +21,6 @@ namespace DAL.Repositories
         public async Task CreateAsync(User user)
         {
             await _db.Users.AddAsync(user);
-            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
