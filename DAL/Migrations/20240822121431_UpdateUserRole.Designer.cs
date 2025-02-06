@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
-    [DbContext(typeof(DBContext))]
+    [DbContext(typeof(StoreContext))]
     [Migration("20240822121431_UpdateUserRole")]
     partial class UpdateUserRole
     {

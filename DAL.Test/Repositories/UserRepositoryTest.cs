@@ -8,7 +8,7 @@ namespace DAL.Test.Repositories
 {
     public class UserRepositoryTest
     {
-        private readonly DBContext _db = A.Fake<DBContext>();
+        private readonly StoreContext _storeContext = A.Fake<StoreContext>();
 
         [Fact]
         public async Task GetUser_Success_Test()
@@ -16,19 +16,19 @@ namespace DAL.Test.Repositories
             var userId = Guid.NewGuid();
             var fakeUser = new User { Id = userId, Email = "test@gmail.com" };
 
-            _db.Users = A.Fake<DbSet<User>>();
+            _storeContext.Users = A.Fake<DbSet<User>>();
 
-            A.CallTo(() => _db.Users.FindAsync(A<Guid>._))
+            A.CallTo(() => _storeContext.Users.FindAsync(A<Guid>._))
                 .Returns(new ValueTask<User>(fakeUser));
 
-            var userRepository = new UserRepository(_db);
+            var userRepository = new UserRepository(_storeContext);
             var result = await userRepository.GetAsync(userId);
 
             Assert.NotNull(result);
             Assert.Equal(fakeUser.Id, result.Id);
             Assert.Equal(fakeUser.Email, result.Email);
 
-            A.CallTo(() => _db.Users.FindAsync(userId)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _storeContext.Users.FindAsync(userId)).MustHaveHappenedOnceExactly();
         }
     }
 }

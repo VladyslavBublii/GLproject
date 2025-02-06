@@ -11,59 +11,59 @@ namespace DAL.Repositories
 {
     public class CartRepository : IRepository<Cart>
     {
-        private readonly DBContext _db;
+        private readonly StoreContext _storeContext;
 
-        public CartRepository(DBContext context)
+        public CartRepository(StoreContext context)
         {
-            _db = context ?? throw new ArgumentNullException(nameof(context));
+            _storeContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<IEnumerable<Cart>> GetAllAsync()
         {
-            return await _db.Carts.ToListAsync();
+            return await _storeContext.Carts.ToListAsync();
         }
 
         public async Task<Cart> GetAsync(Guid id)
         {
-            return await _db.Carts.FindAsync(id);
+            return await _storeContext.Carts.FindAsync(id);
         }
 
         public async Task<IEnumerable<Cart>> GetAsync(IEnumerable<Guid> ids)
         {
-            return await _db.Carts.Where(c => ids.Contains(c.Id)).ToListAsync();
+            return await _storeContext.Carts.Where(c => ids.Contains(c.Id)).ToListAsync();
         }
 
         public async Task CreateAsync(Cart cart)
         {
-            await _db.Carts.AddAsync(cart);
-            await _db.SaveChangesAsync();
+            await _storeContext.Carts.AddAsync(cart);
+            await _storeContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Cart cart)
         {
-            _db.Entry(cart).State = EntityState.Modified;
-            await _db.SaveChangesAsync();
+            _storeContext.Entry(cart).State = EntityState.Modified;
+            await _storeContext.SaveChangesAsync();
         }
 
         public async Task<Cart> FindAsync(Guid id)
         {
-            return await _db.Carts.Where(c => c.Id == id).FirstOrDefaultAsync();
+            return await _storeContext.Carts.Where(c => c.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task DeleteAsync(Guid cartId)
         {
-            var cart = await _db.Carts.FindAsync(cartId);
+            var cart = await _storeContext.Carts.FindAsync(cartId);
             if (cart != null)
             {
-                _db.Carts.Remove(cart);
-                await _db.SaveChangesAsync();
+                _storeContext.Carts.Remove(cart);
+                await _storeContext.SaveChangesAsync();
             }
         }
 
         public async Task DeleteRangeAsync(IEnumerable<Cart> carts)
         {
-            _db.Carts.RemoveRange(carts);
-            await _db.SaveChangesAsync();
+            _storeContext.Carts.RemoveRange(carts);
+            await _storeContext.SaveChangesAsync();
         }
     }
 }

@@ -10,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 /*
-//TODO: DBContext or DELETE. Example:
-builder.Services.AddDbContext<DBContext>(options =>
+//TODO: StoreContext or DELETE. Example:
+builder.Services.AddDbContext<StoreContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString(
         "Server=YOUR_SERVER_NAME; Database=StoreDB; Trusted_Connection=True; TrustServerCertificate=True;")));
 */

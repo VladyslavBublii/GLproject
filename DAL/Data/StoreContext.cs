@@ -5,7 +5,7 @@ using System;
 
 namespace DAL.Data
 {
-    public class DBContext : DbContext
+    public class StoreContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -16,7 +16,7 @@ namespace DAL.Data
 
         private readonly string computerName = Environment.MachineName;
 
-        public DBContext()
+        public StoreContext()
         {
 
         }

@@ -11,21 +11,21 @@ namespace DAL.Repositories
 {
     public class ProductRepository : IRepository<Product>
     {
-        private readonly DBContext _db;
+        private readonly StoreContext _storeContext;
 
-        public ProductRepository(DBContext context)
+        public ProductRepository(StoreContext context)
         {
-            _db = context ?? throw new ArgumentNullException(nameof(context));
+            _storeContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await _db.Products.ToListAsync();
+            return await _storeContext.Products.ToListAsync();
         }
 
         public async Task<Product> GetAsync(Guid id)
         {
-            return await _db.Products.FindAsync(id);
+            return await _storeContext.Products.FindAsync(id);
         }
 
         public async Task<IEnumerable<Product>> GetAsync(IEnumerable<Guid> ids)
@@ -34,7 +34,7 @@ namespace DAL.Repositories
             var idList = ids.ToList();
 
             // Получаем уникальные продукты из базы данных
-            var products = await _db.Products
+            var products = await _storeContext.Products
                 .Where(p => idList.Contains(p.Id))
                 .ToListAsync();
 
@@ -50,35 +50,35 @@ namespace DAL.Repositories
         {
             product.Id = Guid.NewGuid();
             product.OrderProducts = null;
-            await _db.Products.AddAsync(product);
-            await _db.SaveChangesAsync();
+            await _storeContext.Products.AddAsync(product);
+            await _storeContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Product product)
         {
-            _db.Entry(product).State = EntityState.Modified;
-            await _db.SaveChangesAsync();
+            _storeContext.Entry(product).State = EntityState.Modified;
+            await _storeContext.SaveChangesAsync();
         }
 
         public async Task<Product> FindAsync(Guid id)
         {
-            return await _db.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return await _storeContext.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var product = await _db.Products.FindAsync(id);
+            var product = await _storeContext.Products.FindAsync(id);
             if (product != null)
             {
-                _db.Products.Remove(product);
-                await _db.SaveChangesAsync();
+                _storeContext.Products.Remove(product);
+                await _storeContext.SaveChangesAsync();
             }
         }
 
         public async Task DeleteRangeAsync(IEnumerable<Product> products)
         {
-            _db.Products.RemoveRange(products);
-            await _db.SaveChangesAsync();
+            _storeContext.Products.RemoveRange(products);
+            await _storeContext.SaveChangesAsync();
         }
     }
 }

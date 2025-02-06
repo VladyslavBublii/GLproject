@@ -11,58 +11,58 @@ namespace DAL.Repositories
 {
     public class UserRepository : IRepository<User>
     {
-        private readonly DBContext _db;
+        private readonly StoreContext _storeContext;
 
-        public UserRepository(DBContext context)
+        public UserRepository(StoreContext context)
         {
-            _db = context ?? throw new ArgumentNullException(nameof(context));
+            _storeContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task CreateAsync(User user)
         {
-            await _db.Users.AddAsync(user);
+            await _storeContext.Users.AddAsync(user);
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var user = await _db.Users.FindAsync(id);
+            var user = await _storeContext.Users.FindAsync(id);
             if (user != null)
             {
-                _db.Users.Remove(user);
-                await _db.SaveChangesAsync();
+                _storeContext.Users.Remove(user);
+                await _storeContext.SaveChangesAsync();
             }
         }
 
         public async Task DeleteRangeAsync(IEnumerable<User> users)
         {
-            _db.Users.RemoveRange(users);
-            await _db.SaveChangesAsync();
+            _storeContext.Users.RemoveRange(users);
+            await _storeContext.SaveChangesAsync();
         }
 
         public async Task<User> GetAsync(Guid id)
         {
-            return await _db.Users.FindAsync(id);
+            return await _storeContext.Users.FindAsync(id);
         }
 
         public async Task<IEnumerable<User>> GetAsync(IEnumerable<Guid> ids)
         {
-            return await _db.Users.Where(c => ids.Contains(c.Id)).ToListAsync();
+            return await _storeContext.Users.Where(c => ids.Contains(c.Id)).ToListAsync();
         }
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await _db.Users.ToListAsync();
+            return await _storeContext.Users.ToListAsync();
         }
 
         public async Task UpdateAsync(User user)
         {
-            _db.Entry(user).State = EntityState.Modified;
-            await _db.SaveChangesAsync();
+            _storeContext.Entry(user).State = EntityState.Modified;
+            await _storeContext.SaveChangesAsync();
         }
 
         public async Task<User> FindAsync(Guid id)
         {
-            return await _db.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return await _storeContext.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
     }
 }
