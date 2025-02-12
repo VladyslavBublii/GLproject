@@ -91,7 +91,7 @@ namespace BL.Services
 
         public async Task<CustomerDTO> GetCustomerByUserIdAsync(Guid userId)
         {
-            var customer = await _unitOfWork.CustomersRepository.GetByUserIdAsync(userId);
+            var customer = await _unitOfWork.Customers.GetByUserIdAsync(userId);
             return _mapper.Map<CustomerDTO>(customer);
         }
 

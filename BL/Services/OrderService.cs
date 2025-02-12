@@ -47,7 +47,7 @@ namespace BL.Services
             await _unitOfWork.Orders.CreateAsync(order);
             await _unitOfWork.SaveAsync();
 
-            var recentOrderId = await _unitOfWork.OrdersRepository.GetIdByUserIdAndTimeAsync(orderDto.UserId, order.OrderTime);
+            var recentOrderId = await _unitOfWork.Orders.GetIdByUserIdAndTimeAsync(orderDto.UserId, order.OrderTime);
 
             var productCounts = orderDto.ProductIds
                 .GroupBy(id => id)
@@ -72,7 +72,7 @@ namespace BL.Services
                 .GetAllAsync();
             var userCarts = carts.Where(cart => cart.UserId == orderDto.UserId).ToList();
 
-            await _unitOfWork.Carts.DeleteRangeAsync(userCarts);
+            _unitOfWork.Carts.DeleteRange(userCarts);
             await _unitOfWork.SaveAsync();
         }
 
@@ -84,7 +84,7 @@ namespace BL.Services
                 cfg.CreateMap<Product, ProductDTO>();
             }).CreateMapper();
 
-            var orders = await _unitOfWork.OrdersRepository.GetAllByUserIdAsync(userId);
+            var orders = await _unitOfWork.Orders.GetAllByUserIdAsync(userId);
             var ordersDto = mapper.Map<IEnumerable<Order>, List<OrderDTO>>(orders);
 
             foreach (var order in ordersDto)
