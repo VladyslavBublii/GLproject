@@ -52,7 +52,7 @@ namespace BL.Services
 
         public async Task UpdateAsync(ProductDTO productDTO)
         {
-            var dbEntry = await _unitOfWork.Products.FindAsync(productDTO.Id);
+            var dbEntry = await _unitOfWork.Products.GetAsync(productDTO.Id);
             if (dbEntry == null)
                 throw new KeyNotFoundException("Product not found for update");
 
@@ -62,13 +62,13 @@ namespace BL.Services
             dbEntry.Price = productDTO.Price;
             dbEntry.ImageName = productDTO.ImageName;
 
-            await _unitOfWork.Products.UpdateAsync(dbEntry);
+            _unitOfWork.Products.Update(dbEntry);
             await _unitOfWork.SaveAsync();
         }
 
         public async Task<ProductDTO> FindAsync(Guid id)
         {
-            var product = await _unitOfWork.Products.FindAsync(id);
+            var product = await _unitOfWork.Products.FindAsync(p => p.Id == id);
             if (product == null)
                 throw new KeyNotFoundException("Product not found");
 
@@ -77,11 +77,11 @@ namespace BL.Services
 
         public async Task<ProductDTO> DeleteAsync(Guid id)
         {
-            var product = await _unitOfWork.Products.FindAsync(id);
+            var product = await _unitOfWork.Products.FindAsync(p => p.Id == id);
             if (product == null)
                 throw new KeyNotFoundException("Product not found");
 
-            await _unitOfWork.Products.DeleteAsync(id);
+            _unitOfWork.Products.Delete(await _unitOfWork.Products.GetAsync(id));
             await _unitOfWork.SaveAsync();
             return _mapper.Map<ProductDTO>(product);
         }

@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace DAL.Interfaces
+namespace DAL.Interfaces;
+
+public interface IRepository<TEntity> where TEntity : class
 {
-    public interface IRepository<T> where T : class
-    {
-        Task<IEnumerable<T>> GetAllAsync();
+    Task<TEntity> GetAsync(Guid id);
+        
+    Task<IEnumerable<TEntity>> GetAllAsync();
+        
+    Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task<T> GetAsync(Guid id);
+    Task CreateAsync(TEntity entity);
 
-        Task<IEnumerable<T>> GetAsync(IEnumerable<Guid> ids);
+    void Update(TEntity entity);
 
-        Task<T> FindAsync(Guid id);
+    void Delete(TEntity entity);
 
-        Task CreateAsync(T item);
-
-        Task UpdateAsync(T item);
-
-        Task DeleteAsync(Guid id);
-
-        Task DeleteRangeAsync(IEnumerable<T> collection);
-    }
+    void DeleteRange(IEnumerable<TEntity> entities);
 }

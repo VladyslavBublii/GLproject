@@ -46,14 +46,11 @@ namespace BL.Services
         {
             var cartItems = await _unitOfWork.Carts.GetAllAsync();
 
-            var cartItemId = cartItems
-                .Where(x => x.ProductsId == productId && x.UserId == userId)
-                .Select(x => x.Id)
-                .FirstOrDefault();
+            var cartItem = cartItems.FirstOrDefault(x => x.ProductsId == productId && x.UserId == userId);
 
-            if (cartItemId != Guid.Empty)
+            if (cartItem != null)
             {
-                await _unitOfWork.Carts.DeleteAsync(cartItemId);
+                _unitOfWork.Carts.Delete(cartItem);
                 await _unitOfWork.SaveAsync();
             }
         }
@@ -77,7 +74,7 @@ namespace BL.Services
                 .Where(x => x.UserId == userId)
                 .ToList();
 
-            await _unitOfWork.Carts.DeleteRangeAsync(cartItems);
+            _unitOfWork.Carts.DeleteRange(cartItems);
             await _unitOfWork.SaveAsync();
         }
 

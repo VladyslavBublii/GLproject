@@ -2,10 +2,9 @@
 using System;
 using System.Threading.Tasks;
 
-namespace DAL.Interfaces
+namespace DAL.Interfaces;
+
+public interface ICustomersRepository : IRepository<Customer>
 {
-    public interface ICustomersRepository
-    {
-        Task<Customer> GetByUserIdAsync(Guid userId);
-    }
+    Task<Customer> GetByUserIdAsync(Guid userId);
 }
