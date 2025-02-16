@@ -32,21 +32,17 @@ namespace PL.Angular.Controllers
                     .AfterMap((orderDtos,orders) =>
                     {
                         orders.OrderedProducts = orderDtos.Products
-                        .Select(product => 
+                        .GroupBy(product => product.Id)
+                        .Select(group => new OrderedProduct
                         {
-                            var count = orderDtos.ProductIds
-                                .Count(productId => productId == product.Id);
-                            return new OrderedProduct
-                            {
-                                Id = product.Id,
-                                Name = product.Name,
-                                Description = product.Description,
-                                Category = product.Category,
-                                Price = product.Price,
-                                Count = (uint)count,
-                                ImageName = product.ImageName,
-                                UrlImage = s3Bucket.GetImageLink(product.ImageName)
-                            };
+                            Id = group.Key,
+                            Name = group.First().Name,
+                            Description = group.First().Description,
+                            Category = group.First().Category,
+                            Price = group.First().Price,
+                            Count = (uint)group.Count(),
+                            ImageName = group.First().ImageName,
+                            UrlImage = s3Bucket.GetImageLink(group.First().ImageName)
                         }).ToList();
                     });
             }).CreateMapper();
