@@ -9,17 +9,8 @@ using DAL.Interfaces;
 
 namespace BL.Services
 {
-    public class ProductService : IProductService, IDisposable
+    public class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService, IDisposable
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
-
         public async Task CreateAsync(ProductDTO productDTO)
         {
             var product = new Product
@@ -31,28 +22,28 @@ namespace BL.Services
                 ImageName = productDTO.ImageName,
             };
 
-            await _unitOfWork.Products.CreateAsync(product);
-            await _unitOfWork.SaveAsync();
+            await unitOfWork.Products.CreateAsync(product);
+            await unitOfWork.SaveAsync();
         }
 
         public async Task<IEnumerable<ProductDTO>> GetProductsAsync()
         {
-            var products = await _unitOfWork.Products.GetAllAsync();
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
+            var products = await unitOfWork.Products.GetAllAsync();
+            return mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
         }
 
         public async Task<ProductDTO> GetProductAsync(Guid id)
         {
-            var product = await _unitOfWork.Products.GetAsync(id);
+            var product = await unitOfWork.Products.GetAsync(id);
             if (product == null)
                 throw new KeyNotFoundException("Product not found");
 
-            return _mapper.Map<ProductDTO>(product);
+            return mapper.Map<ProductDTO>(product);
         }
 
         public async Task UpdateAsync(ProductDTO productDTO)
         {
-            var dbEntry = await _unitOfWork.Products.GetAsync(productDTO.Id);
+            var dbEntry = await unitOfWork.Products.GetAsync(productDTO.Id);
             if (dbEntry == null)
                 throw new KeyNotFoundException("Product not found for update");
 
@@ -62,35 +53,35 @@ namespace BL.Services
             dbEntry.Price = productDTO.Price;
             dbEntry.ImageName = productDTO.ImageName;
 
-            _unitOfWork.Products.Update(dbEntry);
-            await _unitOfWork.SaveAsync();
+            unitOfWork.Products.Update(dbEntry);
+            await unitOfWork.SaveAsync();
         }
 
         public async Task<ProductDTO> FindAsync(Guid id)
         {
-            var product = await _unitOfWork.Products.FindAsync(p => p.Id == id);
+            var product = await unitOfWork.Products.FindAsync(p => p.Id == id);
             if (product == null)
                 throw new KeyNotFoundException("Product not found");
 
-            return _mapper.Map<ProductDTO>(product);
+            return mapper.Map<ProductDTO>(product);
         }
 
         public async Task<ProductDTO> DeleteAsync(Guid id)
         {
-            var product = await _unitOfWork.Products.FindAsync(p => p.Id == id);
+            var product = await unitOfWork.Products.FindAsync(p => p.Id == id);
             if (product == null)
                 throw new KeyNotFoundException("Product not found");
 
-            _unitOfWork.Products.Delete(await _unitOfWork.Products.GetAsync(id));
-            await _unitOfWork.SaveAsync();
-            return _mapper.Map<ProductDTO>(product);
+            unitOfWork.Products.Delete(await unitOfWork.Products.GetAsync(id));
+            await unitOfWork.SaveAsync();
+            return mapper.Map<ProductDTO>(product);
         }
 
         public async Task<bool> CheckItemAsync(Guid idItem)
         {
             try
             {
-                var product = await _unitOfWork.Products.GetAsync(idItem);
+                var product = await unitOfWork.Products.GetAsync(idItem);
                 return product != null;
             }
             catch
@@ -101,7 +92,7 @@ namespace BL.Services
 
         public void Dispose()
         {
-            _unitOfWork.Dispose();
+            unitOfWork.Dispose();
         }
     }
 }

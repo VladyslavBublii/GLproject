@@ -7,15 +7,8 @@ namespace PL.Angular.Controllers
 {
     [ApiController]
     [Route("login")]
-    public class LoginController : ControllerBase
+    public class LoginController(IUserService userService) : ControllerBase
     {
-        private readonly IUserService _userService;
-
-        public LoginController(IUserService userService)
-        {
-            _userService = userService;
-        }
-
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn([FromBody] LoginModel model)
         {
@@ -31,7 +24,7 @@ namespace PL.Angular.Controllers
 
             try
             {
-                var user = await _userService.GetUserLogAsync(
+                var user = await userService.GetUserLogAsync(
                     model.Email,
                     model.PasswordCache,
                     model.UserRole.ParseStringToRole()

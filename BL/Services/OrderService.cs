@@ -8,25 +8,17 @@ using BL.Services.Interfaces;
 using Core.Enums;
 using Core.Models;
 using DAL.Interfaces;
-using DAL.Repositories;
 
 namespace BL.Services
 {
-    public class OrderService : IOrderService
+    public class OrderService(IUnitOfWork unitOfWork) : IOrderService
     {
-        public IUnitOfWork _unitOfWork;
-
-        public OrderService()
-        {
-            _unitOfWork = new UnitOfWork();
-        }
-
         public async Task MakeOrderAsync(OrderDTO orderDto)
         {
             decimal sum = 0;
             foreach (var productId in orderDto.ProductIds)
             {
-                var product = await _unitOfWork.Products.GetAsync(productId);
+                var product = await unitOfWork.Products.GetAsync(productId);
                 if (product != null)
                 {
                     sum += product.Price;
@@ -44,10 +36,10 @@ namespace BL.Services
                 Status = OrderStatus.Open
             };
 
-            await _unitOfWork.Orders.CreateAsync(order);
-            await _unitOfWork.SaveAsync();
+            await unitOfWork.Orders.CreateAsync(order);
+            await unitOfWork.SaveAsync();
 
-            var recentOrderId = await _unitOfWork.Orders.GetIdByUserIdAndTimeAsync(orderDto.UserId, order.OrderTime);
+            var recentOrderId = await unitOfWork.Orders.GetIdByUserIdAndTimeAsync(orderDto.UserId, order.OrderTime);
 
             var productCounts = orderDto.ProductIds
                 .GroupBy(id => id)
@@ -65,15 +57,15 @@ namespace BL.Services
                 NumberOfProduct = pc.NumberOfProduct
             }).ToList();
 
-            await _unitOfWork.OrdersProducts.AddRangeOrderProductAsync(orderProducts);
-            await _unitOfWork.SaveAsync();
+            await unitOfWork.OrdersProducts.AddRangeOrderProductAsync(orderProducts);
+            await unitOfWork.SaveAsync();
 
-            var carts = await _unitOfWork.Carts
+            var carts = await unitOfWork.Carts
                 .GetAllAsync();
             var userCarts = carts.Where(cart => cart.UserId == orderDto.UserId).ToList();
 
-            _unitOfWork.Carts.DeleteRange(userCarts);
-            await _unitOfWork.SaveAsync();
+            unitOfWork.Carts.DeleteRange(userCarts);
+            await unitOfWork.SaveAsync();
         }
 
 
@@ -84,18 +76,18 @@ namespace BL.Services
                 cfg.CreateMap<Product, ProductDTO>();
             }).CreateMapper();
 
-            var orders = await _unitOfWork.Orders.GetAllByUserIdAsync(userId);
+            var orders = await unitOfWork.Orders.GetAllByUserIdAsync(userId);
             var ordersDto = mapper.Map<IEnumerable<Order>, List<OrderDTO>>(orders);
 
             foreach (var order in ordersDto)
             {
-                var ordersProductsList = await _unitOfWork.OrdersProducts.GetOrderProductsByOrderIdAsync(order.Id);
+                var ordersProductsList = await unitOfWork.OrdersProducts.GetOrderProductsByOrderIdAsync(order.Id);
 
                 order.ProductIds = ordersProductsList
                     .SelectMany(op => Enumerable.Repeat(op.ProductsId, op.NumberOfProduct))
                     .ToList();
 
-                var products = await _unitOfWork.Products.GetAsync(order.ProductIds);
+                var products = await unitOfWork.Products.GetAsync(order.ProductIds);
 
                 order.Products = mapper.Map<IEnumerable<Product>, List<ProductDTO>>(products);
             }
@@ -106,14 +98,14 @@ namespace BL.Services
 
         public async Task<IEnumerable<ProductDTO>> GetProductsAsync()
         {
-            var products = await _unitOfWork.Products.GetAllAsync();
+            var products = await unitOfWork.Products.GetAllAsync();
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<Product>, List<ProductDTO>>(products);
         }
 
         public async Task<ProductDTO> GetProductAsync(Guid id)
         {
-            var product = await _unitOfWork.Products.GetAsync(id);
+            var product = await unitOfWork.Products.GetAsync(id);
 
             if (product == null)
             {

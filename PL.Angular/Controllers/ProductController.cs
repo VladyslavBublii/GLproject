@@ -8,16 +8,9 @@ namespace PL.Angular.Controllers
 {
     [ApiController]
     [Route("product")]
-    public class ProductController : ControllerBase
+    public class ProductController(IProductService productService, IS3Bucket s3Bucket) : ControllerBase
     {
-        private readonly IS3Bucket _s3Bucket;
-        private readonly IProductService _productService;
-
-        public ProductController(IProductService productService, IS3Bucket s3Bucket) 
-        {
-            _productService = productService;
-            _s3Bucket = s3Bucket;
-        }
+        private readonly IS3Bucket _s3Bucket = s3Bucket;
 
         [HttpPost("add")]
         public async Task<IActionResult> CreateNewProduct([FromBody] ProductModel productRequestModel)
@@ -25,7 +18,7 @@ namespace PL.Angular.Controllers
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductModel, ProductDTO>()).CreateMapper();
             var productDto = mapper.Map<ProductDTO>(productRequestModel);
 
-            await _productService.CreateAsync(productDto);
+            await productService.CreateAsync(productDto);
 
             return Ok(productRequestModel);
         }

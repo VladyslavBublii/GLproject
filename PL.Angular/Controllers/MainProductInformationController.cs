@@ -8,25 +8,18 @@ namespace PL.Angular.Controllers
 {
     [ApiController]
     [Route("store")]
-    public class MainProductsInformationController : ControllerBase
+    public class MainProductsInformationController(
+        IMainProductInformationService mainProductService,
+        IS3Bucket s3Bucket,
+        IMapper mapper)
+        : ControllerBase
     {
-        private readonly IMainProductInformationService _mainProductService;
-        private readonly IS3Bucket _s3Bucket;
-        private readonly IMapper _mapper;
-
-        public MainProductsInformationController(IMainProductInformationService mainProductService, IS3Bucket s3Bucket, IMapper mapper)
-        {
-            _mainProductService = mainProductService;
-            _s3Bucket = s3Bucket;
-            _mapper = mapper;
-        }
-
         [HttpGet("get")]
         public async Task<IActionResult> GetMainProductsInformation()
         {
             try
             {
-                var productDtos = await _mainProductService.GetProductsAsync();
+                var productDtos = await mainProductService.GetProductsAsync();
 
                 if (productDtos == null || !productDtos.Any())
                 {
@@ -45,7 +38,7 @@ namespace PL.Angular.Controllers
 
                 foreach (var product in mainProductsInformationList)
                 {
-                    product.UrlImage = _s3Bucket.GetImageLink(product.ImageName);
+                    product.UrlImage = s3Bucket.GetImageLink(product.ImageName);
                 }
 
                 return Ok(mainProductsInformationList);

@@ -16,9 +16,9 @@ public class UnitOfWork : IUnitOfWork
     public IProductRepository Products { get; }
     public IUserRepository Users { get; }
     
-    public UnitOfWork()
+    public UnitOfWork(StoreContext storeContext)
     {
-        _storeContext = new StoreContext();
+        _storeContext = storeContext;
         Carts = new CartRepository(_storeContext);
         Customers = new CustomerRepository(_storeContext);
         OrdersProducts = new OrdersProductsRepository(_storeContext);
