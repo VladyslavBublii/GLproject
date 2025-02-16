@@ -10,17 +10,8 @@ namespace PL.Angular.Controllers
 {
     [ApiController]
     [Route("cart")]
-    public class CartController : ControllerBase
+    public class CartController(ICartService cartService, IS3Bucket s3Bucket) : ControllerBase
     {
-        private readonly ICartService _cartService;
-        private readonly IS3Bucket _s3Bucket;
-
-        public CartController(ICartService cartService, IS3Bucket s3Bucket)
-        {
-            _cartService = cartService;
-            _s3Bucket = s3Bucket;
-        }
-
         [HttpPost("getBasket")]
         public async Task<IActionResult> GetBasket([FromBody] string userId)
         {
@@ -29,7 +20,7 @@ namespace PL.Angular.Controllers
                 return BadRequest("Invalid user ID.");
             }
 
-            var cart = await _cartService.ShowCartAsync(userGuid);
+            var cart = await cartService.ShowCartAsync(userGuid);
 
             if (cart == null || cart.Products == null || !cart.Products.Any())
             {
@@ -47,7 +38,7 @@ namespace PL.Angular.Controllers
                     Price = group.First().Price,
                     Count = (uint)group.Count(),
                     ImageName = group.First().ImageName,
-                    UrlImage = _s3Bucket.GetImageLink(group.First().ImageName)
+                    UrlImage = s3Bucket.GetImageLink(group.First().ImageName)
                 })
                 .ToList();
 
@@ -64,13 +55,13 @@ namespace PL.Angular.Controllers
                 return BadRequest("Invalid input.");
             }
 
-            var isProductExists = await _cartService.CheckItemAsync(productGuid);
+            var isProductExists = await cartService.CheckItemAsync(productGuid);
             if (!isProductExists)
             {
                 return NotFound("Product not found.");
             }
 
-            await _cartService.AddItemAsync(productGuid, userGuid);
+            await cartService.AddItemAsync(productGuid, userGuid);
 
             return Ok(new { message = "Product added to cart." });
         }
@@ -85,7 +76,7 @@ namespace PL.Angular.Controllers
                 return BadRequest("Invalid input.");
             }
 
-            await _cartService.RemoveItemAsync(userGuid, productGuid);
+            await cartService.RemoveItemAsync(userGuid, productGuid);
 
             return Ok(new { message = "Product removed from cart." });
         }

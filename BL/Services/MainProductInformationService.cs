@@ -3,24 +3,16 @@ using BL.DTO;
 using BL.Services.Interfaces;
 using Core.Models;
 using DAL.Interfaces;
-using DAL.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BL.Services
 {
-    public class MainProductInformationService : IMainProductInformationService
+    public class MainProductInformationService(IUnitOfWork unitOfWork) : IMainProductInformationService
     {
-        public IUnitOfWork _unitOfWork;
-
-        public MainProductInformationService()
-        {
-            _unitOfWork = new UnitOfWork();
-        }
-
         public async Task<IEnumerable<MainProductInformationDTO>> GetProductsAsync()
         {
-            var products = await _unitOfWork.Products.GetAllAsync();
+            var products = await unitOfWork.Products.GetAllAsync();
 
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, MainProductInformationDTO>()).CreateMapper();
 

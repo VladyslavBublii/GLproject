@@ -2,19 +2,11 @@ using BL.Services.Interfaces;
 using BL.Services;
 using DAL.Interfaces;
 using DAL.Repositories;
-using Microsoft.EntityFrameworkCore;
 using DAL.Data;
-using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-/*
-//TODO: StoreContext or DELETE. Example:
-builder.Services.AddDbContext<StoreContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString(
-        "Server=YOUR_SERVER_NAME; Database=StoreDB; Trusted_Connection=True; TrustServerCertificate=True;")));
-*/
+builder.Services.AddScoped(typeof(StoreContext));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 

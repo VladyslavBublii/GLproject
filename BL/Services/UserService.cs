@@ -4,7 +4,6 @@ using BL.Services.Interfaces;
 using Core.Enums;
 using Core.Models;
 using DAL.Interfaces;
-using DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,12 +17,12 @@ namespace BL.Services
         private readonly IEmailService _email;
         private readonly IMapper _mapper;
 
-        public UserService()
+        public UserService(IUnitOfWork unitOfWork, IPasswordService password, IEmailService email)
         {
-            _unitOfWork = new UnitOfWork();
-            _password = new PasswordService();
-            _email = new EmailService();
-
+            _unitOfWork = unitOfWork;
+            _password = password;
+            _email = email;
+            
             _mapper = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<User, UserDTO>();

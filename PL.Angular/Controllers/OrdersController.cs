@@ -8,22 +8,13 @@ namespace PL.Angular.Controllers
 {
     [ApiController]
     [Route("order")]
-    public class OrdersController : Controller
+    public class OrdersController(IOrderService orderService, IS3Bucket bucket) : Controller
     {
-        private IOrderService _orderService;
-        private readonly IS3Bucket _s3Bucket;
-
-        public OrdersController(IOrderService orderService, IS3Bucket s3Bucket)
-        {
-            _orderService = orderService;
-            _s3Bucket = s3Bucket;
-        }
-
         [HttpPost("getByUserId")]
         public async Task<IActionResult> GetOrdersByUserId([FromBody] string userId)
         {
-            var orderDtos = await _orderService.GetOrdersByUserIdAsync(Guid.Parse(userId));
-            var s3Bucket = _s3Bucket;
+            var orderDtos = await orderService.GetOrdersByUserIdAsync(Guid.Parse(userId));
+            var s3Bucket = bucket;
             var mapper = new MapperConfiguration(cfg =>
             {
                 //TODO: Update, when we have complex mapper
@@ -68,7 +59,7 @@ namespace PL.Angular.Controllers
                         orderDto.ProductIds.Add(Guid.Parse(order.ProductId));
                     }
                 }
-                await _orderService.MakeOrderAsync(orderDto);
+                await orderService.MakeOrderAsync(orderDto);
                 return Ok(orderList);
             }
             catch (Exception)
