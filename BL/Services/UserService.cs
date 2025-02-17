@@ -6,133 +6,112 @@ using Core.Models;
 using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace BL.Services
+namespace BL.Services;
+
+public class UserService : IUserService
 {
-    public class UserService : IUserService
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IPasswordService _password;
+    private readonly IEmailService _email;
+    private readonly IMapper _mapper;
+
+    public UserService(IUnitOfWork unitOfWork, IPasswordService password, IEmailService email)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IPasswordService _password;
-        private readonly IEmailService _email;
-        private readonly IMapper _mapper;
-
-        public UserService(IUnitOfWork unitOfWork, IPasswordService password, IEmailService email)
-        {
-            _unitOfWork = unitOfWork;
-            _password = password;
-            _email = email;
+        _unitOfWork = unitOfWork;
+        _password = password;
+        _email = email;
             
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserDTO>();
-                cfg.CreateMap<Customer, CustomerDTO>();
-            }).CreateMapper();
-        }
-
-        public async Task<UserDTO> GetUserAsync(Guid id)
+        _mapper = new MapperConfiguration(cfg =>
         {
-            var user = await _unitOfWork.Users.GetAsync(id);
-            return _mapper.Map<UserDTO>(user);
-        }
+            cfg.CreateMap<User, UserDTO>();
+            cfg.CreateMap<Customer, CustomerDTO>();
+        }).CreateMapper();
+    }
 
-        public async Task<bool> IsPasswordSameAsync(string password)
+    public async Task<UserDTO> GetUserAsync(Guid id)
+    {
+        var user = await _unitOfWork.Users.GetAsync(id);
+        return _mapper.Map<UserDTO>(user);
+    }
+
+    public async Task<bool> IsPasswordSameAsync(string password)
+    {
+        var userDtos = await GetUsersAsync();
+        return userDtos.Any(userDto => userDto.Password == password);
+    }
+
+    public async Task<bool> IsEmailFreeAsync(string email)
+    {
+        var userDtos = await GetUsersAsync();
+        return userDtos.All(userDto => userDto.Email != email);
+    }
+
+    public async Task<UserDTO> GetUserLogAsync(string email, string password, Role userRole)
+    {
+        var userDtos = await GetUsersAsync();
+        return userDtos.FirstOrDefault(userDto => userDto.Email == email &&
+                                                  userDto.Password == _password.GetHashString(password));
+    }
+
+    public async Task<IEnumerable<UserDTO>> GetUsersAsync()
+    {
+        var users = await _unitOfWork.Users.GetAllAsync();
+        return _mapper.Map<IEnumerable<UserDTO>>(users);
+    }
+
+    public async Task<CustomerDTO> GetCustomerAsync(Guid id)
+    {
+        var customer = await _unitOfWork.Customers.GetAsync(id);
+        return _mapper.Map<CustomerDTO>(customer);
+    }
+
+    public async Task<CustomerDTO> GetCustomerByUserIdAsync(Guid userId)
+    {
+        var customer = await _unitOfWork.Customers.GetByUserIdAsync(userId);
+        return _mapper.Map<CustomerDTO>(customer);
+    }
+
+    public async Task<IEnumerable<CustomerDTO>> GetCustomersAsync()
+    {
+        var customers = await _unitOfWork.Customers.GetAllAsync();
+        return _mapper.Map<IEnumerable<CustomerDTO>>(customers);
+    }
+
+    public async Task SaveUserAsync(UserDTO userDTO, CustomerDTO customerDTO)
+    {
+        if (!_email.ValidateEmail(userDTO.Email))
         {
-            var userDtos = await GetUsersAsync();
-            foreach (var userDto in userDtos)
-            {
-                if (userDto.Password == password)
-                {
-                    return true;
-                }
-            }
-            return false;
+            throw new Exception("Invalid Email");
         }
-
-        public async Task<bool> IsEmailFreeAsync(string email)
+        if (_password.PasswordStrength(userDTO.Password) < PassStrength.Medium)
         {
-            var userDtos = await GetUsersAsync();
-            foreach (var userDto in userDtos)
-            {
-                if (userDto.Email == email)
-                {
-                    return false;
-                }
-            }
-            return true;
+            throw new Exception("Password not strong enough");
         }
 
-        public async Task<UserDTO> GetUserLogAsync(string email, string password, Role userRole)
+        var user = new User
         {
-            var userDtos = await GetUsersAsync();
-            foreach (var userDto in userDtos)
-            {
-                if (userDto.Email == email &&
-                    userDto.Password == _password.GetHashString(password))
-                {
-                    return userDto;
-                }
-            }
-            return null;
-        }
+            UserRole = userDTO.UserRole,
+            Email = userDTO.Email,
+            Password = _password.GetHashString(userDTO.Password),
+        };
 
-        public async Task<IEnumerable<UserDTO>> GetUsersAsync()
+        var customer = new Customer
         {
-            var users = await _unitOfWork.Users.GetAllAsync();
-            return _mapper.Map<IEnumerable<UserDTO>>(users);
-        }
+            Name = customerDTO.Name,
+            SurName = customerDTO.SurName,
+            City = customerDTO.City,
+            PostIndex = customerDTO.PostIndex,
+            User = user
+        };
 
-        public async Task<CustomerDTO> GetCustomerAsync(Guid id)
-        {
-            var customer = await _unitOfWork.Customers.GetAsync(id);
-            return _mapper.Map<CustomerDTO>(customer);
-        }
+        user.Customer = customer;
 
-        public async Task<CustomerDTO> GetCustomerByUserIdAsync(Guid userId)
-        {
-            var customer = await _unitOfWork.Customers.GetByUserIdAsync(userId);
-            return _mapper.Map<CustomerDTO>(customer);
-        }
+        await _unitOfWork.Users.CreateAsync(user);
+        await _unitOfWork.Customers.CreateAsync(customer);
 
-        public async Task<IEnumerable<CustomerDTO>> GetCustomersAsync()
-        {
-            var customers = await _unitOfWork.Customers.GetAllAsync();
-            return _mapper.Map<IEnumerable<CustomerDTO>>(customers);
-        }
-
-        public async Task SaveUserAsync(UserDTO userDTO, CustomerDTO customerDTO)
-        {
-            if (!_email.ValideEmail(userDTO.Email))
-            {
-                throw new Exception("Invalid Email");
-            }
-            if (_password.PasswordStrength(userDTO.Password) < PassStrength.Medium)
-            {
-                throw new Exception("Password not strong enough");
-            }
-
-            var user = new User
-            {
-                UserRole = userDTO.UserRole,
-                Email = userDTO.Email,
-                Password = _password.GetHashString(userDTO.Password),
-            };
-
-            var customer = new Customer
-            {
-                Name = customerDTO.Name,
-                SurName = customerDTO.SurName,
-                City = customerDTO.City,
-                PostIndex = customerDTO.PostIndex,
-                User = user
-            };
-
-            user.Customer = customer;
-
-            await _unitOfWork.Users.CreateAsync(user);
-            await _unitOfWork.Customers.CreateAsync(customer);
-
-            await _unitOfWork.SaveAsync();
-        }
+        await _unitOfWork.SaveAsync();
     }
 }

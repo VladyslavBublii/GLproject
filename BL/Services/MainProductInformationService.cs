@@ -6,17 +6,16 @@ using DAL.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BL.Services
+namespace BL.Services;
+
+public class MainProductInformationService(IUnitOfWork unitOfWork) : IMainProductInformationService
 {
-    public class MainProductInformationService(IUnitOfWork unitOfWork) : IMainProductInformationService
+    public async Task<IEnumerable<MainProductInformationDTO>> GetProductsAsync()
     {
-        public async Task<IEnumerable<MainProductInformationDTO>> GetProductsAsync()
-        {
-            var products = await unitOfWork.Products.GetAllAsync();
+        var products = await unitOfWork.Products.GetAllAsync();
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, MainProductInformationDTO>()).CreateMapper();
+        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, MainProductInformationDTO>()).CreateMapper();
 
-            return mapper.Map<IEnumerable<Product>, List<MainProductInformationDTO>>(products);
-        }
+        return mapper.Map<IEnumerable<Product>, List<MainProductInformationDTO>>(products);
     }
 }

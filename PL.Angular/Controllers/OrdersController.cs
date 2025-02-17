@@ -54,7 +54,7 @@ namespace PL.Angular.Controllers
                 };
                 foreach (var order in orderList)
                 {
-                    foreach (int counter in Enumerable.Range(1, (int)order.Count))
+                    foreach (var counter in Enumerable.Range(1, (int)order.Count))
                     {
                         orderDto.ProductIds.Add(Guid.Parse(order.ProductId));
                     }

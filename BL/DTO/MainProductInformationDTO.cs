@@ -1,15 +1,14 @@
 ﻿using System;
 
-namespace BL.DTO
+namespace BL.DTO;
+
+public class MainProductInformationDTO
 {
-    public class MainProductInformationDTO
-    {
-        public Guid Id { get; set; }
+    public Guid Id { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public decimal Price { get; set; }
+    public decimal Price { get; set; }
 
-        public string ImageName { get; set; }
-    }
+    public string ImageName { get; set; }
 }

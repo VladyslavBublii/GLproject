@@ -4,26 +4,25 @@ using System;
 using System.Threading.Tasks;
 using Core.Enums;
 
-namespace BL.Services.Interfaces
+namespace BL.Services.Interfaces;
+
+public interface IUserService
 {
-    public interface IUserService
-    {
-        Task<UserDTO> GetUserAsync(Guid id);
+    Task<UserDTO> GetUserAsync(Guid id);
 
-        Task<IEnumerable<UserDTO>> GetUsersAsync();
+    Task<IEnumerable<UserDTO>> GetUsersAsync();
 
-        Task<CustomerDTO> GetCustomerAsync(Guid id);
+    Task<CustomerDTO> GetCustomerAsync(Guid id);
 
-        Task<CustomerDTO> GetCustomerByUserIdAsync(Guid userId);
+    Task<CustomerDTO> GetCustomerByUserIdAsync(Guid userId);
 
-        Task<IEnumerable<CustomerDTO>> GetCustomersAsync();
+    Task<IEnumerable<CustomerDTO>> GetCustomersAsync();
 
-        Task SaveUserAsync(UserDTO userDTO, CustomerDTO customerDTO);
+    Task SaveUserAsync(UserDTO userDTO, CustomerDTO customerDTO);
 
-        Task<bool> IsPasswordSameAsync(string password);
+    Task<bool> IsPasswordSameAsync(string password);
 
-        Task<bool> IsEmailFreeAsync(string email);
+    Task<bool> IsEmailFreeAsync(string email);
 
-        Task<UserDTO> GetUserLogAsync(string email, string password, Role userRole);
-    }
+    Task<UserDTO> GetUserLogAsync(string email, string password, Role userRole);
 }

@@ -1,8 +1,6 @@
-﻿
-namespace BL.Services.Interfaces
+﻿namespace BL.Services.Interfaces;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        public bool ValideEmail(string email);
-    }
+    public bool ValidateEmail(string email);
 }

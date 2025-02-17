@@ -32,9 +32,9 @@ namespace PL.Angular.Controllers
                         .ForMember(dest => dest.UrlImage, opt => opt.Ignore());
                 });
 
-                var _mapper = mapperConfig.CreateMapper();
+                var mapper = mapperConfig.CreateMapper();
 
-                var mainProductsInformationList = _mapper.Map<IEnumerable<MainProductInformation>>(productDtos);
+                var mainProductsInformationList = mapper.Map<IEnumerable<MainProductInformation>>(productDtos);
 
                 foreach (var product in mainProductsInformationList)
                 {
