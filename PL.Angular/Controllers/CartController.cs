@@ -22,7 +22,7 @@ namespace PL.Angular.Controllers
 
             var cart = await cartService.ShowCartAsync(userGuid);
 
-            if (cart == null || cart.Products == null || !cart.Products.Any())
+            if (cart?.Products == null || !cart.Products.Any())
             {
                 return NotFound("Cart is empty or user not found.");
             }

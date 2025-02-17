@@ -1,49 +1,29 @@
 ﻿using Core.Enums;
 using BL.Services.Interfaces;
 
-namespace BL.Services
+namespace BL.Services;
+
+public class RoleService : IRoleService
 {
-    public class RoleService : IRoleService
+    public Role RoleSpecificator(string role)
     {
-        public Role RoleSpecificator(string role)
+        var score = role switch
         {
-            int score = 0;
-            if(role == "admin")
-            {
-                score = 2;
-            }
-            if (role == "user")
-            {
-                score = 1;
-            }
-            Role result;
+            "admin" => 2,
+            "user" => 1,
+            _ => 0
+        };
 
-            switch (score)
-            {
-                case 0: result = Role.Guest; break;
-                case 1: result = Role.User; break;
-                case 2: result = Role.Admin; break;
-                default: result = Role.Guest; break;
-            }
-            return result;
-        }
-
-        public bool IsAdmin(string role)
+        var result = score switch
         {
-            if (RoleSpecificator(role) != Role.Admin)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool IsUser(string role)
-        {
-            if (RoleSpecificator(role) != Role.User)
-            {
-                return false;
-            }
-            return true;
-        }
+            1 => Role.User,
+            2 => Role.Admin,
+            _ => Role.Guest
+        };
+        return result;
     }
+
+    public bool IsAdmin(string role) => RoleSpecificator(role) == Role.Admin;
+
+    public bool IsUser(string role) => RoleSpecificator(role) == Role.User;
 }

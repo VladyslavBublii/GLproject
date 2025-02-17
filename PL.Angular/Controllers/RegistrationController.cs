@@ -28,7 +28,7 @@ namespace PL.Angular.Controllers
                 errorList.Add("This email is already in use.");
             }
 
-            if (!emailService.ValideEmail(registerModel.Email))
+            if (!emailService.ValidateEmail(registerModel.Email))
             {
                 errorList.Add("This email is not valid.");
             }
@@ -38,7 +38,7 @@ namespace PL.Angular.Controllers
                 errorList.Add("Password is too weak.");
             }
 
-            if (errorList.Any())
+            if (errorList.Count != 0)
             {
                 return BadRequest(new { Errors = errorList });
             }

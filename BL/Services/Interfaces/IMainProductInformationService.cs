@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BL.Services.Interfaces
+namespace BL.Services.Interfaces;
+
+public interface IMainProductInformationService
 {
-    public interface IMainProductInformationService
-    {
-        Task<IEnumerable<MainProductInformationDTO>> GetProductsAsync();
-    }
+    Task<IEnumerable<MainProductInformationDTO>> GetProductsAsync();
 }

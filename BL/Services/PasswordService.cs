@@ -1,60 +1,46 @@
 ﻿using Core.Enums;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using BL.Services.Interfaces;
 using System.Text;
 
-namespace BL.Services
+namespace BL.Services;
+
+public class PasswordService : IPasswordService
 {
-    public class PasswordService : IPasswordService
+    public PassStrength PasswordStrength(string password)
     {
-        public PassStrength PasswordStrength(string password)
+        var score = 0;
+        var patterns = new Dictionary<string, int> { { @"\d", 5 },
+            { @"[a-zA-Z]", 10 },
+            { @"[!,@,#,\$,%,\^,&,\*,?,_,~]", 15 } };
+        if (password.Length > 6)
+            score += patterns.Sum(pattern => 
+                Regex.Matches(password, pattern.Key).Count * pattern.Value);
+
+        var result = (score / 50) switch
         {
-            int score = 0;
-            Dictionary<string, int> patterns = new Dictionary<string, int> { { @"\d", 5 },
-                                                                         { @"[a-zA-Z]", 10 },
-                                                                         { @"[!,@,#,\$,%,\^,&,\*,?,_,~]", 15 } }; 
-            if (password.Length > 6)
-                foreach (var pattern in patterns)
-                    score += Regex.Matches(password, pattern.Key).Count * pattern.Value;
-
-            PassStrength result;
-            switch (score / 50)
-            {
-                case 0: result = PassStrength.Low; break;
-                case 1: result = PassStrength.Medium; break;
-                case 2: result = PassStrength.High; break;
-                case 3: result = PassStrength.VeryHigh; break;
-                default: result = PassStrength.Paranoid; break;
-            }
-            return result;
-        }
-
-        public string GetHashString(string password)
-        {
-            byte[] bytes = Encoding.Unicode.GetBytes(password);
-
-            MD5CryptoServiceProvider CSP =
-                new MD5CryptoServiceProvider();
-
-            byte[] byteHash = CSP.ComputeHash(bytes);
-
-            string hash = string.Empty;
-
-            foreach (byte b in byteHash)
-                hash += string.Format("{0:x2}", b);
-
-            return hash;
-        }
-
-        public bool IsPasswordStrong(string password)
-        {
-            if (PasswordStrength(password) < PassStrength.Medium)
-            {
-                return false;
-            }
-            return true;
-        }
+            0 => PassStrength.Low,
+            1 => PassStrength.Medium,
+            2 => PassStrength.High,
+            3 => PassStrength.VeryHigh,
+            _ => PassStrength.Paranoid
+        };
+        return result;
     }
+
+    public string GetHashString(string password)
+    {
+        var bytes = Encoding.Unicode.GetBytes(password);
+
+        var CSP = new MD5CryptoServiceProvider();
+
+        var byteHash = CSP.ComputeHash(bytes);
+
+        return byteHash.Aggregate(string.Empty, (current, b) => current + $"{b:x2}");
+    }
+
+    public bool IsPasswordStrong(string password) => PasswordStrength(password) >= PassStrength.Medium;
 }

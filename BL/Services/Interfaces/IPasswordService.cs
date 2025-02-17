@@ -1,13 +1,12 @@
 ﻿using Core.Enums;
 
-namespace BL.Services.Interfaces
+namespace BL.Services.Interfaces;
+
+public interface IPasswordService
 {
-    public interface IPasswordService
-    {
-        public PassStrength PasswordStrength(string password);
+    public PassStrength PasswordStrength(string password);
 
-        public string GetHashString(string password);
+    public string GetHashString(string password);
 
-        bool IsPasswordStrong(string password);
-    }
+    bool IsPasswordStrong(string password);
 }

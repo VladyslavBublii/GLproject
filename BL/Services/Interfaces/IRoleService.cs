@@ -1,13 +1,12 @@
 ﻿using Core.Enums;
 
-namespace BL.Services.Interfaces
+namespace BL.Services.Interfaces;
+
+public interface IRoleService
 {
-    public interface IRoleService
-    {
-        public Role RoleSpecificator(string role);
+    public Role RoleSpecificator(string role);
 
-        bool IsAdmin(string role);
+    bool IsAdmin(string role);
 
-        bool IsUser(string role);
-    }
+    bool IsUser(string role);
 }
